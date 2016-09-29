@@ -135,7 +135,6 @@
 
     <style>
     path {
-    stroke: steelblue;
     stroke-width: 2;
     fill: none;
 }
@@ -348,7 +347,8 @@
   var t = -1;
  var n = 300;
  var v = 0;
- var data = d3.range(n).map(next);
+ var data1 = d3.range(n).map(next1);
+ var data2 = d3.range(n).map(next2);
 
 
  var margin = {top: 10, right: 10, bottom: 20, left: 40},
@@ -360,7 +360,7 @@
      .range([0, width]);
 
  var y = d3.scale.linear()
-     .domain([0, 20])
+     .domain([0, 15])
      .range([height, 0]);
 
  var line = d3.svg.line()
@@ -388,13 +388,19 @@
      .attr("class", "y axis")
      .call(d3.svg.axis().scale(y).orient("left"));
 
-var path = graph.append("g")
+var path1 = graph.append("g")
  .append("path")
- .data([data])
+ .data([data1])
  .attr("class", "line")
+ .attr("stroke","green")
  .attr("d", line);
-
- function next (frame) {
+ var path2 = graph.append("g")
+  .append("path")
+  .data([data2])
+  .attr("class", "line")
+  .attr("stroke","blue")
+  .attr("d", line);
+ function next1 (frame) {
    var x=0;
    console.log(frame);
    if(frame.fingers){
@@ -408,20 +414,41 @@ var path = graph.append("g")
          value: x
      };
  }
+ function next2 (frame) {
+   var x=0;
+   console.log(frame);
+   if(frame.hands){
+     x=frame.hands.length
+   }
+     return {
+         time: t,
+         value: x
+     };
+ }
      function tick(frame)
     {
          // push a new data point onto the back
 
-         var newdata = next(frame);
+         var newdata1 = next1(frame);
+         var newdata2 = next2(frame);
          //console.log(newdata);
          //console.log(newdata.time);
-         data.push(newdata);
+         data1.push(newdata1);
+         data2.push(newdata2)
 
          // update domain
          x.domain([t - n, t]);
 
          // redraw path, shift path left
-         path
+         path1
+             .attr("d", line)
+             .attr("transform", null)
+             .transition()
+             .duration(500)
+             .ease("linear")
+             .attr("transform", "translate(" + t - 1 + ")")
+             .each("end", tick);
+         path2
              .attr("d", line)
              .attr("transform", null)
              .transition()
@@ -438,7 +465,8 @@ var path = graph.append("g")
              .call(d3.svg.axis().scale(x).orient("bottom"));
 
          // pop the old data point off the front
-         data.shift();
+         data1.shift();
+         data2.shift();
      }
   </script>
 </html>
