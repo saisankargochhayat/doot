@@ -19,8 +19,31 @@
 
       var fingers = {};
       var spheres = {};
+      var framedata = [];
+      var isrecording = false;
+      var startrecording = function(i){
+        isrecording = true;
+        currentlabel=i;
+      }
+      var stoprecording = function(){
+        isrecording=false
+        currentlabel=-1;
+        //console.log(framedata);
+      }
+      function writeinfile() {
+        var content = JSON.stringify(framedata);
+        //console.log(content);
+        var url = 'data:text/json;charset=utf8,' + encodeURIComponent(content);
+        window.open(url, '_blank');
+        window.focus();
+     }
+      var start,end;
       Leap.loop(function(frame) {
-        tick(frame);
+        //console.log(frame);
+        if(frame.valid)
+          tick(frame);
+
+
         latestFrame = frame;
         var str = "";
         var rotations = frame._rotation;
@@ -314,6 +337,16 @@
   </head>
   <body>
     <div id="graph" style="width:50%;float:right;"></div>
+    <div>
+      <button onclick="startrecording(0)">Start 0</button>
+      <button onclick="startrecording(1)">Start 1</button>
+      <button onclick="startrecording(2)">Start 2</button>
+      <button onclick="startrecording(3)">Start 3</button>
+      <button onclick="startrecording(4)">Start 4</button>
+      <button onclick="startrecording(5)">Start 5</button>
+      <button onclick="stoprecording()">Stop</button>
+      <button onclick="writeinfile()">Write to file</button>
+    </div>
     <div id="app" class="show-hands" style="width:50%">
       <button id="showHands">Show Hands</button>
       <button id="hideHands">hide Hands</button>
@@ -342,6 +375,7 @@
       </div>
 
     </div>
+    <div  style="width:50%;float:right;">Something</div>
   </body>
   <script>
   var t = -1;
@@ -349,6 +383,7 @@
  var v = 0;
  var data1 = d3.range(n).map(next1);
  var data2 = d3.range(n).map(next2);
+ var data3 = d3.range(n).map(next2);
 
 
  var margin = {top: 10, right: 10, bottom: 20, left: 40},
@@ -360,7 +395,7 @@
      .range([0, width]);
 
  var y = d3.scale.linear()
-     .domain([0, 15])
+     .domain([-1,1])
      .range([height, 0]);
 
  var line = d3.svg.line()
@@ -400,13 +435,22 @@ var path1 = graph.append("g")
   .attr("class", "line")
   .attr("stroke","blue")
   .attr("d", line);
+var path3 = graph.append("g")
+ .append("path")
+ .data([data3])
+ .attr("class", "line")
+ .attr("stroke","red")
+ .attr("d", line);
+  //These 2 functions are responsible to determine the data
+  //frame.hands.length -> number of hands
+  //frame.fingers.length - > number of fingers in the frame
+
  function next1 (frame) {
    var x=0;
-   console.log(frame);
-   if(frame.fingers){
-     for(var i=0;i<frame.fingers.length;i++){
-       if(frame.fingers[i].extended)
-        x+=1;
+   if(frame.hands){
+     if(frame.hands.length>0){
+       x = frame.hands[0].palmNormal[0];
+       //console.log(frame.hands[0].palmPosition[1]);
      }
    }
      return {
@@ -416,9 +460,24 @@ var path1 = graph.append("g")
  }
  function next2 (frame) {
    var x=0;
-   console.log(frame);
    if(frame.hands){
-     x=frame.hands.length
+     if(frame.hands.length>0){
+       x = frame.hands[0].palmNormal[1];
+       //console.log(frame.hands[0].palmPosition[1]);
+     }
+   }
+     return {
+         time: t,
+         value: x
+     };
+ }
+ function next3 (frame) {
+   var x=0;
+   if(frame.hands){
+     if(frame.hands.length>0){
+       x = frame.hands[0].palmNormal[2];
+       //console.log(frame.hands[0].palmPosition[1]);
+     }
    }
      return {
          time: t,
@@ -431,10 +490,27 @@ var path1 = graph.append("g")
 
          var newdata1 = next1(frame);
          var newdata2 = next2(frame);
+         var newdata3 = next3(frame);
+
+         if(framedata){
+           if(isrecording){
+             if(frame.hands){
+               if(frame.hands.length>0){
+                 obj = {
+                   label : currentlabel,
+                   palmNormal : frame.hands[0].palmNormal
+                 };
+                 framedata.push(obj);
+               }
+             }
+           }
+         }
+
          //console.log(newdata);
          //console.log(newdata.time);
          data1.push(newdata1);
-         data2.push(newdata2)
+         data2.push(newdata2);
+         data3.push(newdata3);
 
          // update domain
          x.domain([t - n, t]);
@@ -456,6 +532,14 @@ var path1 = graph.append("g")
              .ease("linear")
              .attr("transform", "translate(" + t - 1 + ")")
              .each("end", tick);
+         path3
+             .attr("d", line)
+             .attr("transform", null)
+             .transition()
+             .duration(500)
+             .ease("linear")
+             .attr("transform", "translate(" + t - 1 + ")")
+             .each("end", tick);
 
          // shift axis left
          axis
@@ -467,6 +551,7 @@ var path1 = graph.append("g")
          // pop the old data point off the front
          data1.shift();
          data2.shift();
+         data3.shift();
      }
   </script>
 </html>
