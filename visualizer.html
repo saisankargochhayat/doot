@@ -20,6 +20,7 @@
       var fingers = {};
       var spheres = {};
       var framedata = [];
+      var frameLabel = [];
       var isrecording = false;
       var startrecording = function(i){
         isrecording = true;
@@ -31,9 +32,10 @@
         //console.log(framedata);
       }
       function writeinfile() {
-        var content = JSON.stringify(framedata);
+        var content1 = JSON.stringify(framedata);
+        var content2 = JSON.stringify(frameLabel);
         //console.log(content);
-        var url = 'data:text/json;charset=utf8,' + encodeURIComponent(content);
+        var url = 'data:text/json;charset=utf8,' + encodeURIComponent(content1)+"<br>"+ encodeURIComponent(content2);
         window.open(url, '_blank');
         window.focus();
      }
@@ -496,11 +498,8 @@ var path3 = graph.append("g")
            if(isrecording){
              if(frame.hands){
                if(frame.hands.length>0){
-                 obj = {
-                   label : currentlabel,
-                   palmNormal : frame.hands[0].palmNormal
-                 };
-                 framedata.push(obj);
+                 framedata.push(frame.hands[0].palmNormal);
+                 frameLabel.push(currentlabel);
                }
              }
            }
