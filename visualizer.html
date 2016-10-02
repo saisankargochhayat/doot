@@ -32,24 +32,25 @@
         //console.log(framedata);
       }
       function writeinfile() {
-        var content1 = "'pinch','grab'";
+        var content1 = "pinch,grab";
         var fingerLetters = ['t','i','m','r','p'];
         var coords = ['x','y','z'];
+        var fingerBones = ['m','p','i','d'];
         for(var i=0;i<fingerLetters.length;i++){
           for(var j=0;j<3;j++){
-            content1+=",'"+fingerLetters[i]+"d"+coords[j]+"'";
+            content1+=","+fingerLetters[i]+"d"+coords[j];
           }
         }
-        for(var i=0;i<fingerLetters.length;i++){
-          for(var j=0;j<3;j++){
-            content1+=",'"+fingerLetters[i]+"p"+coords[j]+"'";
+        for(var j=0;j<fingerLetters.length;j++){
+          for(var i=0;i<2;i++){
+            content1+=",a"+fingerBones[i]+fingerBones[i+1]+fingerLetters[j];
           }
         }
         for(var i=0;i<4;i++){
-          content1+=",'a"+i+"'";
+          content1+=",a"+i;
         }
-        content1+=",'label'\n";
-        //console.log(content1);
+        content1+=",label\n";
+        console.log(content1);
         for(var i=0;i<framedata.length;i++){
           for(var j=0;j<framedata[i].length-1;j++){
             content1+=framedata[i][j]+",";
@@ -362,12 +363,12 @@
   <body>
     <div id="graph" style="width:50%;float:right;"></div>
     <div>
-      <button onclick="startrecording(0)">Start 0</button>
-      <button onclick="startrecording(1)">Start 1</button>
-      <button onclick="startrecording(2)">Start 2</button>
-      <button onclick="startrecording(3)">Start 3</button>
-      <button onclick="startrecording(4)">Start 4</button>
-      <button onclick="startrecording(5)">Start 5</button>
+      <button onclick="startrecording('a')">Start a</button>
+      <button onclick="startrecording('b')">Start b</button>
+      <button onclick="startrecording('c')">Start c</button>
+      <button onclick="startrecording('d')">Start d</button>
+      <button onclick="startrecording('e')">Start e</button>
+      <button onclick="startrecording('f')">Start f</button>
       <button onclick="stoprecording()">Stop</button>
       <button onclick="writeinfile()">Write to file</button>
     </div>
@@ -473,7 +474,20 @@ var path3 = graph.append("g")
    var x=0;
    if(frame.hands){
      if(frame.hands.length>0){
-       x = frame.hands[0].palmNormal[0];
+       var finger = frame.hands[0].indexFinger;
+       if(finger){
+        //  var proximalBone = finger.proximal;
+        //  var metaCarpelBone = finger.metacarpal;
+        //  dotProduct = Leap.vec3.dot(
+        //       proximalBone.direction(),
+        //       metaCarpelBone.direction()
+        //   );
+        //  angle = Math.acos(dotProduct);
+        //  x=angle;
+        //  console.log(angle);
+        var proximalBone = finger.metacarpal;
+        x = proximalBone.direction()[0];
+       }
        //console.log(frame.hands[0].palmPosition[1]);
      }
    }
@@ -486,7 +500,20 @@ var path3 = graph.append("g")
    var x=0;
    if(frame.hands){
      if(frame.hands.length>0){
-       x = frame.hands[0].palmNormal[1];
+       var finger = frame.hands[0].indexFinger;
+       if(finger){
+        //  var proximalBone = finger.proximal;
+        //  var metaCarpelBone = finger.metacarpal;
+        //  dotProduct = Leap.vec3.dot(
+        //       proximalBone.direction(),
+        //       metaCarpelBone.direction()
+        //   );
+        //  angle = Math.acos(dotProduct);
+        //  x=angle;
+        //  console.log(angle);
+        var proximalBone = finger.proximal;
+        x = proximalBone.direction()[1];
+       }
        //console.log(frame.hands[0].palmPosition[1]);
      }
    }
@@ -499,7 +526,20 @@ var path3 = graph.append("g")
    var x=0;
    if(frame.hands){
      if(frame.hands.length>0){
-       x = frame.hands[0].palmNormal[2];
+       var finger = frame.hands[0].indexFinger;
+       if(finger){
+        //  var proximalBone = finger.proximal;
+        //  var metaCarpelBone = finger.metacarpal;
+        //  dotProduct = Leap.vec3.dot(
+        //       proximalBone.direction(),
+        //       metaCarpelBone.direction()
+        //   );
+        //  angle = Math.acos(dotProduct);
+        //  x=angle;
+        //  console.log(angle);
+        var proximalBone = finger.proximal;
+        x = proximalBone.direction()[2];
+       }
        //console.log(frame.hands[0].palmPosition[1]);
      }
    }
@@ -508,7 +548,25 @@ var path3 = graph.append("g")
          value: x
      };
  }
-
+    var getAngles = function(finger){
+      var obj = {};
+      var metaCarpelBone = finger.metacarpal;
+      var proximalBone = finger.proximal;
+      var intermediateBone = finger.medial;
+      var dotProduct = Leap.vec3.dot(
+           metaCarpelBone.direction(),
+           proximalBone.direction()
+       );
+       var angle = Math.acos(dotProduct);
+       obj.mp = angle;
+       dotProduct = Leap.vec3.dot(
+            proximalBone.direction(),
+            intermediateBone.direction()
+       );
+      angle = Math.acos(dotProduct);
+      obj.pi = angle;
+      return obj;
+    }
      function tick(frame)
     {
          // push a new data point onto the back
@@ -535,32 +593,44 @@ var path3 = graph.append("g")
                      currdata.push(fingers[i].direction[j]);
                    }
                  }
-                 for(var i=0;i<fingers.length;i++){
-                   for(var j=0;j<3;j++){
-                     currdata.push(fingers[i].tipPosition[j]);
-                   }
-                 }
+                 var thumb = frame.hands[0].thumb;
+                 var indexFinger = frame.hands[0].indexFinger;
+                 var middleFinger = frame.hands[0].middleFinger;
+                 var ringFinger = frame.hands[0].ringFinger;
+                 var pinky = frame.hands[0].pinky;
+                 //////////////////////////////////////////////////////////
+                 var angleObj = getAngles(thumb);
+                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+                 angleObj = getAngles(indexFinger);
+                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+                 angleObj = getAngles(middleFinger);
+                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+                 angleObj = getAngles(ringFinger);
+                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+                 angleObj = getAngles(pinky);
+                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+                 //////////////////////////////////////////////////////////
                  var dotProduct = Leap.vec3.dot(
-                      frame.hands[0].thumb.proximal.direction(),
-                      frame.hands[0].indexFinger.proximal.direction()
+                      thumb.proximal.direction(),
+                      indexFinger.proximal.direction()
                   );
                   var angle = Math.acos(dotProduct);
                   currdata.push(angle);
                   dotProduct = Leap.vec3.dot(
-                       frame.hands[0].indexFinger.proximal.direction(),
-                       frame.hands[0].middleFinger.proximal.direction()
+                       indexFinger.proximal.direction(),
+                       middleFinger.proximal.direction()
                    );
                   angle = Math.acos(dotProduct);
                    currdata.push(angle);
                   dotProduct = Leap.vec3.dot(
-                      frame.hands[0].middleFinger.proximal.direction(),
-                      frame.hands[0].ringFinger.proximal.direction()
+                      middleFinger.proximal.direction(),
+                      ringFinger.proximal.direction()
                   );
                   angle = Math.acos(dotProduct);
                   currdata.push(angle);
                   dotProduct = Leap.vec3.dot(
-                     frame.hands[0].ringFinger.proximal.direction(),
-                     frame.hands[0].pinky.proximal.direction()
+                     ringFinger.proximal.direction(),
+                     pinky.proximal.direction()
                  );
                  angle = Math.acos(dotProduct);
                  currdata.push(angle);
@@ -571,7 +641,17 @@ var path3 = graph.append("g")
              }
            }
          }
-
+         if(frame.hands){
+           if(frame.hands.length>0){
+             if(frame.hands[0].indexFinger){
+               finger = frame.hands[0].indexFinger;
+               if(frame.hands[0].indexFinger.medial){
+                 bone = frame.hands[0].indexFinger.medial;
+                 //console.log(bone.matrix());
+               }
+             }
+           }
+         }
          //console.log(newdata);
          //console.log(newdata.time);
          data1.push(newdata1);
