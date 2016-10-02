@@ -32,7 +32,7 @@
         //console.log(framedata);
       }
       function writeinfile() {
-        var content1 = "x,y,z,label/n";
+        var content1 = "x,y,z,label\n";
         var fingerLetters = ['t','i','m','r','p'];
         var coords = ['x','y','z'];
         // for(var i=0;i<fingerLetters.length;i++){
@@ -363,12 +363,12 @@
   <body>
     <div id="graph" style="width:50%;float:right;"></div>
     <div>
-      <button onclick="startrecording(0)">Start 0</button>
-      <button onclick="startrecording(1)">Start 1</button>
-      <button onclick="startrecording(2)">Start 2</button>
-      <button onclick="startrecording(3)">Start 3</button>
-      <button onclick="startrecording(4)">Start 4</button>
-      <button onclick="startrecording(5)">Start 5</button>
+      <button onclick="startrecording('up')">Start up</button>
+      <button onclick="startrecording('down')">Start down</button>
+      <button onclick="startrecording('left')">Start left</button>
+      <button onclick="startrecording('right')">Start right</button>
+      <button onclick="startrecording('front')">Start front</button>
+      <button onclick="startrecording('back')">Start back</button>
       <button onclick="stoprecording()">Stop</button>
       <button onclick="writeinfile()">Write to file</button>
     </div>
@@ -527,6 +527,7 @@ var path3 = graph.append("g")
                  currdata.push(frame.hands[0].palmNormal[1]);
                  currdata.push(frame.hands[0].palmNormal[2]);
                  currdata.push(currentlabel);
+                 framedata.push(currdata);
                 //  currdata.push(frame.hands[0].pinchStrength);
                 //  currdata.push(frame.hands[0].grabStrength);
                 //  var fingers = [];
