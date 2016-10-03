@@ -32,29 +32,30 @@
         //console.log(framedata);
       }
       function writeinfile() {
-        var content1 = "'pinch','grab'";
+        var content1 = "x,y,z,label/n";
         var fingerLetters = ['t','i','m','r','p'];
         var coords = ['x','y','z'];
-        for(var i=0;i<fingerLetters.length;i++){
-          for(var j=0;j<3;j++){
-            content1+=",'"+fingerLetters[i]+"d"+coords[j]+"'";
-          }
-        }
-        for(var i=0;i<fingerLetters.length;i++){
-          for(var j=0;j<3;j++){
-            content1+=",'"+fingerLetters[i]+"p"+coords[j]+"'";
-          }
-        }
-        for(var i=0;i<4;i++){
-          content1+=",'a"+i+"'";
-        }
-        content1+=",'label'\n";
-        //console.log(content1);
+        // for(var i=0;i<fingerLetters.length;i++){
+        //   for(var j=0;j<3;j++){
+        //     content1+=",'"+fingerLetters[i]+"d"+coords[j]+"'";
+        //   }
+        // }
+        // for(var i=0;i<fingerLetters.length;i++){
+        //   for(var j=0;j<3;j++){
+        //     content1+=",'"+fingerLetters[i]+"p"+coords[j]+"'";
+        //   }
+        // }
+        // for(var i=0;i<4;i++){
+        //   content1+=",'a"+i+"'";
+        // }
+        // content1+=",'label'\n";
+        // console.log(content1);
         for(var i=0;i<framedata.length;i++){
-          for(var j=0;j<framedata[i].length-1;j++){
-            content1+=framedata[i][j]+",";
-          }
-          content1+=framedata[i][framedata[i].length-1]+"\n";
+          // for(var j=0;j<framedata[i].length-1;j++){
+          //   content1+=framedata[i][j]+",";
+          // }
+          // content1+=framedata[i][framedata[i].length-1]+"\n";
+          content1+=framedata[i][0]+","+framedata[i][1]+","+framedata[i][2]+","+framedata[i][3]+"\n";
         }
         console.log(content1);
          var url = 'data:text/json;charset=utf8,' + encodeURIComponent(content1);
@@ -76,7 +77,6 @@
         }
         //document.getElementById('out').innerHTML = str;
 
-        /////////////////////////////////////////////////////////////
 
 
         ////////////////////////////////////////////////////////////
@@ -89,6 +89,7 @@
         if (frame.hands === undefined ) {
           var handsLength = 0
         } else {
+          /////////////////////////////////////////////////////////////
           var handsLength = frame.hands.length;
         }
 
@@ -522,51 +523,55 @@ var path3 = graph.append("g")
              var currdata = [];
              if(frame.hands){
                if(frame.hands.length>0){
-                 currdata.push(frame.hands[0].pinchStrength);
-                 currdata.push(frame.hands[0].grabStrength);
-                 var fingers = [];
-                 var pointables = frame.hands[0].pointables;
-                 for(var i=0;i<pointables.length;i++){
-                   fingers.splice(frame.hands[0].pointables[i].type,0,frame.hands[0].pointables[i]);
-                 }
-                 //console.log(fingers);
-                 for(var i=0;i<fingers.length;i++){
-                   for(var j=0;j<3;j++){
-                     currdata.push(fingers[i].direction[j]);
-                   }
-                 }
-                 for(var i=0;i<fingers.length;i++){
-                   for(var j=0;j<3;j++){
-                     currdata.push(fingers[i].tipPosition[j]);
-                   }
-                 }
-                 var dotProduct = Leap.vec3.dot(
-                      frame.hands[0].thumb.proximal.direction(),
-                      frame.hands[0].indexFinger.proximal.direction()
-                  );
-                  var angle = Math.acos(dotProduct);
-                  currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                       frame.hands[0].indexFinger.proximal.direction(),
-                       frame.hands[0].middleFinger.proximal.direction()
-                   );
-                  angle = Math.acos(dotProduct);
-                   currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                      frame.hands[0].middleFinger.proximal.direction(),
-                      frame.hands[0].ringFinger.proximal.direction()
-                  );
-                  angle = Math.acos(dotProduct);
-                  currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                     frame.hands[0].ringFinger.proximal.direction(),
-                     frame.hands[0].pinky.proximal.direction()
-                 );
-                 angle = Math.acos(dotProduct);
-                 currdata.push(angle);
-                //console.log(angle);
+                 currdata.push(frame.hands[0].palmNormal[0]);
+                 currdata.push(frame.hands[0].palmNormal[1]);
+                 currdata.push(frame.hands[0].palmNormal[2]);
                  currdata.push(currentlabel);
-                 framedata.push(currdata);
+                //  currdata.push(frame.hands[0].pinchStrength);
+                //  currdata.push(frame.hands[0].grabStrength);
+                //  var fingers = [];
+                //  var pointables = frame.hands[0].pointables;
+                //  for(var i=0;i<pointables.length;i++){
+                //    fingers.splice(frame.hands[0].pointables[i].type,0,frame.hands[0].pointables[i]);
+                //  }
+                //  //console.log(fingers);
+                //  for(var i=0;i<fingers.length;i++){
+                //    for(var j=0;j<3;j++){
+                //      currdata.push(fingers[i].direction[j]);
+                //    }
+                //  }
+                //  for(var i=0;i<fingers.length;i++){
+                //    for(var j=0;j<3;j++){
+                //      currdata.push(fingers[i].tipPosition[j]);
+                //    }
+                //  }
+                //  var dotProduct = Leap.vec3.dot(
+                //       frame.hands[0].thumb.proximal.direction(),
+                //       frame.hands[0].indexFinger.proximal.direction()
+                //   );
+                //   var angle = Math.acos(dotProduct);
+                //   currdata.push(angle);
+                //   dotProduct = Leap.vec3.dot(
+                //        frame.hands[0].indexFinger.proximal.direction(),
+                //        frame.hands[0].middleFinger.proximal.direction()
+                //    );
+                //   angle = Math.acos(dotProduct);
+                //    currdata.push(angle);
+                //   dotProduct = Leap.vec3.dot(
+                //       frame.hands[0].middleFinger.proximal.direction(),
+                //       frame.hands[0].ringFinger.proximal.direction()
+                //   );
+                //   angle = Math.acos(dotProduct);
+                //   currdata.push(angle);
+                //   dotProduct = Leap.vec3.dot(
+                //      frame.hands[0].ringFinger.proximal.direction(),
+                //      frame.hands[0].pinky.proximal.direction()
+                //  );
+                //  angle = Math.acos(dotProduct);
+                //  currdata.push(angle);
+                // //console.log(angle);
+                //  currdata.push(currentlabel);
+                //  framedata.push(currdata);
                }
              }
            }
