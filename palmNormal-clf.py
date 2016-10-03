@@ -21,6 +21,8 @@ with open("palmpositiontest.csv", 'r') as ppt:
         test_labels.append(attr[3][0:-1])
 
 predictions = clf.predict(test_data)
+for i in range(len(predictions)):
+    print predictions[i], test_labels[i] 
 
 from sklearn.metrics import accuracy_score
 print accuracy_score(test_labels, predictions)
