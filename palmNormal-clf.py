@@ -15,21 +15,21 @@ with open("a_f_train.csv", 'r') as ppd:
         data.append(map(float, attr[0:31]))
         labels.append(attr[31][0:-1])
 
-#with open("testdata.csv", 'r') as ppd:
-#    for line in ppd:
-#        attr = line.split(',')
-#        data1.append(map(float, attr[0:31]))
-#        labels1.append(attr[31][0:-2])
+with open("a_f_test.csv", 'r') as ppd:
+    for line in ppd:
+        attr = line.split(',')
+        data1.append(map(float, attr[0:31]))
+        labels1.append(attr[31][0:-1])
 
-from sklearn.cross_validation import train_test_split
-train_data, test_data, train_labels, test_labels = train_test_split(data, labels, test_size = .5)
+#from sklearn.cross_validation import train_test_split
+#train_data, test_data, train_labels, test_labels = train_test_split(data, labels, test_size = .5)
 
 clf = tree.DecisionTreeClassifier()
 clf.fit(data,labels)
-predictions = clf.predict(data)
+predictions = clf.predict(data1)
 
 #with open("data1", 'w') as _file:
 #        _file.write(pprint.pformat(data1))
 
 from sklearn.metrics import accuracy_score
-print accuracy_score(labels, predictions)
+print accuracy_score(labels1, predictions)
