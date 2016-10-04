@@ -11,7 +11,7 @@ test=[0,10,15]
 names=['x','y','z']
 
 
-
+#Change the csv file if needed
 with open("palmpositiondata.csv", 'r') as ppd:
     for line in ppd:
         attr = line.split(',')
