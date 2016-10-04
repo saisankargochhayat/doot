@@ -1,5 +1,6 @@
-from sklearn import tree
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn import svm
+# from sklearn import tree
+# from sklearn.neighbors import KNeighborsClassifier
 # import pprint
 
 data = []
@@ -21,22 +22,22 @@ with open("a_f_test1.csv", 'r') as ppd:
         test_data.append(map(float, attr[0:31]))
         test_labels.append(attr[31][0:-1])
 
-with open("a_f_test2.csv", 'r') as ppd:
-    for line in ppd:
-        attr = line.split(',')
-        test_data.append(map(float, attr[0:31]))
-        test_labels.append(attr[31][0:-1])
+# with open("a_f_test2.csv", 'r') as ppd:
+#     for line in ppd:
+#         attr = line.split(',')
+#         test_data.append(map(float, attr[0:31]))
+#         test_labels.append(attr[31][0:-1])
 
-with open("a_f_test.csv", 'r') as ppd:
-    for line in ppd:
-        attr = line.split(',')
-        test_data.append(map(float, attr[0:31]))
-        test_labels.append(attr[31][0:-1])
+# with open("a_f_test.csv", 'r') as ppd:
+#     for line in ppd:
+#         attr = line.split(',')
+#         test_data.append(map(float, attr[0:31]))
+#         test_labels.append(attr[31][0:-1])
 
 #from sklearn.cross_validation import train_test_split
 #train_data, test_data, train_labels, test_labels = train_test_split(data, labels, test_size = .5)
 
-clf = KNeighborsClassifier()
+clf = svm.SVC()
 clf.fit(data,labels)
 predictions = clf.predict(test_data)
 
