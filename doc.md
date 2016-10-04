@@ -28,7 +28,7 @@ label list:
 A,B,C,D
 
 Different accuracies for different Classifiers:
-(Models were trained from combined data set from Lalu,Sai and sandy's hands)
+(Models were trained from combined data set from Lalu,Sai and Sandy's hands)
 KNNeighbours Classifier:
 
 
