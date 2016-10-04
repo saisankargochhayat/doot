@@ -27,9 +27,18 @@ Features List:
 label list:
 A,B,C,D
 
-Different accuracies for different Classifiers:
-(Models were trained from combined data set from Lalu,Sai and Sandy's hands)
+
+Different accuracy lists for different Classifiers:
+(Models were trained  combinedly from Lalu, Sai and Sandy's hand gestures and test data was collected individually from Rishav,Ashutosh,Adwesh,Sripad)
+
+
+
+
 KNNeighbours Classifier:
+100% accuracy for Rishav's Data(Test)
+93.1% accuracy for Asutosh's Data(Test1)
+100% accuracy for Adwesh's Data (Test2)
+98.27% accuracy for Sripad's Data(Test3)
 
 
 
@@ -41,3 +50,15 @@ SVM Classifier:
 88.1% accuracy for Sripad's Data(Test3)
 
 DecisionTree Classifier:
+
+74.83% accuracy for Rishav's Data(Test)
+99.93% accuracy for Asutosh's Data(Test1)
+73.74% accuracy for Adwesh's Data (Test2)
+73.88% accuracy for Sripad's Data(Test3)
+
+
+Stochastic Gradient Descent:
+76.6% accuracy for Rishav's Data(Test)
+74.23% accuracy for Asutosh's Data(Test1)
+74.89% accuracy for Adwesh's Data (Test2)
+74.65% accuracy for Sripad's Data(Test3)
