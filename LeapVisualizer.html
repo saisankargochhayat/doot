@@ -1,0 +1,356 @@
+<html>
+  <head>
+    <title>DOM Visualizer - Leap</title>
+    <script src="leap-0.6.4.js"></script>
+    <script src="d3.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div id="visualizer">
+
+
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "frame_rate_heading">Frame Rate</div>
+            <div class="panel-body">
+              <span id = "frame_rate"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "r_0_heading">r_0</div>
+            <div class="panel-body">
+              <span id = "r_0"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "r_1_heading">r_1</div>
+            <div class="panel-body">
+              <span id = "r_1"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "r_2_heading">r_2</div>
+            <div class="panel-body">
+              <span id = "r_2"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "s_heading">s</div>
+            <div class="panel-body">
+              <span id = "s"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "t_heading">t</div>
+            <div class="panel-body">
+              <span id = "t"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "arm_basis_0_heading">Arm Basis 0</div>
+            <div class="panel-body">
+              <span id = "arm_basis_0"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "arm_basis_1_heading">Arm Basis 1</div>
+            <div class="panel-body">
+              <span id = "arm_basis_1"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "arm_basis_2_heading">Arm Basis 2</div>
+            <div class="panel-body">
+              <span id = "arm_basis_2"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "arm_width_heading">Arm width</div>
+            <div class="panel-body">
+              <span id = "arm_width"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "confidence_heading">Confidence</div>
+            <div class="panel-body">
+              <span id = "confidence"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "direction_heading">Direction</div>
+            <div class="panel-body">
+              <span id = "direction"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "elbow_heading">Elbow</div>
+            <div class="panel-body">
+              <span id = "elbow"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "grab_strength_heading">Grab Strength</div>
+            <div class="panel-body">
+              <span id = "grab_strength"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_normal_heading">Palm Normal</div>
+            <div class="panel-body">
+              <span id = "palm_normal"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_position_heading">Palm Position</div>
+            <div class="panel-body">
+              <span id = "palm_position"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_velocity_heading">Palm Velocity</div>
+            <div class="panel-body">
+              <span id = "palm_velocity"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_width_heading">Palm Width</div>
+            <div class="panel-body">
+              <span id = "palm_width"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "pinch_strength_heading">Pinch Strength</div>
+            <div class="panel-body">
+              <span id = "pinch_strength"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "h_r_0_heading">Hand r 0</div>
+            <div class="panel-body">
+              <span id = "h_r_0"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "h_r_1_heading">Hand r 1</div>
+            <div class="panel-body">
+              <span id = "h_1_0"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "h_r_2_heading">Hand r 2</div>
+            <div class="panel-body">
+              <span id = "h_r_2"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "h_s_heading">Hand s</div>
+            <div class="panel-body">
+              <span id = "h_s"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "sphere_center_heading">Sphere Center</div>
+            <div class="panel-body">
+              <span id = "sphere_center"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "elbow_heading">Sphere Radius</div>
+            <div class="panel-body">
+              <span id = "elbow"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "grab_strength_heading">Stabilized Palm Position</div>
+            <div class="panel-body">
+              <span id = "grab_strength"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_normal_heading">Hand t</div>
+            <div class="panel-body">
+              <span id = "palm_normal"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_position_heading">Time Visible</div>
+            <div class="panel-body">
+              <span id = "palm_position"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_velocity_heading">Type</div>
+            <div class="panel-body">
+              <span id = "palm_velocity"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_width_heading">Wrist</div>
+            <div class="panel-body">
+              <span id = "palm_width"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "elbow_heading">Elbow</div>
+            <div class="panel-body">
+              <span id = "elbow"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "grab_strength_heading">Grab Strength</div>
+            <div class="panel-body">
+              <span id = "grab_strength"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_normal_heading">Palm Normal</div>
+            <div class="panel-body">
+              <span id = "palm_normal"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_position_heading">Palm Position</div>
+            <div class="panel-body">
+              <span id = "palm_position"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_velocity_heading">Palm Velocity</div>
+            <div class="panel-body">
+              <span id = "palm_velocity"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading" id= "palm_width_heading">Palm Width</div>
+            <div class="panel-body">
+              <span id = "palm_width"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <script>
+      Leap.loop(function(frame){
+        //console.log(frame);
+        if(frame.valid){
+          if(frame.currentFrameRate){
+            document.getElementById('frame_rate').innerHTML = frame.currentFrameRate;
+          }
+          if(frame.r){
+            document.getElementById('r_0').innerHTML = frame.r[0];
+          }
+          if(frame.r){
+            document.getElementById('r_1').innerHTML = frame.r[1];
+          }
+          if(frame.r){
+            document.getElementById('r_2').innerHTML = frame.r[2];
+          }
+          if(frame.s){
+            document.getElementById('s').innerHTML = frame.s;
+          }
+          if(frame.t){
+            document.getElementById('t').innerHTML = frame.t;
+          }
+          if(frame.hands){
+            if(frame.hands.length>0){
+              hand = frame.hands[0];
+              console.log(hand);
+              document.getElementById('arm_basis_0').innerHTML = hand.armBasis[0];
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

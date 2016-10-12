@@ -371,12 +371,12 @@
   <body>
     <div id="graph" style="width:50%;float:right;"></div>
     <div>
-      <button onclick="startrecording('a',0)">Start a</button>
-      <button onclick="startrecording('b',1)">Start b</button>
-      <button onclick="startrecording('c',2)">Start c</button>
-      <button onclick="startrecording('d',3)">Start d</button>
-      <button onclick="startrecording('e',4)">Start e</button>
-      <button onclick="startrecording('f',5)">Start f</button>
+      <button onclick="startrecording('g',0)">Start g</button>
+      <button onclick="startrecording('h',1)">Start h</button>
+      <button onclick="startrecording('i',2)">Start i</button>
+      <button onclick="startrecording('k',3)">Start k</button>
+      <button onclick="startrecording('l',4)">Start l</button>
+      <button onclick="startrecording('m',5)">Start m</button>
       <button onclick="stoprecording()">Stop</button>
       <button onclick="writeinfile()">Write to file</button>
       <br>
@@ -501,8 +501,8 @@ var path3 = graph.append("g")
         //  angle = Math.acos(dotProduct);
         //  x=angle;
         //  console.log(angle);
-        var proximalBone = finger.metacarpal;
-        x = proximalBone.direction()[0];
+        //var proximalBone = finger.metacarpal;
+        x = frame.hands[0].pinchStrength;
        }
        //console.log(frame.hands[0].palmPosition[1]);
      }
@@ -528,7 +528,7 @@ var path3 = graph.append("g")
         //  x=angle;
         //  console.log(angle);
         var proximalBone = finger.proximal;
-        x = proximalBone.direction()[1];
+        x = frame.hands[0].grabStrength;
        }
        //console.log(frame.hands[0].palmPosition[1]);
      }
