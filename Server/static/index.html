@@ -1,9 +1,9 @@
 <html>
   <head>
     <title>DOM Visualizer - Leap</title>
-    <script src="leap-0.6.4.js"></script>
-    <script src="d3.js"></script>
-    <script src="jquery-3.1.1.min.js"></script>
+    <script src="static/leap-0.6.4.js"></script>
+    <script src="static/d3.js"></script>
+    <script src="static/jquery-3.1.1.min.js"></script>
 
 
     <script>
@@ -23,7 +23,9 @@
       var frameLabel = [];
       var framecounts = [0,0,0,0,0,0,0]
       var isrecording = false;
+      var ispredicting = false;
       var currentselected=-1;
+
       var updateCount = function(c){
         framecounts[c] = framecounts[c]+1;
         document.getElementById('c'+c).innerHTML=framecounts[c];
@@ -365,7 +367,9 @@
         transform: rotateY(90deg) translateX(-1em) translateZ(1em);
         height: 3em;
       }
-
+      #predicted{
+        font-size: 400%
+      }
     </style>
   </head>
   <body>
@@ -417,6 +421,7 @@
 
     </div>
 
+    <div  style="width:50%;position:absolute;top:70%;left:70%;"><br><span id="predicted"></span></div>
   </body>
   <script>
   var t = -1;
@@ -585,7 +590,68 @@ var path3 = graph.append("g")
     }
 
 
-
+     function getRefinedData(frame){
+       var currdata = [];
+       if(frame.hands){
+         if(frame.hands.length>0){
+           currdata.push(frame.hands[0].pinchStrength);
+           currdata.push(frame.hands[0].grabStrength);
+           var fingers = [];
+           var pointables = frame.hands[0].pointables;
+           for(var i=0;i<pointables.length;i++){
+             fingers.splice(frame.hands[0].pointables[i].type,0,frame.hands[0].pointables[i]);
+           }
+           //console.log(fingers);
+           for(var i=0;i<fingers.length;i++){
+             for(var j=0;j<3;j++){
+               currdata.push(fingers[i].direction[j]);
+             }
+           }
+           var thumb = frame.hands[0].thumb;
+           var indexFinger = frame.hands[0].indexFinger;
+           var middleFinger = frame.hands[0].middleFinger;
+           var ringFinger = frame.hands[0].ringFinger;
+           var pinky = frame.hands[0].pinky;
+           //////////////////////////////////////////////////////////
+           var angleObj = getAngles(thumb);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(indexFinger);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(middleFinger);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(ringFinger);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(pinky);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           //////////////////////////////////////////////////////////
+           var dotProduct = Leap.vec3.dot(
+                thumb.proximal.direction(),
+                indexFinger.proximal.direction()
+            );
+            var angle = Math.acos(dotProduct);
+            currdata.push(angle);
+            dotProduct = Leap.vec3.dot(
+                 indexFinger.proximal.direction(),
+                 middleFinger.proximal.direction()
+             );
+            angle = Math.acos(dotProduct);
+             currdata.push(angle);
+            dotProduct = Leap.vec3.dot(
+                middleFinger.proximal.direction(),
+                ringFinger.proximal.direction()
+            );
+            angle = Math.acos(dotProduct);
+            currdata.push(angle);
+            dotProduct = Leap.vec3.dot(
+               ringFinger.proximal.direction(),
+               pinky.proximal.direction()
+           );
+           angle = Math.acos(dotProduct);
+           currdata.push(angle);
+         }
+       }
+       return currdata;
+     }
      function tick(frame)
     {
          var newdata1 = next1(frame);
@@ -593,85 +659,19 @@ var path3 = graph.append("g")
          var newdata3 = next3(frame);
          //framedata is an array of recorded frames
          if(framedata){
-           if(isrecording){
-             var currdata = [];
-             if(frame.hands){
-               if(frame.hands.length>0){
-                 currdata.push(frame.hands[0].pinchStrength);
-                 currdata.push(frame.hands[0].grabStrength);
-                 var fingers = [];
-                 var pointables = frame.hands[0].pointables;
-                 for(var i=0;i<pointables.length;i++){
-                   fingers.splice(frame.hands[0].pointables[i].type,0,frame.hands[0].pointables[i]);
-                 }
-                 //console.log(fingers);
-                 for(var i=0;i<fingers.length;i++){
-                   for(var j=0;j<3;j++){
-                     currdata.push(fingers[i].direction[j]);
-                   }
-                 }
-                 var thumb = frame.hands[0].thumb;
-                 var indexFinger = frame.hands[0].indexFinger;
-                 var middleFinger = frame.hands[0].middleFinger;
-                 var ringFinger = frame.hands[0].ringFinger;
-                 var pinky = frame.hands[0].pinky;
-                 //////////////////////////////////////////////////////////
-                 var angleObj = getAngles(thumb);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(indexFinger);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(middleFinger);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(ringFinger);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(pinky);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 //////////////////////////////////////////////////////////
-                 var dotProduct = Leap.vec3.dot(
-                      thumb.proximal.direction(),
-                      indexFinger.proximal.direction()
-                  );
-                  var angle = Math.acos(dotProduct);
-                  currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                       indexFinger.proximal.direction(),
-                       middleFinger.proximal.direction()
-                   );
-                  angle = Math.acos(dotProduct);
-                   currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                      middleFinger.proximal.direction(),
-                      ringFinger.proximal.direction()
-                  );
-                  angle = Math.acos(dotProduct);
-                  currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                     ringFinger.proximal.direction(),
-                     pinky.proximal.direction()
-                 );
-                 angle = Math.acos(dotProduct);
-                 currdata.push(angle);
-                //console.log(angle);
-                 currdata.push(currentlabel);
-                 framedata.push(currdata);
-                 updateCount(currentselected);
-               }
+           if(isrecording || ispredicting){
+             var currdata = getRefinedData(frame);
+             if(isrecording && currdata.length==31){
+               currdata.push(currentlabel);
+               framedata.push(currdata);
+               updateCount(currentselected);
+             }
+             if(ispredicting  && currdata.length==31){
+               getPredictions(currdata);
              }
            }
          }
-         if(frame.hands){
-           if(frame.hands.length>0){
-             if(frame.hands[0].indexFinger){
-               finger = frame.hands[0].indexFinger;
-               if(frame.hands[0].indexFinger.medial){
-                 bone = frame.hands[0].indexFinger.medial;
-                 //console.log(bone.matrix());
-               }
-             }
-           }
-         }
-         //console.log(newdata);
-         //console.log(newdata.time);
+
          data1.push(newdata1);
          data2.push(newdata2);
          data3.push(newdata3);
@@ -717,5 +717,36 @@ var path3 = graph.append("g")
          data2.shift();
          data3.shift();
      }
+  </script>
+  <script>
+  var shuffleprediction = function(){
+    ispredicting=true;
+    setTimeout(shuffleprediction,500);
+  }
+  shuffleprediction()
+  var getPredictions = function(currdata){
+    var obj = {};
+    obj.ar = currdata;
+    $.ajax({
+      method:'POST',
+      data:JSON.stringify(obj),
+      contentType:"application/json;charset=utf-8",
+      url:'http://localhost:8080/predict',
+      success:function(data){
+        //console.log(data);
+        document.getElementById('predicted').innerHTML = data;
+      }
+    });
+    ispredicting=false;
+  };
+    $(document).ready(function(){
+      $.ajax({
+        method:'GET',
+        url:'http://localhost:8080/train',
+        success:function(data){
+          console.log(data);
+        }
+      });
+    });
   </script>
 </html>
