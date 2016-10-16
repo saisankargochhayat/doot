@@ -17,6 +17,19 @@ from sklearn.cross_validation import train_test_split
 @route('/',method='GET')
 def index():
     return static_file('index.html',root='static/')
+
+@route('/predictor',method='GET')
+def predictor():
+    return static_file('predictor.html',root='static/')
+
+@route('/visualizer',method='GET')
+def predictor():
+    return static_file('visualizer.html',root='static/')
+
+@route('/recorder',method='GET')
+def predictor():
+    return static_file('recorder.html',root='static/')
+
 @route('/static/<filename>',method='GET')
 def serve_static(filename):
     return static_file(filename,root='static/')
