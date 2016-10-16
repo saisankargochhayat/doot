@@ -1,0 +1,366 @@
+<html>
+  <head>
+    <title>DOM Visualizer - Leap</title>
+    <script src="/static/leap-0.6.4.js"></script>
+    <script src="/static/d3.js"></script>
+    <script src="/static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css" title="no title">
+
+    <script>
+
+      function moveFinger(Finger, posX, posY, posZ) {
+        Finger.style.webkitTransform = "translate3d("+posX+"px, "+posY+"px, "+posZ+"px)";
+      }
+
+      function moveSphere(Sphere, posX, posY, posZ, rotX, rotY, rotZ) {
+        Sphere.style.webkitTransform = Sphere.style.mozTransform =
+        Sphere.style.transform = "translateX("+posX+"px) translateY("+posY+"px) translateZ("+posZ+"px) rotateX("+rotX+"deg) rotateY(0deg) rotateZ(0deg)";
+      }
+
+      var fingers = {};
+      var spheres = {};
+      var start,end;
+      Leap.loop(function(frame) {
+        //console.log(frame);
+        if(frame.valid)
+          tick(frame);
+
+
+        latestFrame = frame;
+        var str = "";
+        var rotations = frame._rotation;
+        for (i in rotations){
+          str+=" "+i+" : "+rotations[i]+ "<br>";
+        }
+        //document.getElementById('out').innerHTML = str;
+
+        /////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////
+        //str = JSON.stringify(frame.dump());
+        //document.getElementById('out').innerHTML = str;
+      //  console.log(frame);
+        //console.log(Object.keys(str));
+        var seenFingers = {};
+        var handIds = {};
+        if (frame.hands === undefined ) {
+          var handsLength = 0
+        } else {
+          var handsLength = frame.hands.length;
+        }
+
+        for (var handId = 0, handCount = handsLength; handId != handCount; handId++) {
+          var hand = frame.hands[handId];
+          var posX = (hand.palmPosition[0]*3);
+          var posY = (hand.palmPosition[2]*3)-200;
+          var posZ = (hand.palmPosition[1]*3)-400;
+          var rotX = (hand._rotation[2]*90);
+          var rotY = (hand._rotation[1]*90);
+          var rotZ = (hand._rotation[0]*90);
+          var sphere = spheres[hand.id];
+          if (!sphere) {
+            var sphereDiv = document.getElementById("sphere").cloneNode(true);
+            sphereDiv.setAttribute('id',hand.id);
+            sphereDiv.style.backgroundColor='#'+Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('scene').appendChild(sphereDiv);
+            spheres[hand.id] = hand.id;
+          } else {
+            var sphereDiv =  document.getElementById(hand.id);
+            if (typeof(sphereDiv) != 'undefined' && sphereDiv != null) {
+              moveSphere(sphereDiv, posX, posY, posZ, rotX, rotY, rotZ);
+            }
+          }
+          handIds[hand.id] = true;
+        }
+        for (handId in spheres) {
+          if (!handIds[handId]) {
+            var sphereDiv =  document.getElementById(spheres[handId]);
+            sphereDiv.parentNode.removeChild(sphereDiv);
+            delete spheres[handId];
+          }
+        }
+
+        for (var pointableId = 0, pointableCount = frame.pointables.length; pointableId != pointableCount; pointableId++) {
+          var pointable = frame.pointables[pointableId];
+          var newFinger = false;
+          if (pointable.finger) {
+            if (!fingers[pointable.id]) {
+              fingers[pointable.id] = [];
+              newFinger = true;
+            }
+
+            for (var partId = 0, length; partId != 4; partId++) {
+              var posX = (pointable.positions[partId][0]*3);
+              var posY = (pointable.positions[partId][2]*3)-200;
+              var posZ = (pointable.positions[partId][1]*3)-400;
+
+              var id = pointable.id+'_'+partId;
+
+              var finger = fingers[id];
+              if (newFinger) {
+                var fingerDiv = document.getElementById("finger").cloneNode(true);
+                fingerDiv.setAttribute('id', id);
+                fingerDiv.style.backgroundColor='#'+Math.floor(pointable.type*500).toString(16);
+                document.getElementById('scene').appendChild(fingerDiv);
+                fingers[pointable.id].push(id);
+              } else  {
+                var fingerDiv =  document.getElementById(id);
+                if (typeof(fingerDiv) != 'undefined' && fingerDiv != null) {
+                  moveFinger(fingerDiv, posX, posY, posZ);
+                }
+              }
+              seenFingers[pointable.id] = true;
+            }
+
+            //var dirX = -(pointable.direction[1]*90);
+            //var dirY = -(pointable.direction[2]*90);
+            //var dirZ = (pointable.direction[0]*90);
+          }
+        }
+        for (var fingerId in fingers) {
+          if (!seenFingers[fingerId]) {
+            var ids = fingers[fingerId];
+            for (var index in ids) {
+              var fingerDiv =  document.getElementById(ids[index]);
+              fingerDiv.parentNode.removeChild(fingerDiv);
+            }
+            delete fingers[fingerId];
+          }
+        }
+        document.getElementById('showHands').addEventListener('mousedown', function() {
+          document.getElementById('app').setAttribute('class','show-hands');
+        }, false);
+        document.getElementById('hideHands').addEventListener('mousedown', function() {
+          document.getElementById('app').setAttribute('class','');
+        }, false);
+      });
+
+    </script>
+
+  </head>
+  <body>
+    <div id="graph" style="width:50%;float:right;"></div>
+    <div id="app" class="show-hands" style="width:50%">
+      <button id="showHands">Show Hands</button>
+      <button id="hideHands">hide Hands</button>
+      <div id="scene">
+        <div id="cube" class="cube">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+        <div id="finger" class="cube finger">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+        <div id="sphere" class="cube sphere">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script>
+  var t = -1;
+ var n = 300;
+ var v = 0;
+ var data1 = d3.range(n).map(next1);
+ var data2 = d3.range(n).map(next2);
+ var data3 = d3.range(n).map(next2);
+
+
+ var margin = {top: 10, right: 10, bottom: 20, left: 40},
+     width = 500 - margin.left - margin.right,
+     height = 300 - margin.top - margin.bottom;
+
+ var x = d3.scale.linear()
+     .domain([0, n - 1])
+     .range([0, width]);
+
+ var y = d3.scale.linear()
+     .domain([-1,1])
+     .range([height, 0]);
+
+ var line = d3.svg.line()
+     .x(function(d, i) { return x(d.time); })
+     .y(function(d, i) { return y(d.value); });
+
+ var svg = d3.select("#graph").append("svg")
+     .attr("width", width + margin.left + margin.right)
+     .attr("height", height + margin.top + margin.bottom);
+
+ var g = svg.append("g")
+     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+ var graph = g.append("svg")
+     .attr("width", width)
+     .attr("height", height + margin.top + margin.bottom);
+
+ var xAxis = d3.svg.axis().scale(x).orient("bottom");
+ var axis = graph.append("g")
+     .attr("class", "x axis")
+     .attr("transform", "translate(0," + height + ")")
+     .call(xAxis);
+
+ g.append("g")
+     .attr("class", "y axis")
+     .call(d3.svg.axis().scale(y).orient("left"));
+
+var path1 = graph.append("g")
+ .append("path")
+ .data([data1])
+ .attr("class", "line")
+ .attr("stroke","green")
+ .attr("d", line);
+ var path2 = graph.append("g")
+  .append("path")
+  .data([data2])
+  .attr("class", "line")
+  .attr("stroke","blue")
+  .attr("d", line);
+var path3 = graph.append("g")
+ .append("path")
+ .data([data3])
+ .attr("class", "line")
+ .attr("stroke","red")
+ .attr("d", line);
+  //These 2 functions are responsible to determine the data
+  //frame.hands.length -> number of hands
+  //frame.fingers.length - > number of fingers in the frame
+
+ function next1 (frame) {
+   var x=0;
+   if(frame.hands){
+     if(frame.hands.length>0){
+       var finger = frame.hands[0].indexFinger;
+       if(finger){
+
+        x = frame.hands[0].pinchStrength;
+       }
+       //console.log(frame.hands[0].palmPosition[1]);
+     }
+   }
+     return {
+         time: ++t,
+         value: x
+     };
+ }
+ function next2 (frame) {
+   var x=0;
+   if(frame.hands){
+     if(frame.hands.length>0){
+       var finger = frame.hands[0].indexFinger;
+       if(finger){
+
+        var proximalBone = finger.proximal;
+        x = frame.hands[0].grabStrength;
+       }
+       //console.log(frame.hands[0].palmPosition[1]);
+     }
+   }
+     return {
+         time: t,
+         value: x
+     };
+ }
+ function next3 (frame) {
+   var x=0;
+   if(frame.hands){
+     if(frame.hands.length>0){
+       var finger = frame.hands[0].indexFinger;
+       if(finger){
+
+        //  console.log(angle);
+        var proximalBone = finger.proximal;
+        x = proximalBone.direction()[2];
+       }
+       //console.log(frame.hands[0].palmPosition[1]);
+     }
+   }
+     return {
+         time: t,
+         value: x
+     };
+ }
+    var getAngles = function(finger){
+      var obj = {};
+      var metaCarpelBone = finger.metacarpal;
+      var proximalBone = finger.proximal;
+      var intermediateBone = finger.medial;
+      var dotProduct = Leap.vec3.dot(
+           metaCarpelBone.direction(),
+           proximalBone.direction()
+       );
+       var angle = Math.acos(dotProduct);
+       obj.mp = angle;
+       dotProduct = Leap.vec3.dot(
+            proximalBone.direction(),
+            intermediateBone.direction()
+       );
+      angle = Math.acos(dotProduct);
+      obj.pi = angle;
+      return obj;
+    }
+     function tick(frame)
+    {
+         var newdata1 = next1(frame);
+         var newdata2 = next2(frame);
+         var newdata3 = next3(frame);
+
+         data1.push(newdata1);
+         data2.push(newdata2);
+         data3.push(newdata3);
+
+         // update domain
+         x.domain([t - n, t]);
+
+         // redraw path, shift path left
+         path1
+             .attr("d", line)
+             .attr("transform", null)
+             .transition()
+             .duration(500)
+             .ease("linear")
+             .attr("transform", "translate(" + t - 1 + ")")
+             .each("end", tick);
+         path2
+             .attr("d", line)
+             .attr("transform", null)
+             .transition()
+             .duration(500)
+             .ease("linear")
+             .attr("transform", "translate(" + t - 1 + ")")
+             .each("end", tick);
+         path3
+             .attr("d", line)
+             .attr("transform", null)
+             .transition()
+             .duration(500)
+             .ease("linear")
+             .attr("transform", "translate(" + t - 1 + ")")
+             .each("end", tick);
+
+         // shift axis left
+         axis
+             .transition()
+             .duration(500)
+             .ease("linear")
+             .call(d3.svg.axis().scale(x).orient("bottom"));
+
+         // pop the old data point off the front
+         data1.shift();
+         data2.shift();
+         data3.shift();
+     }
+  </script>
+</html>
