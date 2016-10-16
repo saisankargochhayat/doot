@@ -2,17 +2,19 @@ import subprocess
 from bottle import run, post, request, response, get, route
 from bottle import static_file
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn import tree
+from sklearn.linear_model import SGDClassifier
+from sklearn import svm
 # import pprint
 
 data = []
 labels = []
-train_data = []
-train_labels = []
-test_data = []
-test_labels = []
-clf= KNeighborsClassifier()
 
-from sklearn.cross_validation import train_test_split
+knn_model= KNeighborsClassifier()
+svm_model = svm.SVC()
+sgd_model = SGDClassifier(loss="hinge", penalty="l2")
+dtree_model = tree.DecisionTreeClassifier()
+
 
 @route('/',method='GET')
 def index():
@@ -46,20 +48,20 @@ def train():
             attr = line.split(',')
             data.append(list(map(float, attr[0:31])))
             labels.append(attr[31][0:-1])
-    global train_data
-    global train_labels
-    global test_data
-    global test_labels
-    train_data, test_data, train_labels, test_labels = train_test_split(data, labels, test_size = .5)
-    # print(test_data)
-
-    clf.fit(train_data,train_labels)
+    knn_model.fit(data,labels)
+    svm_model.fit(data,labels)
+    sgd_model.fit(data,labels)
+    dtree_model.fit(data,labels)
     return "Trained!"
 @route('/predict',method = 'POST')
 def predict():
     test_data = request.json['ar'];
     # print(test_data)
-    predictions = clf.predict(test_data)
+    predictions = {};
+    predictions['knn'] = str(knn_model.predict(test_data)[0])
+    predictions['svm'] = str(svm_model.predict(test_data)[0])
+    predictions['sgd'] = str(sgd_model.predict(test_data)[0])
+    predictions['dtree'] = str(dtree_model.predict(test_data)[0])
     # print(predictions)
     return predictions
 run(host='localhost', port=8080, debug=True)

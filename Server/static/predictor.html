@@ -187,7 +187,7 @@
 
     </div>
 
-    <div  style="width:50%;position:absolute;top:40%;left:50%;font-size:400%;text-align:center">Prediction<br><span id="predicted"></span></div>
+    <div  style="width:50%;position:absolute;top:10%;left:50%;font-size:400%;text-align:center">Prediction<br><span id="predicted"></span></div>
   </body>
   <script>
     var getAngles = function(finger){
@@ -298,7 +298,11 @@
       url:'http://localhost:8080/predict',
       success:function(data){
         //console.log(data);
-        document.getElementById('predicted').innerHTML = data;
+        var pEle = document.getElementById('predicted')
+        pEle.innerHTML = "";
+        for(key in data){
+          pEle.innerHTML+=key+" : "+data[key]+"<br>";
+        }
       }
     });
     ispredicting=false;
