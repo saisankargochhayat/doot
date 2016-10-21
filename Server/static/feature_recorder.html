@@ -1,0 +1,306 @@
+<html>
+  <head>
+    <title>DOM Visualizer - Leap</title>
+    <script src="/static/leap-0.6.4.js"></script>
+    <script src="/static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css" title="no title">
+
+    <script>
+
+      function moveFinger(Finger, posX, posY, posZ) {
+        Finger.style.webkitTransform = "translate3d("+posX+"px, "+posY+"px, "+posZ+"px)";
+      }
+
+      function moveSphere(Sphere, posX, posY, posZ, rotX, rotY, rotZ) {
+        Sphere.style.webkitTransform = Sphere.style.mozTransform =
+        Sphere.style.transform = "translateX("+posX+"px) translateY("+posY+"px) translateZ("+posZ+"px) rotateX("+rotX+"deg) rotateY(0deg) rotateZ(0deg)";
+      }
+
+      var fingers = {};
+      var spheres = {};
+      var framedata = [];
+      var frameLabel = [];
+      var framecounts = {};
+      var isrecording = false;
+      var currentselected=-1;
+      var updateCount = function(){
+        key=currentlabel;
+        if(framecounts[key]){
+          framecounts[key] = framecounts[key]+1;
+        }else{
+          framecounts[key]=1;
+        }
+        displayCount();
+      }
+      var displayCount = function(){
+        var listele = document.getElementById('listOfCounts');
+        listele.innerHTML="";
+        for(key in framecounts){
+          listele.innerHTML+=key+" "+framecounts[key]+"<br>";
+        }
+      }
+      var startrecording = function(){
+        isrecording = true;
+        currentlabel=document.getElementById('currentlabel').value;
+        $('#recording').show();
+      }
+      var stoprecording = function(){
+        isrecording=false
+        $('#recording').hide();
+        //console.log(framedata);
+      }
+      function writeinfile() {
+        var content1 = "pinch,grab";
+        var fingerLetters = ['t','i','m','r','p'];
+        var coords = ['x','y','z'];
+        var fingerBones = ['m','p','i','d'];
+        for(var i=0;i<fingerLetters.length;i++){
+          for(var j=0;j<3;j++){
+            content1+=","+fingerLetters[i]+"d"+coords[j];
+          }
+        }
+        for(var j=0;j<fingerLetters.length;j++){
+          for(var i=0;i<2;i++){
+            content1+=",a"+fingerBones[i]+fingerBones[i+1]+fingerLetters[j];
+          }
+        }
+        for(var i=0;i<4;i++){
+          content1+=",a"+i;
+        }
+        content1+=",label\n";
+        console.log(content1);
+        for(var i=0;i<framedata.length;i++){
+          for(var j=0;j<framedata[i].length-1;j++){
+            content1+=framedata[i][j]+",";
+          }
+          content1+=framedata[i][framedata[i].length-1]+"\n";
+        }
+        console.log(content1);
+         var url = 'data:text/json;charset=utf8,' + encodeURIComponent(content1);
+         window.open(url, '_blank');
+         window.focus();
+     }
+      var start,end;
+      Leap.loop(function(frame) {
+        //console.log(frame);
+        if(frame.valid)
+          tick(frame);
+
+
+        latestFrame = frame;
+        var str = "";
+        var rotations = frame._rotation;
+        for (i in rotations){
+          str+=" "+i+" : "+rotations[i]+ "<br>";
+        }
+        //document.getElementById('out').innerHTML = str;
+
+        /////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////
+        //str = JSON.stringify(frame.dump());
+        //document.getElementById('out').innerHTML = str;
+      //  console.log(frame);
+        //console.log(Object.keys(str));
+        var seenFingers = {};
+        var handIds = {};
+        if (frame.hands === undefined ) {
+          var handsLength = 0
+        } else {
+          var handsLength = frame.hands.length;
+        }
+
+        for (var handId = 0, handCount = handsLength; handId != handCount; handId++) {
+          var hand = frame.hands[handId];
+          var posX = (hand.palmPosition[0]*3);
+          var posY = (hand.palmPosition[2]*3)-200;
+          var posZ = (hand.palmPosition[1]*3)-400;
+          var rotX = (hand._rotation[2]*90);
+          var rotY = (hand._rotation[1]*90);
+          var rotZ = (hand._rotation[0]*90);
+          var sphere = spheres[hand.id];
+          if (!sphere) {
+            var sphereDiv = document.getElementById("sphere").cloneNode(true);
+            sphereDiv.setAttribute('id',hand.id);
+            sphereDiv.style.backgroundColor='#'+Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('scene').appendChild(sphereDiv);
+            spheres[hand.id] = hand.id;
+          } else {
+            var sphereDiv =  document.getElementById(hand.id);
+            if (typeof(sphereDiv) != 'undefined' && sphereDiv != null) {
+              moveSphere(sphereDiv, posX, posY, posZ, rotX, rotY, rotZ);
+            }
+          }
+          handIds[hand.id] = true;
+        }
+        for (handId in spheres) {
+          if (!handIds[handId]) {
+            var sphereDiv =  document.getElementById(spheres[handId]);
+            sphereDiv.parentNode.removeChild(sphereDiv);
+            delete spheres[handId];
+          }
+        }
+
+        for (var pointableId = 0, pointableCount = frame.pointables.length; pointableId != pointableCount; pointableId++) {
+          var pointable = frame.pointables[pointableId];
+          var newFinger = false;
+          if (pointable.finger) {
+            if (!fingers[pointable.id]) {
+              fingers[pointable.id] = [];
+              newFinger = true;
+            }
+
+            for (var partId = 0, length; partId != 4; partId++) {
+              var posX = (pointable.positions[partId][0]*3);
+              var posY = (pointable.positions[partId][2]*3)-200;
+              var posZ = (pointable.positions[partId][1]*3)-400;
+
+              var id = pointable.id+'_'+partId;
+
+              var finger = fingers[id];
+              if (newFinger) {
+                var fingerDiv = document.getElementById("finger").cloneNode(true);
+                fingerDiv.setAttribute('id', id);
+                fingerDiv.style.backgroundColor='#'+Math.floor(pointable.type*500).toString(16);
+                document.getElementById('scene').appendChild(fingerDiv);
+                fingers[pointable.id].push(id);
+              } else  {
+                var fingerDiv =  document.getElementById(id);
+                if (typeof(fingerDiv) != 'undefined' && fingerDiv != null) {
+                  moveFinger(fingerDiv, posX, posY, posZ);
+                }
+              }
+              seenFingers[pointable.id] = true;
+            }
+
+            //var dirX = -(pointable.direction[1]*90);
+            //var dirY = -(pointable.direction[2]*90);
+            //var dirZ = (pointable.direction[0]*90);
+          }
+        }
+        for (var fingerId in fingers) {
+          if (!seenFingers[fingerId]) {
+            var ids = fingers[fingerId];
+            for (var index in ids) {
+              var fingerDiv =  document.getElementById(ids[index]);
+              fingerDiv.parentNode.removeChild(fingerDiv);
+            }
+            delete fingers[fingerId];
+          }
+        }
+        document.getElementById('showHands').addEventListener('mousedown', function() {
+          document.getElementById('app').setAttribute('class','show-hands');
+        }, false);
+        document.getElementById('hideHands').addEventListener('mousedown', function() {
+          document.getElementById('app').setAttribute('class','');
+        }, false);
+      });
+
+    </script>
+
+  </head>
+  <body>
+    <div id="app" class="show-hands" style="width:50%">
+      <button id="showHands">Show Hands</button>
+      <button id="hideHands">hide Hands</button>
+      <div id="scene">
+        <div id="cube" class="cube">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+        <div id="finger" class="cube finger">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+        <div id="sphere" class="cube sphere">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+      </div>
+    </div>
+    <div style="width:50%;position:absolute;top:20%;left:50%;font-size:200%;text-align:center">
+      <div id="recording" style="font-size:100%;margin-left:30%;width:40%;color:red; display:none;">
+        Recording Now
+      </div>
+      <br>
+      <input id="currentlabel" type="text" name="label" value="" placeholder="Enter Label Here">
+      <br>
+      <br>
+      <button onclick="startrecording()">Start Recording</button>
+      <button onclick="stoprecording()">Stop Recording</button>
+      <button onclick="writeinfile()">Write to file</button>
+      <br>
+      <div id="displayCount">
+        <div id='listOfCounts'>
+
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    $('body').keyup(function(e){
+      if(e.keyCode == 32){
+        if(isrecording){
+          stoprecording();
+        }else{
+          startrecording();
+        }
+      }
+    });
+    var getAngles = function(finger){
+    var obj = {};
+    var metaCarpelBone = finger.metacarpal;
+    var proximalBone = finger.proximal;
+    var intermediateBone = finger.medial;
+    var dotProduct = Leap.vec3.dot(
+         metaCarpelBone.direction(),
+         proximalBone.direction()
+     );
+     var angle = Math.acos(dotProduct);
+     obj.mp = angle;
+     dotProduct = Leap.vec3.dot(
+          proximalBone.direction(),
+          intermediateBone.direction()
+     );
+    angle = Math.acos(dotProduct);
+    obj.pi = angle;
+    return obj;
+  }
+
+     function tick(frame)
+    {
+         //framedata is an array of recorded frames
+         if(framedata){
+           if(isrecording){
+             var currdata = [];
+             if(frame.hands){
+               if(frame.hands.length>0){
+                 data = JSON.parse(frame.dump().split('Raw JSON:<br/>')[1]);
+                 console.log(data);
+                 data.label = currentlabel;
+                 $.ajax({
+                   method:'POST',
+                   data:JSON.stringify(data),
+                   contentType:"application/json;charset=utf-8",
+                   url:'http://localhost:8080/feature',
+                   success:function(data){
+                     updateCount();
+                   }
+                 });
+               }
+             }
+           }
+         }
+     }
+  </script>
+</html>
