@@ -27,6 +27,11 @@
         key=currentlabel;
         if(framecounts[key]){
           framecounts[key] = framecounts[key]+1;
+          if(framecounts[key]==1000){
+            displayCount();
+            stoprecording();
+            return;
+          }
         }else{
           framecounts[key]=1;
         }
@@ -42,10 +47,12 @@
       var startrecording = function(){
         isrecording = true;
         currentlabel=document.getElementById('currentlabel').value;
+        $('#recording').show();
       }
       var stoprecording = function(){
         isrecording=false
         currentlabel='NULL';
+        $('#recording').hide();
         //console.log(framedata);
       }
       function writeinfile() {
@@ -228,7 +235,12 @@
       </div>
     </div>
     <div style="width:50%;position:absolute;top:20%;left:50%;font-size:200%;text-align:center">
+      <div id="recording" style="font-size:100%;margin-left:30%;width:40%;color:red; display:none;">
+        Recording Now
+      </div>
+      <br>
       <input id="currentlabel" type="text" name="label" value="" placeholder="Enter Label Here">
+      <br>
       <br>
       <button onclick="startrecording()">Start Recording</button>
       <button onclick="stoprecording()">Stop Recording</button>
@@ -242,7 +254,16 @@
     </div>
   </body>
   <script>
-  var getAngles = function(finger){
+    $('body').keyup(function(e){
+      if(e.keyCode == 32){
+        if(isrecording){
+          stoprecording();
+        }else{
+          startrecording();
+        }
+      }
+    });
+    var getAngles = function(finger){
     var obj = {};
     var metaCarpelBone = finger.metacarpal;
     var proximalBone = finger.proximal;

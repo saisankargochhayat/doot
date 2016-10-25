@@ -8,11 +8,11 @@ train_labels = []
 test_data = []
 test_labels = []
 
-with open("a_f_train.csv", 'r') as ppd:
-    for line in ppd:
-        attr = line.split(',')
-        data.append(map(float, attr[0:31]))
-        labels.append(attr[31][0:-1])
+# with open("a_f_train.csv", 'r') as ppd:
+#     for line in ppd:
+#         attr = line.split(',')
+#         data.append(map(float, attr[0:31]))
+#         labels.append(attr[31][0:-1])
 
 # with open("a_f_test1.csv", 'r') as ppd:
 #     for line in ppd:
@@ -32,17 +32,25 @@ with open("a_f_train.csv", 'r') as ppd:
 #         test_data.append(map(float, attr[0:31]))
 #         test_labels.append(attr[31][0:-1])
 #
-with open("a_f_test3.csv", 'r') as ppd:
+# with open("a_f_test3.csv", 'r') as ppd:
+#     for line in ppd:
+#         attr = line.split(',')
+#         test_data.append(map(float, attr[0:31]))
+#         test_labels.append(attr[31][0:-1])
+with open("../Server/sampledata.csv", 'r') as ppd:
     for line in ppd:
         attr = line.split(',')
-        test_data.append(map(float, attr[0:31]))
-        test_labels.append(attr[31][0:-1])
+        data.append(attr)
 
-#from sklearn.cross_validation import train_test_split
-#train_data, test_data, train_labels, test_labels = train_test_split(data, labels, test_size = .5)
+with open("../Server/samplelabel.csv", 'r') as ppd:
+    for line in ppd:
+        attr = line.split(',')
+        labels.append(attr[0][0:len(attr[0])-1])
+from sklearn.cross_validation import train_test_split
+train_data, test_data, train_labels, test_labels = train_test_split(data, labels, test_size = .5)
 
 clf = tree.DecisionTreeClassifier()
-clf.fit(data,labels)
+clf.fit(train_data,train_labels)
 predictions = clf.predict(test_data)
 
 # for  i in range(len(predictions)):
@@ -52,4 +60,4 @@ predictions = clf.predict(test_data)
 #        _file.write(pprint.pformat(data1))
 
 from sklearn.metrics import accuracy_score
-print accuracy_score(test_labels, predictions)
+print(accuracy_score(test_labels, predictions))
