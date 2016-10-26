@@ -3,7 +3,7 @@ import numpy as np
 
 data = []
 labels = []
-
+#change the csv to select features from that csv
 with open("../Collected data/Rishav/a_f_rishav.csv", 'r') as ppd:
     for line in ppd:
         attr = line.split(',')
