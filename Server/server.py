@@ -165,6 +165,25 @@ with open("master_data/Sohini/t_y.csv", 'r') as ppd:
         attr = line.split(',')
         data.append(list(map(float, attr[0:31])))
         labels.append(attr[31][0:-1])
+
+
+knn_model.fit(data,labels)
+svm_model.fit(data,labels)
+sgd_model.fit(data,labels)
+dtree_model.fit(data,labels)
+
+
+
+with open("master_data/zairza.csv", 'r') as ppd:
+    for line in ppd:
+        attr = line.split(',')
+        data.append(list(map(float, attr[0:31])))
+        labels.append(attr[31][0:-1])
+with open("master_data/rude.csv", 'r') as ppd:
+    for line in ppd:
+        attr = line.split(',')
+        data.append(list(map(float, attr[0:31])))
+        labels.append(attr[31][0:-1])
 knn_model.fit(data,labels)
 svm_model.fit(data,labels)
 sgd_model.fit(data,labels)
