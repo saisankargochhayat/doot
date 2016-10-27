@@ -245,7 +245,7 @@ var path3 = graph.append("g")
        var finger = frame.hands[0].indexFinger;
        if(finger){
 
-        x = frame.hands[0].pinchStrength;
+        x = frame.hands[0].palmNormal[0];
        }
        //console.log(frame.hands[0].palmPosition[1]);
      }
@@ -259,12 +259,7 @@ var path3 = graph.append("g")
    var x=0;
    if(frame.hands){
      if(frame.hands.length>0){
-       var finger = frame.hands[0].indexFinger;
-       if(finger){
-
-        var proximalBone = finger.proximal;
-        x = frame.hands[0].grabStrength;
-       }
+       x = frame.hands[0].palmNormal[1];
        //console.log(frame.hands[0].palmPosition[1]);
      }
    }
@@ -277,14 +272,7 @@ var path3 = graph.append("g")
    var x=0;
    if(frame.hands){
      if(frame.hands.length>0){
-       var finger = frame.hands[0].indexFinger;
-       if(finger){
-
-        //  console.log(angle);
-        var proximalBone = finger.proximal;
-        x = proximalBone.direction()[2];
-       }
-       //console.log(frame.hands[0].palmPosition[1]);
+       x = frame.hands[0].palmNormal[2];
      }
    }
      return {
