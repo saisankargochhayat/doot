@@ -179,3 +179,9 @@ shape-rendering: crispEdges;
     width: 40%;
     border:1px solid;
   }
+  #currentuser{
+    font-size: 100%;
+    margin-left: 0%;
+    width: 40%;
+    border:1px solid;
+  }
