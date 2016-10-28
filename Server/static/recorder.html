@@ -56,30 +56,9 @@
         //console.log(framedata);
       }
       function writeinfile() {
-        var content1 = "pinch,grab";
-        var fingerLetters = ['t','i','m','r','p'];
-        var coords = ['x','y','z'];
-        var fingerBones = ['m','p','i','d'];
-        for(var i=0;i<fingerLetters.length;i++){
-          for(var j=0;j<3;j++){
-            content1+=","+fingerLetters[i]+"d"+coords[j];
-          }
-        }
-        for(var j=0;j<fingerLetters.length;j++){
-          for(var i=0;i<2;i++){
-            content1+=",a"+fingerBones[i]+fingerBones[i+1]+fingerLetters[j];
-          }
-        }
-        for(var i=0;i<4;i++){
-          content1+=",a"+i;
-        }
-        content1+=",label\n";
-        console.log(content1);
+        var content1 = "";
         for(var i=0;i<framedata.length;i++){
-          for(var j=0;j<framedata[i].length-1;j++){
-            content1+=framedata[i][j]+",";
-          }
-          content1+=framedata[i][framedata[i].length-1]+"\n";
+          content1+=framedata[i]+"\n";
         }
         console.log(content1);
          var url = 'data:text/json;charset=utf8,' + encodeURIComponent(content1);
@@ -291,62 +270,10 @@
              var currdata = [];
              if(frame.hands){
                if(frame.hands.length>0){
-                 currdata.push(frame.hands[0].pinchStrength);
-                 currdata.push(frame.hands[0].grabStrength);
-                 var fingers = [];
-                 var pointables = frame.hands[0].pointables;
-                 for(var i=0;i<pointables.length;i++){
-                   fingers.splice(frame.hands[0].pointables[i].type,0,frame.hands[0].pointables[i]);
-                 }
-                 //console.log(fingers);
-                 for(var i=0;i<fingers.length;i++){
-                   for(var j=0;j<3;j++){
-                     currdata.push(fingers[i].direction[j]);
-                   }
-                 }
-                 var thumb = frame.hands[0].thumb;
-                 var indexFinger = frame.hands[0].indexFinger;
-                 var middleFinger = frame.hands[0].middleFinger;
-                 var ringFinger = frame.hands[0].ringFinger;
-                 var pinky = frame.hands[0].pinky;
-                 //////////////////////////////////////////////////////////
-                 var angleObj = getAngles(thumb);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(indexFinger);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(middleFinger);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(ringFinger);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 angleObj = getAngles(pinky);
-                 currdata.push(angleObj.mp);currdata.push(angleObj.pi);
-                 //////////////////////////////////////////////////////////
-                 var dotProduct = Leap.vec3.dot(
-                      thumb.proximal.direction(),
-                      indexFinger.proximal.direction()
-                  );
-                  var angle = Math.acos(dotProduct);
-                  currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                       indexFinger.proximal.direction(),
-                       middleFinger.proximal.direction()
-                   );
-                  angle = Math.acos(dotProduct);
-                   currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                      middleFinger.proximal.direction(),
-                      ringFinger.proximal.direction()
-                  );
-                  angle = Math.acos(dotProduct);
-                  currdata.push(angle);
-                  dotProduct = Leap.vec3.dot(
-                     ringFinger.proximal.direction(),
-                     pinky.proximal.direction()
-                 );
-                 angle = Math.acos(dotProduct);
-                 currdata.push(angle);
-                //console.log(angle);
-                 currdata.push(currentlabel);
+                 var strdata = frame.dump().split('Raw JSON:<br/>')[1];
+                 var jsondata = JSON.parse(strdata);
+                 jsondata.label = currentlabel;
+                 currdata.push(JSON.stringify(jsondata));
                  framedata.push(currdata);
                  updateCount();
                }
