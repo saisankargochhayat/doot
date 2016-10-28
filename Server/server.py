@@ -37,9 +37,6 @@ def predictor():
 def predictor():
     return static_file('visualizer.html',root='static/')
 
-@route('/recorder',method='GET')
-def predictor():
-    return static_file('recorder.html',root='static/')
 
 @route('/static/<filename>',method='GET')
 def serve_static(filename):
