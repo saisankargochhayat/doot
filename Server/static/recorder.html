@@ -219,6 +219,8 @@
       </div>
       <br>
       <input id="currentlabel" type="text" name="label" value="" placeholder="Enter Label Here">
+      <br><br>
+      <input id="currentuser" type="text" name="label" value="" placeholder="Enter User Here">
       <br>
       <br>
       <button onclick="startrecording()">Start Recording</button>
@@ -273,8 +275,18 @@
                  var strdata = frame.dump().split('Raw JSON:<br/>')[1];
                  var jsondata = JSON.parse(strdata);
                  jsondata.label = currentlabel;
-                 currdata.push(JSON.stringify(jsondata));
-                 framedata.push(currdata);
+                 var newdata = {
+                   frame : JSON.stringify(jsondata),
+                   user : document.getElementById('currentuser').value
+                 }
+                 $.ajax({
+                   url : "/savedata",
+                   method : "POST",
+                   data : newdata,
+                   success : function(data){
+                     console.log(data);
+                   }
+                 });
                  updateCount();
                }
              }
