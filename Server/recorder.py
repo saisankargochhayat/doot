@@ -1,4 +1,3 @@
-
 from bottle import run, post, request, response, get, route,Bottle
 from bottle import static_file
 from pymongo import MongoClient
@@ -8,12 +7,17 @@ client = MongoClient()
 db = client.doot
 
 @route('/',method='GET')
+def index():
+    return static_file('index.html',root='static/')
+
+@route('/recorder',method='GET')
 def recorder():
     return static_file('recorder.html',root='static/')
 
 @route('/static/<filename>',method='GET')
 def serve_static(filename):
     return static_file(filename,root='static/')
+
 @route('/savedata',method='POST')
 def savedata():
     data = request.forms['frame']
