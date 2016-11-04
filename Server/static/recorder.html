@@ -214,6 +214,9 @@
       </div>
     </div>
     <div style="width:50%;position:absolute;top:20%;left:50%;font-size:200%;text-align:center">
+      <div>
+        WebSocket Status : <span id="message"></span>
+      </div>
       <div id="recording" style="font-size:100%;margin-left:30%;width:40%;color:red; display:none;">
         Recording Now
       </div>
@@ -234,7 +237,23 @@
       </div>
     </div>
   </body>
+
   <script>
+
+    var ws = new WebSocket('ws://localhost:8080/ws');
+
+    ws.onopen = function(){
+      $('#message').text('Open');
+    };
+
+    ws.onclose = function(ev){
+      $('#message').text('Closed');
+    };
+
+    ws.onerror = function(ev){
+      $('#message').text('Error');
+    };
+
     $('body').keyup(function(e){
       if(e.keyCode == 32){
         if(isrecording){
@@ -244,27 +263,28 @@
         }
       }
     });
+
     var getAngles = function(finger){
-    var obj = {};
-    var metaCarpelBone = finger.metacarpal;
-    var proximalBone = finger.proximal;
-    var intermediateBone = finger.medial;
-    var dotProduct = Leap.vec3.dot(
-         metaCarpelBone.direction(),
-         proximalBone.direction()
-     );
-     var angle = Math.acos(dotProduct);
-     obj.mp = angle;
-     dotProduct = Leap.vec3.dot(
+      var obj = {};
+      var metaCarpelBone = finger.metacarpal;
+      var proximalBone = finger.proximal;
+      var intermediateBone = finger.medial;
+      var dotProduct = Leap.vec3.dot(
+           metaCarpelBone.direction(),
+           proximalBone.direction()
+      );
+      var angle = Math.acos(dotProduct);
+      obj.mp = angle;
+      dotProduct = Leap.vec3.dot(
           proximalBone.direction(),
           intermediateBone.direction()
-     );
-    angle = Math.acos(dotProduct);
-    obj.pi = angle;
-    return obj;
-  }
+      );
+      angle = Math.acos(dotProduct);
+      obj.pi = angle;
+      return obj;
+    }
 
-     function tick(frame)
+    function tick(frame)
     {
          //framedata is an array of recorded frames
          if(framedata){
@@ -279,19 +299,20 @@
                    frame : JSON.stringify(jsondata),
                    user : document.getElementById('currentuser').value
                  }
-                 $.ajax({
-                   url : "/savedata",
-                   method : "POST",
-                   data : newdata,
-                   success : function(data){
-                     console.log(data);
-                   }
-                 });
+                 ws.send(JSON.stringify(newdata));
+                //  $.ajax({
+                //    url : "/savedata",
+                //    method : "POST",
+                //    data : newdata,
+                //    success : function(data){
+                //      console.log(data);
+                //    }
+                //  });
                  updateCount();
                }
              }
            }
          }
-     }
+    }
   </script>
 </html>
