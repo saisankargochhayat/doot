@@ -1,29 +1,37 @@
-from bottle import run, post, request, response, get, route,Bottle
-from bottle import static_file
-from pymongo import MongoClient
+from tornado import websocket, web, ioloop
 import json
-import csv
+from pymongo import MongoClient
 client = MongoClient()
 db = client.doot
 
-@route('/',method='GET')
-def index():
-    return static_file('index.html',root='static/')
+class IndexHandler(web.RequestHandler):
+    def get(self):
+        self.render("static/recorder.html")
 
-@route('/recorder',method='GET')
-def recorder():
-    return static_file('recorder.html',root='static/')
+class SocketHandler(websocket.WebSocketHandler):
+    def check_origin(self, origin):
+        return True
 
-@route('/static/<filename>',method='GET')
-def serve_static(filename):
-    return static_file(filename,root='static/')
+    def open(self):
+        print("WebSocket opened")
 
-@route('/savedata',method='POST')
-def savedata():
-    data = request.forms['frame']
-    user = request.forms['user']
-    collection = db[user]
-    collection.insert_one(json.loads(data))
-    return "Done"
+    def on_message(self, message):
+        msg = json.loads(message)
+        data = msg['frame']
+        user = msg['user']
+        collection = db[user]
+        collection.insert_one(json.loads(data))
 
-run(host='localhost', port=8080, debug=True)
+    def on_close(self):
+        print("WebSocket closed")
+
+app = web.Application([
+    (r'/', IndexHandler),
+    (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),
+    (r'/ws', SocketHandler)
+    ])
+
+if __name__ == '__main__':
+    app.listen(8080)
+    print("Listening at 127.0.0.1:8080")
+    ioloop.IOLoop.instance().start()
