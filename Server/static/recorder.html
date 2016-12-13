@@ -224,8 +224,9 @@
       <input id="currentlabel" type="text" name="label" value="" placeholder="Enter Label Here">
       <br><br>
       <input id="currentuser" type="text" name="label" value="" placeholder="Enter User Here">
-      <br>
-      <br>
+      <br><br>
+      <label style="font-size:60%"><input id="normalizer" type="checkbox" value="norm"> Normalisation Data</label>
+      <br><br>
       <button onclick="startrecording()">Start Recording</button>
       <button onclick="stoprecording()">Stop Recording</button>
       <button onclick="writeinfile()">Write to file</button>
@@ -294,20 +295,20 @@
                if(frame.hands.length>0){
                  var strdata = frame.dump().split('Raw JSON:<br/>')[1];
                  var jsondata = JSON.parse(strdata);
-                 jsondata.label = currentlabel;
-                 var newdata = {
-                   frame : JSON.stringify(jsondata),
-                   user : document.getElementById('currentuser').value
+                 if($("#normalizer").is(':checked')){
+                     jsondata.username = document.getElementById('currentuser').value;
+                     var newdata = {
+                       frame : JSON.stringify(jsondata),
+                       user : "norm"
+                     }
+                 } else {
+                     jsondata.label = currentlabel;
+                     var newdata = {
+                       frame : JSON.stringify(jsondata),
+                       user : document.getElementById('currentuser').value
+                     }
                  }
                  ws.send(JSON.stringify(newdata));
-                //  $.ajax({
-                //    url : "/savedata",
-                //    method : "POST",
-                //    data : newdata,
-                //    success : function(data){
-                //      console.log(data);
-                //    }
-                //  });
                  updateCount();
                  isrecording = false;
                }
