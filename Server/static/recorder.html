@@ -47,12 +47,12 @@
       var startrecording = function(){
         isrecording = true;
         currentlabel=document.getElementById('currentlabel').value;
-        $('#recording').show();
+        // $('#recording').show();
       }
       var stoprecording = function(){
         isrecording=false
         currentlabel='NULL';
-        $('#recording').hide();
+        // $('#recording').hide();
         //console.log(framedata);
       }
       function writeinfile() {
@@ -188,7 +188,7 @@
   <body>
     <div id="app" class="show-hands" style="width:50%">
       <button id="showHands">Show Hands</button>
-      <button id="hideHands">hide Hands</button>
+      <button id="hideHands">Hide Hands</button>
       <div id="scene">
         <div id="cube" class="cube">
           <div class="face tp"></div>
@@ -264,25 +264,25 @@
       }
     });
 
-    var getAngles = function(finger){
-      var obj = {};
-      var metaCarpelBone = finger.metacarpal;
-      var proximalBone = finger.proximal;
-      var intermediateBone = finger.medial;
-      var dotProduct = Leap.vec3.dot(
-           metaCarpelBone.direction(),
-           proximalBone.direction()
-      );
-      var angle = Math.acos(dotProduct);
-      obj.mp = angle;
-      dotProduct = Leap.vec3.dot(
-          proximalBone.direction(),
-          intermediateBone.direction()
-      );
-      angle = Math.acos(dotProduct);
-      obj.pi = angle;
-      return obj;
-    }
+    // var getAngles = function(finger){
+    //   var obj = {};
+    //   var metaCarpelBone = finger.metacarpal;
+    //   var proximalBone = finger.proximal;
+    //   var intermediateBone = finger.medial;
+    //   var dotProduct = Leap.vec3.dot(
+    //        metaCarpelBone.direction(),
+    //        proximalBone.direction()
+    //   );
+    //   var angle = Math.acos(dotProduct);
+    //   obj.mp = angle;
+    //   dotProduct = Leap.vec3.dot(
+    //       proximalBone.direction(),
+    //       intermediateBone.direction()
+    //   );
+    //   angle = Math.acos(dotProduct);
+    //   obj.pi = angle;
+    //   return obj;
+    // }
 
     function tick(frame)
     {
@@ -309,6 +309,7 @@
                 //    }
                 //  });
                  updateCount();
+                 isrecording = false;
                }
              }
            }
