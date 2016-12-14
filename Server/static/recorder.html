@@ -47,12 +47,12 @@
       var startrecording = function(){
         isrecording = true;
         currentlabel=document.getElementById('currentlabel').value;
-        $('#recording').show();
+        // $('#recording').show();
       }
       var stoprecording = function(){
         isrecording=false
         currentlabel='NULL';
-        $('#recording').hide();
+        // $('#recording').hide();
         //console.log(framedata);
       }
       function writeinfile() {
@@ -188,7 +188,7 @@
   <body>
     <div id="app" class="show-hands" style="width:50%">
       <button id="showHands">Show Hands</button>
-      <button id="hideHands">hide Hands</button>
+      <button id="hideHands">Hide Hands</button>
       <div id="scene">
         <div id="cube" class="cube">
           <div class="face tp"></div>
@@ -224,8 +224,9 @@
       <input id="currentlabel" type="text" name="label" value="" placeholder="Enter Label Here">
       <br><br>
       <input id="currentuser" type="text" name="label" value="" placeholder="Enter User Here">
-      <br>
-      <br>
+      <br><br>
+      <label style="font-size:60%"><input id="normalizer" type="checkbox" value="norm"> Normalisation Data</label>
+      <br><br>
       <button onclick="startrecording()">Start Recording</button>
       <button onclick="stoprecording()">Stop Recording</button>
       <button onclick="writeinfile()">Write to file</button>
@@ -264,25 +265,25 @@
       }
     });
 
-    var getAngles = function(finger){
-      var obj = {};
-      var metaCarpelBone = finger.metacarpal;
-      var proximalBone = finger.proximal;
-      var intermediateBone = finger.medial;
-      var dotProduct = Leap.vec3.dot(
-           metaCarpelBone.direction(),
-           proximalBone.direction()
-      );
-      var angle = Math.acos(dotProduct);
-      obj.mp = angle;
-      dotProduct = Leap.vec3.dot(
-          proximalBone.direction(),
-          intermediateBone.direction()
-      );
-      angle = Math.acos(dotProduct);
-      obj.pi = angle;
-      return obj;
-    }
+    // var getAngles = function(finger){
+    //   var obj = {};
+    //   var metaCarpelBone = finger.metacarpal;
+    //   var proximalBone = finger.proximal;
+    //   var intermediateBone = finger.medial;
+    //   var dotProduct = Leap.vec3.dot(
+    //        metaCarpelBone.direction(),
+    //        proximalBone.direction()
+    //   );
+    //   var angle = Math.acos(dotProduct);
+    //   obj.mp = angle;
+    //   dotProduct = Leap.vec3.dot(
+    //       proximalBone.direction(),
+    //       intermediateBone.direction()
+    //   );
+    //   angle = Math.acos(dotProduct);
+    //   obj.pi = angle;
+    //   return obj;
+    // }
 
     function tick(frame)
     {
@@ -294,21 +295,22 @@
                if(frame.hands.length>0){
                  var strdata = frame.dump().split('Raw JSON:<br/>')[1];
                  var jsondata = JSON.parse(strdata);
-                 jsondata.label = currentlabel;
-                 var newdata = {
-                   frame : JSON.stringify(jsondata),
-                   user : document.getElementById('currentuser').value
+                 if($("#normalizer").is(':checked')){
+                     jsondata.username = document.getElementById('currentuser').value;
+                     var newdata = {
+                       frame : JSON.stringify(jsondata),
+                       user : "norm"
+                     }
+                 } else {
+                     jsondata.label = currentlabel;
+                     var newdata = {
+                       frame : JSON.stringify(jsondata),
+                       user : document.getElementById('currentuser').value
+                     }
                  }
                  ws.send(JSON.stringify(newdata));
-                //  $.ajax({
-                //    url : "/savedata",
-                //    method : "POST",
-                //    data : newdata,
-                //    success : function(data){
-                //      console.log(data);
-                //    }
-                //  });
                  updateCount();
+                 isrecording = false;
                }
              }
            }

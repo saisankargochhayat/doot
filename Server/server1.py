@@ -1,5 +1,3 @@
-import subprocess
-
 from tornado import websocket, web, ioloop
 import tornado.escape
 from tornado import gen
@@ -29,53 +27,39 @@ sgd_model.fit(data,labels)
 dtree_model.fit(data,labels)
 print("Trained")
 
-class Application(tornado.web.Application):
-    def __init__(self):
-        handlers=[
-        (r"/",HomeHandler),
-        (r"/predictor",Predictor),
-        (r"/visualizer",Visualizer),
-        (r"/train",Train),
-        (r"/predict",Predict),
-        ]
-        settings = dict(
-            blog_title=u"Doot",
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            ui_modules={"Entry": EntryModule},
-            xsrf_cookies=True,
-            cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
-            debug=True,
-        )
-        super(Application, self).__init__(handlers, **settings)
-        class HomeHandler(BaseHandler):
-            def get(self):
-                self.render("index.html")
+class HomeHandler(web.RequestHandler):
+    def get(self):
+        self.render("static/index.html")
 
-        class Predictor(BaseHandler):
-            def get(self):
-                self.render("predictor.html")
+class Predictor(web.RequestHandler):
+    def get(self):
+        self.render("static/predictor.html")
 
-        class Visualizer(BaseHandler):
-            def get(self):
-                self.render("visualizer.html")
+class Visualizer(web.RequestHandler):
+    def get(self):
+        self.render("static/visualizer.html")
 
-        class Train(BaseHandler):
-            def get(self):
-                self.write("Trained")
+class Predict(web.RequestHandler):
+    """docstring for ."""
+    def post(self):
+            test_data = request.json['ar'];
+            # print(test_data)
+            predictions = {};
+            predictions['knn'] = str(knn_model.predict(test_data)[0])
+            predictions['svm'] = str(svm_model.predict(test_data)[0])
+            predictions['sgd'] = str(sgd_model.predict(test_data)[0])
+            predictions['dtree'] = str(dtree_model.predict(test_data)[0])
+            self.write(predictions)
 
-        class Predict(BaseHandler):
-            """docstring for ."""
-            def post(self):
-                    test_data = request.json['ar'];
-                    # print(test_data)
-                    predictions = {};
-                    predictions['knn'] = str(knn_model.predict(test_data)[0])
-                    predictions['svm'] = str(svm_model.predict(test_data)[0])
-                    predictions['sgd'] = str(sgd_model.predict(test_data)[0])
-                    predictions['dtree'] = str(dtree_model.predict(test_data)[0])
-                    self.write(predictions)
+app = web.Application([
+    (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),
+    (r"/",HomeHandler),
+    (r"/predictor",Predictor),
+    (r"/visualizer",Visualizer),
+    (r"/predict",Predict),
+    ])
 
-    if __name__ == "__main__":
-        Application.listen(8080)
-        tornado.ioloop.IOLoop.instance().start()
+if __name__ == '__main__':
+    app.listen(8080)
+    print("Listening at 127.0.0.1:8080")
+    ioloop.IOLoop.instance().start()
