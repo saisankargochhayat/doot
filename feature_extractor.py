@@ -78,9 +78,12 @@ def getAngle(x,y):
 
 # This frame checks for validity of the frame. It can have more conditions than current
 def validate_frame(frame):
-    if 'hands' in frame:
-        if len(frame['hands']) > 0:
-            return True
+    if frame:
+        if 'hands' in frame:
+            if len(frame['hands']) > 0:
+                return True
+            else:
+                return False
         else:
             return False
     else:
