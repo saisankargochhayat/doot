@@ -10,7 +10,7 @@ train_target = train['label'].values
 train = train.drop('label',axis=1).values
 actual = test['label'].values
 test = test.drop('label',axis=1).values
-model = svm.SVC()
+model = svm.SVC(kernel='linear')
 model.fit(train,train_target)
 print(model.score(train,train_target))
 predictions = model.predict(test)
