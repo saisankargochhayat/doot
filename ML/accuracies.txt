@@ -17,3 +17,21 @@ Stochastic Gradient Descent (loss : hinge , penalty : l2):
 Support Vector Machine:
   Train Data : 0.90
   Test Data : 0.84
+
+After considering the finger pointing direction the accuracy scores are:
+
+K Nearest Neighbors:
+  Train Data : 0.90
+  Test Data : 0.85
+Decision Tree:
+  Train Data : 1.0
+  Test Data : 0.84
+Stochastic Gradient Descent (loss : hinge , penalty : l1):
+  Train Data : 0.64
+  Test Data : 0.62
+Support Vector Machine (kernel : linear):
+  Train Data : 1.0
+  Test Data : 0.92
+Linear Discriminant Analysis:
+  Train Data : 1.0
+  Test Data : 0.71
