@@ -1,0 +1,19 @@
+The model was trained for 960 frames (80% of the 1200 frames available)
+It was tested with 240 frames
+
+All accuracies are in approx because data was diveded randomly on each run
+
+The accuracy scores are :
+
+K Nearest Neighbors:
+  Train Data : 0.89
+  Test Data : 0.86
+Decision Tree:
+  Train Data : 0.90
+  Test Data : 0.80
+Stochastic Gradient Descent (loss : hinge , penalty : l2):
+  Train Data : 0.89
+  Test Data : 0.84
+Support Vector Machine:
+  Train Data : 0.90
+  Test Data : 0.84
