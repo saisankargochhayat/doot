@@ -1,0 +1,2 @@
+SVM accuracy for test scores increases to 95% if the letters q,x,g,h are removed
+from the set dataset_1. Other letters seem to be accurate enough.

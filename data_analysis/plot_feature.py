@@ -14,6 +14,7 @@ for label in alphabets:
     ydata.append(curr_data.max() - curr_data.min())
     y1data.append(curr_data.mean())
     labeldata.append(ord(label))
+
 plt.xticks(labeldata,alphabets)
 plt.plot(labeldata,ydata,color='red')
 plt.plot(labeldata,y1data,color='blue')
