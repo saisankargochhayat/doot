@@ -18,8 +18,8 @@ for current_set in setlist:
 
     model = SGDClassifier(loss="hinge", penalty="l2")
     model.fit(train,train_target)
-    print("Training Error : "+ str(model.score(train,train_target)))
+    print("Training Accuracy : "+ str(model.score(train,train_target)))
     predictions = model.predict(test)
-    print("Test Error : " + str(accuracy_score(test_target,predictions)))
+    print("Test Accuracy : " + str(accuracy_score(test_target,predictions)))
     print(" Confusion Matrix : ")
     print(confusion_matrix(test_target, predictions,labels =uniqueLabels))
