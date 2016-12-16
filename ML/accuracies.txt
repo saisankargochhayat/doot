@@ -35,3 +35,242 @@ Support Vector Machine (kernel : linear):
 Linear Discriminant Analysis:
   Train Data : 1.0
   Test Data : 0.71
+
+-------------------------------------------------------------------------------------
+SVM :
+['a', 's', 'm', 'n', 't', 'i']
+Training Accuracy : 1.0
+Test Accuracy : 0.95
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 0 10  0  0  0  0]
+ [ 0  0 10  0  0  0]
+ [ 1  0  1  8  0  0]
+ [ 0  0  0  0 10  0]
+ [ 0  0  1  0  0  9]]
+['c', 'd', 'o', 'q', 'e', 'x']
+Training Accuracy : 1.0
+Test Accuracy : 0.966666666667
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 0  9  0  1  0  0]
+ [ 0  0 10  0  0  0]
+ [ 0  0  0  9  1  0]
+ [ 0  0  0  0 10  0]
+ [ 0  0  0  0  0 10]]
+['g', 'h', 'p']
+Training Accuracy : 0.966666666667
+Test Accuracy : 0.733333333333
+ Confusion Matrix :
+[[9 0 1]
+ [2 8 0]
+ [4 1 5]]
+['u', 'v', 'w', 'k']
+Training Accuracy : 1.0
+Test Accuracy : 0.975
+ Confusion Matrix :
+[[10  0  0  0]
+ [ 0 10  0  0]
+ [ 0  0 10  0]
+ [ 0  0  1  9]]
+['b', 'f', 'l', 'y', 'r']
+Training Accuracy : 1.0
+Test Accuracy : 0.98
+ Confusion Matrix :
+[[ 9  1  0  0  0]
+ [ 0 10  0  0  0]
+ [ 0  0 10  0  0]
+ [ 0  0  0 10  0]
+ [ 0  0  0  0 10]]
+
+
+
+
+Decision Tree :
+['a', 's', 'm', 'n', 't', 'i']
+Training Accuracy : 1.0
+Test Accuracy : 0.833333333333
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 0 10  0  0  0  0]
+ [ 0  0 10  0  0  0]
+ [ 0  0  0  9  1  0]
+ [ 0  0  0  1  7  2]
+ [ 0  0  3  1  2  4]]
+['c', 'd', 'o', 'q', 'e', 'x']
+Training Accuracy : 1.0
+Test Accuracy : 0.966666666667
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 0  9  0  0  1  0]
+ [ 0  0 10  0  0  0]
+ [ 0  0  0 10  0  0]
+ [ 0  0  0  1  9  0]
+ [ 0  0  0  0  0 10]]
+['g', 'h', 'p']
+Training Accuracy : 1.0
+Test Accuracy : 0.8
+ Confusion Matrix :
+[[7 3 0]
+ [1 9 0]
+ [0 2 8]]
+['u', 'v', 'w', 'k']
+Training Accuracy : 1.0
+Test Accuracy : 0.95
+ Confusion Matrix :
+[[ 9  0  0  1]
+ [ 0  9  1  0]
+ [ 0  0 10  0]
+ [ 0  0  0 10]]
+['b', 'f', 'l', 'y', 'r']
+Training Accuracy : 1.0
+Test Accuracy : 0.94
+ Confusion Matrix :
+[[ 8  2  0  0  0]
+ [ 0  9  0  1  0]
+ [ 0  0 10  0  0]
+ [ 0  0  0 10  0]
+ [ 0  0  0  0 10]]
+
+
+
+KNN :
+['a', 's', 'm', 'n', 't', 'i']
+Training Accuracy : 0.908333333333
+Test Accuracy : 0.866666666667
+ Confusion Matrix :
+[[ 9  0  0  0  0  1]
+ [ 1  9  0  0  0  0]
+ [ 0  0  9  0  0  1]
+ [ 0  0  1  9  0  0]
+ [ 0  0  0  0 10  0]
+ [ 1  0  0  1  2  6]]
+['c', 'd', 'o', 'q', 'e', 'x']
+Training Accuracy : 0.958333333333
+Test Accuracy : 0.883333333333
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 0  9  0  0  0  1]
+ [ 0  0  9  1  0  0]
+ [ 0  0  0 10  0  0]
+ [ 4  0  0  0  5  1]
+ [ 0  0  0  0  0 10]]
+['g', 'h', 'p']
+Training Accuracy : 0.891666666667
+Test Accuracy : 0.8
+ Confusion Matrix :
+[[10  0  0]
+ [ 1  8  1]
+ [ 3  1  6]]
+['u', 'v', 'w', 'k']
+Training Accuracy : 0.96875
+Test Accuracy : 0.9
+ Confusion Matrix :
+[[10  0  0  0]
+ [ 0 10  0  0]
+ [ 1  0  6  3]
+ [ 0  0  0 10]]
+['b', 'f', 'l', 'y', 'r']
+Training Accuracy : 0.985
+Test Accuracy : 0.96
+ Confusion Matrix :
+[[10  0  0  0  0]
+ [ 1  9  0  0  0]
+ [ 0  0 10  0  0]
+ [ 0  0  0 10  0]
+ [ 0  0  1  0  9]]
+
+
+LDA :
+['a', 's', 'm', 'n', 't', 'i']
+Training Accuracy : 0.9375
+Test Accuracy : 0.95
+ Confusion Matrix :
+[[ 9  0  0  0  1  0]
+ [ 0 10  0  0  0  0]
+ [ 0  0  9  0  0  1]
+ [ 0  0  0 10  0  0]
+ [ 0  0  0  0 10  0]
+ [ 1  0  0  0  0  9]]
+['c', 'd', 'o', 'q', 'e', 'x']
+Training Accuracy : 0.9375
+Test Accuracy : 0.933333333333
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 0 10  0  0  0  0]
+ [ 0  0 10  0  0  0]
+ [ 0  0  0  9  1  0]
+ [ 0  1  0  1  7  1]
+ [ 0  0  0  0  0 10]]
+['g', 'h', 'p']
+Training Accuracy : 0.866666666667
+Test Accuracy : 0.833333333333
+ Confusion Matrix :
+[[8 1 1]
+ [0 9 1]
+ [1 1 8]]
+['u', 'v', 'w', 'k']
+Training Accuracy : 0.975
+Test Accuracy : 0.975
+ Confusion Matrix :
+[[10  0  0  0]
+ [ 0 10  0  0]
+ [ 0  0 10  0]
+ [ 0  0  1  9]]
+['b', 'f', 'l', 'y', 'r']
+Training Accuracy : 0.98
+Test Accuracy : 0.98
+ Confusion Matrix :
+[[10  0  0  0  0]
+ [ 0 10  0  0  0]
+ [ 0  0 10  0  0]
+ [ 1  0  0  9  0]
+ [ 0  0  0  0 10]]
+
+
+
+SGD :
+['a', 's', 'm', 'n', 't', 'i']
+Training Accuracy : 0.420833333333
+Test Accuracy : 0.416666666667
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 1  9  0  0  0  0]
+ [ 3  7  0  0  0  0]
+ [ 1  9  0  0  0  0]
+ [ 2  6  0  0  2  0]
+ [ 4  2  0  0  0  4]]
+['c', 'd', 'o', 'q', 'e', 'x']
+Training Accuracy : 0.854166666667
+Test Accuracy : 0.933333333333
+ Confusion Matrix :
+[[10  0  0  0  0  0]
+ [ 0 10  0  0  0  0]
+ [ 0  0 10  0  0  0]
+ [ 0  0  0 10  0  0]
+ [ 2  1  0  0  6  1]
+ [ 0  0  0  0  0 10]]
+['g', 'h', 'p']
+Training Accuracy : 0.825
+Test Accuracy : 0.8
+ Confusion Matrix :
+[[ 8  0  2]
+ [ 0 10  0]
+ [ 1  3  6]]
+['u', 'v', 'w', 'k']
+Training Accuracy : 0.83125
+Test Accuracy : 0.775
+ Confusion Matrix :
+[[ 9  0  1  0]
+ [ 2  8  0  0]
+ [ 2  2  4  2]
+ [ 0  0  0 10]]
+['b', 'f', 'l', 'y', 'r']
+Training Accuracy : 0.96
+Test Accuracy : 0.98
+ Confusion Matrix :
+[[10  0  0  0  0]
+ [ 0 10  0  0  0]
+ [ 0  0 10  0  0]
+ [ 0  0  0 10  0]
+ [ 0  0  1  0  9]]
