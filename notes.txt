@@ -1,2 +1,6 @@
 SVM accuracy for test scores increases to 95% if the letters q,x,g,h are removed
 from the set dataset_1. Other letters seem to be accurate enough.
+
+Helper folder in ML is to have the models as an importable package
+Just import them in other script and pass the dataframe to find_accuracy() Function
+to get an object containing train and test accuracies
