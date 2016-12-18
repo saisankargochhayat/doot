@@ -8,7 +8,7 @@ labeldata = []
 alphabets = [chr(x) for x in range(97,97+25)]
 alphabets.remove('j')
 for label in alphabets:
-    curr_data = dataFrame['index_middle'][dataFrame['label']==label].values
+    curr_data = dataFrame['pinchStrength'][dataFrame['label']==label].values
     print(label)
     print(curr_data)
     ydata.append(curr_data.max() - curr_data.min())

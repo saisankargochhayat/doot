@@ -289,10 +289,10 @@
     {
          //framedata is an array of recorded frames
          if(framedata){
-           if(isrecording){
              var currdata = [];
              if(frame.hands){
                if(frame.hands.length>0){
+                 if(isrecording){
                  var strdata = frame.dump().split('Raw JSON:<br/>')[1];
                  var jsondata = JSON.parse(strdata);
                  if($("#normalizer").is(':checked')){
@@ -313,6 +313,8 @@
                  isrecording = false;
                }
              }
+           }else{
+             isrecording=false;
            }
          }
     }
