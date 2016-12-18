@@ -19,4 +19,5 @@ def find_accuracy(dataFrame):
     result['train'] = model.score(train,train_target)
     predictions = model.predict(test)
     result['test'] = accuracy_score(test_target,predictions)
-    return result
+    confusion = confusion_matrix(test_target,predictions)
+    return result['test'],confusion

@@ -5,9 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 
-initialData = pandas.read_csv('../CSV_Data/dataset_1.csv')
+initialData = pandas.read_csv('../CSV_Data/dataset_3.csv')
 allData = initialData
-setlist = [['b','f','l','y','r'],['a','s','m','n','t','i'],['c','d','o','q','e','x'],['g','h','p'],
+setlist = [['b','f','l','y','r'],['a','s','m','n','t','i'],['c','d','o','q','e','x'],['h','p'],
 ['u','v','w','k']]
 modelList = []
 dataFrame4 = allData[allData['label'].isin(['u','v','w','k'])]
@@ -23,7 +23,7 @@ for current_set in setlist:
     model.fit(dataFrame,target)
     modelList.append(model)
 
-
+allData = allData[allData['label']!='g']
 target = allData['label'].values
 allData = allData.drop('label',axis=1).values
 train,test,train_target,test_target = train_test_split(allData,target,test_size = 0.2,stratify=target)
