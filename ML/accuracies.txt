@@ -274,3 +274,22 @@ Test Accuracy : 0.98
  [ 0  0 10  0  0]
  [ 0  0  0 10  0]
  [ 0  0  1  0  9]]
+
+ --------------------------------------------------------------------------------
+ -----------------------------Aggregated accuracies------------------------------
+ --------------------------------------------------------------------------------
+ Users who gave the data(7) : Rishav , Hota , Sandy , Debabrata, Sohan , Bijay , Pravin
+ Models were trained 200 times and aggregated accuracies taken
+ Train test ratio : 4:1
+ Accuracies :
+    SVM :
+    0.912291421857
+    KNN :
+    0.921421856639
+    Dtree :
+    0.893278495887
+    LDA :
+    0.787532314924
+    SGD :
+    0.611598119859
+ File used : all_models.py

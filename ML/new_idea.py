@@ -23,7 +23,7 @@ for current_set in setlist:
     model.fit(dataFrame,target)
     modelList.append(model)
 
-allData = allData[allData['label']!='g']
+
 target = allData['label'].values
 allData = allData.drop('label',axis=1).values
 train,test,train_target,test_target = train_test_split(allData,target,test_size = 0.2,stratify=target)
@@ -40,7 +40,7 @@ setPredictions = model.predict(test)
 
 test_df = pandas.DataFrame(test,columns= list(initialData.columns.values).remove('label'))
 test_df['label'] = setPredictions
-
+print(len(setPredictions))
 for i in range(4):
     current_predict = modelList[i].predict(test_df[test_df['label'] == str(i)].drop('label',axis=1).values)
     test_df['label'][test_df['label'] == str(i)] = current_predict
