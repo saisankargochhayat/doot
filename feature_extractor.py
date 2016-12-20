@@ -35,6 +35,9 @@ def extract_array(frame,norm_frame):
         if(normalized_distance > 1):
             normalized_distance=1
         data.append(normalized_distance)
+    data.append(hand['palmNormal'][0])
+    data.append(hand['palmNormal'][1])
+    data.append(hand['palmNormal'][2])
     #Append the label
     data.append(frame['label'])
     return data
@@ -114,9 +117,12 @@ for i in range(4):
     column_names.append(finger_map[i]+'_'+finger_map[i+1])
 for i in range(5):
     column_names.append(finger_map[i]+'_'+'center_distance')
+column_names.append('palm_normal_x')
+column_names.append('palm_normal_y')
+column_names.append('palm_normal_z')
 column_names.append('label')
 # Convert to pandas Dataframe
 data_df = pandas.DataFrame(data,columns=column_names)
 # Write to csv File
-data_df.to_csv('CSV_Data/dataset_3.csv',index=False)
+data_df.to_csv('CSV_Data/dataset_4.csv',index=False)
 print("Successfully Created CSV file")
