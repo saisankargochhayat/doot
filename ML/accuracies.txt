@@ -609,3 +609,34 @@ rishi@omega:~/doot/ML$ python svm.py
     42    1   26    0    0    0    0    0 6760    0]
  [   0    0    0    0    0    0    0    0    0    0    0    0    0    0
      0    0    0    0    0    0    0    0    0 7000]]
+
+
+
+-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Divided into sets :
+['a','m','n','s','t','o'],
+['b','e','c','x'],
+['h','k','u','v'],
+['g','q'],
+['d','r','p'],
+['f'],
+['l'],
+['i'],
+['w'],
+['y']
+
+All used svm model including the set_divide model
+Features used : Everything including palmDirection , Finger pointing direction
+dataset_5 used
+Filename: new_idea.py
+
+Set 1 and set 2 ['a','m','n','s','t','o'], ['b','e','c','x'] used all the features
+Set 3 used ['thumb_index','index_middle','ring_pinky','thumb_center_distance',
+  'index_center_distance','middle_center_distance','ring_center_distance','pinky_center_distance',
+  'palm_direction','index_direction_x','index_direction_y','index_direction_z','middle_direction_x',
+  'middle_direction_y','middle_direction_z','label']
+Set 4 used ['index_meta_proxi','index_proxi_inter',
+  'middle_meta_proxi','middle_proxi_inter','thumb_index','index_middle','index_direction_x',
+  'index_direction_y','index_direction_z','middle_direction_x','middle_direction_y','middle_direction_z'
+  ,'label']
