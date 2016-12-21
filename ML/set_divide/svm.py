@@ -5,9 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 
-master_data = pandas.read_csv('../../CSV_Data/dataset_4.csv')
+master_data = pandas.read_csv('../../CSV_Data/dataset_5.csv')
 all_data = master_data
-setlist = [['a','m','n','s','t','g','q','o','x'],['b','e','c'],['h','k','u','v']
+setlist = [['a','m','n','s','t','o'],['b','e','c','x'],['h','k','u','v'],['g','q']
 ,['d','r','p'],['f'],['l'],['i'],['w'],['y']]
 set_name_list = ['set_'+str(x) for x in range(len(setlist))]
 print(set_name_list)

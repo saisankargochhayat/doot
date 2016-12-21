@@ -52,6 +52,10 @@ def extract_array(frame,norm_frame):
                 direction=6
     data.append(direction)
     #Append the label
+    for pointable in frame['pointables']:
+        data.append(pointable['direction'][0])
+        data.append(pointable['direction'][1])
+        data.append(pointable['direction'][2])
     data.append(frame['label'])
     return data
 
@@ -131,10 +135,13 @@ for i in range(4):
 for i in range(5):
     column_names.append(finger_map[i]+'_'+'center_distance')
 column_names.append('palm_direction')
-
+for i in range(5):
+    column_names.append(finger_map[i]+"_direction_x")
+    column_names.append(finger_map[i]+"_direction_y")
+    column_names.append(finger_map[i]+"_direction_z")
 column_names.append('label')
 # Convert to pandas Dataframe
 data_df = pandas.DataFrame(data,columns=column_names)
 # Write to csv File
-data_df.to_csv('CSV_Data/dataset_4.csv',index=False)
+data_df.to_csv('CSV_Data/dataset_5.csv',index=False)
 print("Successfully Created CSV file")

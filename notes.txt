@@ -15,3 +15,17 @@ Palm Normal is now changed to palm direction...manually calculated during featur
 4 - Right
 5 - Front
 6 - Back
+
+SVM only :
+Accuracy of set HKUV increases from 98.1 to 98.9 if only included
+my_list = ['thumb_index','index_middle','ring_pinky','thumb_center_distance',
+'index_center_distance','middle_center_distance','ring_center_distance','pinky_center_distance',
+'palm_direction','index_direction_x','index_direction_y','index_direction_z','middle_direction_x',
+'middle_direction_y','middle_direction_z','label']
+
+
+Accuracy of set DRP increases from 98.1 to 98.5 if only included
+['index_meta_proxi','index_proxi_inter',
+'middle_meta_proxi','middle_proxi_inter','thumb_index','index_middle','index_direction_x',
+'index_direction_y','index_direction_z','middle_direction_x','middle_direction_y','middle_direction_z'
+,'label']
