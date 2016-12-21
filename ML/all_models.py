@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from helper import knn,svm,dtree,sgd,lda
 
-dataFrame = pandas.read_csv('../CSV_Data/dataset_3.csv')
+dataFrame = pandas.read_csv('../CSV_Data/dataset_4.csv')
 
 sum_svm_acc=0
 sum_knn_acc=0

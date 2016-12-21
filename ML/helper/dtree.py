@@ -20,3 +20,10 @@ def find_accuracy(dataFrame):
     result['test'] = accuracy_score(test_target,predictions)
     confusion = confusion_matrix(test_target,predictions)
     return result['test'],confusion
+
+def get_model(dataFrame):
+    target = dataFrame['label'].values
+    dataFrame = dataFrame.drop('label',axis=1).values
+    model = DecisionTreeClassifier()
+    model.fit(dataFrame,target)
+    return model

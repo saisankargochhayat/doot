@@ -6,3 +6,12 @@ Just import them in other script and pass the dataframe to find_accuracy() Funct
 to get an object containing train and test accuracies
 
 Dataset 4 has palmNormal feature included
+
+Palm Normal is now changed to palm direction...manually calculated during feature extraction
+0 - Not found
+1 - Down
+2 - Up
+3 - Left
+4 - Right
+5 - Front
+6 - Back

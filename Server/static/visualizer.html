@@ -140,7 +140,11 @@
 
   </head>
   <body>
-    <div id="graph" style="width:50%;float:right;"></div>
+    <div id="graph" style="width:50%;float:right;">
+    </div>
+    <div class="info">
+
+    </div>
     <div id="app" class="show-hands" style="width:50%">
       <button id="showHands">Show Hands</button>
       <button id="hideHands">hide Hands</button>
@@ -242,14 +246,11 @@ var path3 = graph.append("g")
    var x=0;
    if(frame.hands){
      if(frame.hands.length>0){
-       var finger = frame.hands[0].indexFinger;
-       if(finger){
 
         x = frame.hands[0].palmNormal[0];
        }
        //console.log(frame.hands[0].palmPosition[1]);
      }
-   }
      return {
          time: ++t,
          value: x
@@ -308,7 +309,26 @@ var path3 = graph.append("g")
          data1.push(newdata1);
          data2.push(newdata2);
          data3.push(newdata3);
-
+         console.log(newdata2);
+         if(newdata2.value<-0.7){
+           $('.info').html("Down")
+         }else if(newdata2.value>0.7){
+            $('.info').html("Up")
+         }else{
+            if(newdata1.value<-0.7){
+              $('.info').html("Left")
+            }else if(newdata1.value>0.7){
+              $('.info').html("Right")
+            }else{
+              if(newdata3.value<-0.7){
+                $('.info').html("Front")
+              }else if(newdata3.value>0.7){
+                $('.info').html("Back")
+              }else{
+                $('.info').html("No Hand")
+              }
+            }
+         }
          // update domain
          x.domain([t - n, t]);
 
