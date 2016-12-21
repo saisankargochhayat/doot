@@ -6,6 +6,7 @@ from sklearn import tree
 from sklearn.linear_model import SGDClassifier
 from sklearn import svm
 import pandas
+import numpy as np
 # import pprint
 
 data = []

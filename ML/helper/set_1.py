@@ -22,7 +22,12 @@ def get_model(allData):
     model = svm.SVC(kernel='linear')
     model.fit(dataFrame,target)
     return model
+
 def get_predictions(model,dataFrame):
+    my_list = ['index_meta_proxi','index_proxi_inter',
+    'middle_meta_proxi','middle_proxi_inter','thumb_index','index_middle','index_direction_x',
+    'index_direction_y','index_direction_z','middle_direction_x','middle_direction_y','middle_direction_z']
+    # dataFrame = dataFrame[my_list]
     return model.predict(dataFrame.values)
 def get_accuracy(allData):
     my_set = ['a','m','n','s','t','q','o','g','x']

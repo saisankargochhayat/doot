@@ -640,3 +640,4 @@ Set 4 used ['index_meta_proxi','index_proxi_inter',
   'middle_meta_proxi','middle_proxi_inter','thumb_index','index_middle','index_direction_x',
   'index_direction_y','index_direction_z','middle_direction_x','middle_direction_y','middle_direction_z'
   ,'label']
+Accuracy = 94.4%
