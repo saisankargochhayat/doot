@@ -1,7 +1,7 @@
 import pandas
 import matplotlib.pyplot as plt
-dataFrame = pandas.read_csv('../CSV_Data/dataset_1.csv')
-
+dataFrame = pandas.read_csv('../CSV_Data/dataset_3.csv')
+import statistics as s
 ydata = []
 y1data = []
 labeldata = []
@@ -11,7 +11,7 @@ for label in alphabets:
     curr_data = dataFrame['pinchStrength'][dataFrame['label']==label].values
     print(label)
     print(curr_data)
-    ydata.append(curr_data.max() - curr_data.min())
+    ydata.append(s.pvariance(curr_data))
     y1data.append(curr_data.mean())
     labeldata.append(ord(label))
 

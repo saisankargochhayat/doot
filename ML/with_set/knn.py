@@ -5,9 +5,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 
-allData = pandas.read_csv('../../CSV_Data/dataset_1.csv')
-setlist = [['a','s','m','n','t','i'],['c','d','o','q','e','x'],['g','h','p'],['u','v','w','k'],
-['b','f','l','y','r']]
+allData = pandas.read_csv('../../CSV_Data/dataset_4.csv')
+setlist = [['a','m','n','s','t','g','q','o','x'],['b','e','c'],['h','k','u','v'],['d','r','p'],
+            ['f','l','i','w','y']]
+list_i_want = ['pinchStrength','grabStrength','thumb_meta_proxi','thumb_proxi_inter','index_meta_proxi','index_proxi_inter'
+,'middle_meta_proxi','middle_proxi_inter','ring_meta_proxi','ring_proxi_inter','pinky_meta_proxi',
+'pinky_proxi_inter','thumb_center_distance','index_center_distance','middle_center_distance',
+'ring_center_distance','pinky_center_distance','palm_direction','label']
+# allData = allData[list_i_want]
 for current_set in setlist:
     print(current_set)
     dataFrame = allData[allData['label'].isin(current_set)]

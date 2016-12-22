@@ -5,7 +5,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 from sklearn.linear_model import SGDClassifier
 from sklearn import svm
-from data_loader import data_loader
+import pandas
+import numpy as np
 # import pprint
 
 data = []
@@ -17,7 +18,11 @@ sgd_model = SGDClassifier(loss="hinge", penalty="l2")
 dtree_model = tree.DecisionTreeClassifier()
 
 # data_loader is a function that loads data from the given csv files
-data,labels = data_loader()
+dataFrame = pandas.read_csv('../CSV_Data/dataset_4.csv')
+uniqueLabels = dataFrame['label'].unique()
+labels = dataFrame['label'].values
+data = dataFrame.drop('label',axis=1).values
+
 
 knn_model.fit(data,labels)
 svm_model.fit(data,labels)

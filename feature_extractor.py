@@ -35,7 +35,27 @@ def extract_array(frame,norm_frame):
         if(normalized_distance > 1):
             normalized_distance=1
         data.append(normalized_distance)
+    direction = 0
+    if hand['palmNormal'][1]<-0.7:
+        direction=1
+    elif hand['palmNormal'][1]>0.7:
+        direction=2
+    else:
+        if hand['palmNormal'][0]<-0.7:
+            direction=3
+        elif hand['palmNormal'][0]>0.7:
+            direction=4
+        else:
+            if hand['palmNormal'][2]<-0.7:
+                direction=5
+            elif hand['palmNormal'][2]>0.7:
+                direction=6
+    data.append(direction)
     #Append the label
+    for pointable in frame['pointables']:
+        data.append(pointable['direction'][0])
+        data.append(pointable['direction'][1])
+        data.append(pointable['direction'][2])
     data.append(frame['label'])
     return data
 
@@ -114,9 +134,14 @@ for i in range(4):
     column_names.append(finger_map[i]+'_'+finger_map[i+1])
 for i in range(5):
     column_names.append(finger_map[i]+'_'+'center_distance')
+column_names.append('palm_direction')
+for i in range(5):
+    column_names.append(finger_map[i]+"_direction_x")
+    column_names.append(finger_map[i]+"_direction_y")
+    column_names.append(finger_map[i]+"_direction_z")
 column_names.append('label')
 # Convert to pandas Dataframe
 data_df = pandas.DataFrame(data,columns=column_names)
 # Write to csv File
-data_df.to_csv('CSV_Data/dataset_1.csv',index=False)
+data_df.to_csv('CSV_Data/dataset_5.csv',index=False)
 print("Successfully Created CSV file")
