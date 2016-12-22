@@ -20,7 +20,6 @@
       var framedata = [];
       var frameLabel = [];
       var framecounts = [0,0,0,0,0,0,0]
-      var ispredicting = false;
       var currentselected=-1;
 
       var updateCount = function(c){
@@ -187,8 +186,15 @@
 
     </div>
 
-    <div  style="width:50%;position:absolute;top:10%;left:50%;font-size:400%;text-align:center">Prediction<br><span id="predicted"></span></div>
+    <div style="width:50%;position:absolute;top:10%;left:50%;font-size:400%;text-align:center">
+      <div style="font-size:50%">
+            WebSocket Status : <span id="message"></span>
+      </div>
+      Prediction<br>
+      <span id="predicted"></span>
+    </div>
   </body>
+
   <script>
     var getAngles = function(finger){
       var obj = {};
@@ -273,48 +279,60 @@
        return currdata;
      }
      function tick(frame)
-    {
-       if(ispredicting){
+     {
          var currdata = getRefinedData(frame);
          if(currdata.length==31){
             getPredictions(currdata);
          }
-       }
-     }
+      }
   </script>
   <script>
-  var shuffleprediction = function(){
-    ispredicting=true;
-    setTimeout(shuffleprediction,500);
-  }
-  shuffleprediction();
-  var getPredictions = function(currdata){
-    var obj = {};
-    obj.ar = currdata;
-    $.ajax({
-      method:'POST',
-      data:JSON.stringify(obj),
-      contentType:"application/json;charset=utf-8",
-      url:'http://localhost:8080/predict',
-      success:function(data){
-        //console.log(data);
-        var pEle = document.getElementById('predicted')
-        pEle.innerHTML = "";
-        for(key in data){
-          pEle.innerHTML+=key+" : "+data[key]+"<br>";
-        }
+    var ws = new WebSocket('ws://localhost:8080/ws');
+
+    ws.onopen = function(){
+      $('#message').text('Open');
+    };
+
+    ws.onclose = function(ev){
+      $('#message').text('Closed');
+    };
+
+    ws.onerror = function(ev){
+      $('#message').text('Error');
+    };
+
+    ws.onmessage = function(evt){
+      var received_msg = JSON.parse(evt.data);
+      var pEle = document.getElementById('predicted')
+      pEle.innerHTML = "";
+      for(key in received_msg){
+        pEle.innerHTML+=key+" : "+received_msg[key]+"<br>";
       }
-    });
-    ispredicting=false;
-  };
-    $(document).ready(function(){
-      $.ajax({
-        method:'GET',
-        url:'http://localhost:8080/train',
-        success:function(data){
-          console.log(data);
-        }
-      });
-    });
+    };
+
+    // var shuffleprediction = function(){
+    //   ispredicting=true;
+    //   setTimeout(shuffleprediction,500);
+    // }
+    // shuffleprediction();
+    var getPredictions = function(currdata){
+      // var obj = {};
+      // obj.ar = currdata;
+      // $.ajax({
+      //   method:'POST',
+      //   data:JSON.stringify(obj),
+      //   contentType:"application/json;charset=utf-8",
+      //   url:'http://localhost:8080/predict',
+      //   success:function(data){
+      //     //console.log(data);
+      //     var pEle = document.getElementById('predicted')
+      //     pEle.innerHTML = "";
+      //     for(key in data){
+      //       pEle.innerHTML+=key+" : "+data[key]+"<br>";
+      //     }
+      //   }
+      // });
+      ws.send(JSON.stringify(currdata));
+    };
   </script>
 </html>
