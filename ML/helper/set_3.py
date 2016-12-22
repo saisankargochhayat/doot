@@ -32,7 +32,7 @@ def get_predictions(model,dataFrame):
     return model.predict(dataFrame.values)
 
 def get_accuracy(allData):
-    my_set = ['a','m','n','s','t','q','o','g','x']
+    my_set = ['h','k','u','v']
 
     my_list = ['index_meta_proxi','index_proxi_inter',
     'middle_meta_proxi','middle_proxi_inter','thumb_index','index_middle','index_direction_x',
@@ -47,10 +47,11 @@ def get_accuracy(allData):
     sum_confusion = [[0 for x in range(len(my_set))] for y in range(len(my_set))]
     for i in range(100):
         trainData , testData = train_test_split(allData,test_size=0.2,stratify=allData['label'])
-        model = svm.get_model(trainData)
+        model = svm.SVC(kernel='linear')
+        model.fit(trainData.drop('label',axis=1).values,trainData['label'].values)
         predictions = model.predict(testData.drop('label',axis=1).values)
         sum_acc = sum_acc + accuracy_score(testData['label'].values,predictions)
         sum_confusion = np.add(sum_confusion,confusion_matrix(testData['label'].values,predictions))
     print(my_set)
     print(sum_acc/100)
-    print(sum_confusion)
+    print(np.divide(sum_confusion,3500))

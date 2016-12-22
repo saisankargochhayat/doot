@@ -45,10 +45,15 @@ def get_accuracy(allData):
     sum_confusion = [[0 for x in range(len(my_set))] for y in range(len(my_set))]
     for i in range(100):
         trainData , testData = train_test_split(allData,test_size=0.2,stratify=allData['label'])
-        model = svm.get_model(trainData)
+        model = svm.SVC(kernel='linear')
+        model.fit(trainData.drop('label',axis=1).values,trainData['label'].values)
         predictions = model.predict(testData.drop('label',axis=1).values)
         sum_acc = sum_acc + accuracy_score(testData['label'].values,predictions)
         sum_confusion = np.add(sum_confusion,confusion_matrix(testData['label'].values,predictions))
     print(my_set)
     print(sum_acc/100)
+    sum_confusion = sum_confusion.astype(float)
+    for i in range(len(sum_confusion)):
+
+        sum_confusion[i] = np.divide(sum_confusion[i],sum_confusion[i].sum())
     print(sum_confusion)
