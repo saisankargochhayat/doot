@@ -5,9 +5,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from helper import set_1,set_2,set_3,set_4
+from sklearn import preprocessing
 
 initialData = pandas.read_csv('../CSV_Data/dataset_5.csv')
 allData = initialData
+print(allData['label'])
+matrix = allData.drop('label',axis=1).values
+matrix = preprocessing.scale(matrix)
+allData = pandas.DataFrame(matrix,columns = initialData.columns.drop('label'))
+allData['label'] = initialData['label']
+# column_names = allData.columns.drop('label')
+# print(column_names)
+# allData = pandas.DataFrame(preprocessing.scale(allData), columns = column_names)
 setlist = [['a','m','n','s','t','g','q','x','o'],['b','e','c'],['h','k','u','v'],['d','r','p']]
 sum_accuracy = 0
 for i in range(100):

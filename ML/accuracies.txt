@@ -641,3 +641,12 @@ Set 4 used ['index_meta_proxi','index_proxi_inter',
   'index_direction_y','index_direction_z','middle_direction_x','middle_direction_y','middle_direction_z'
   ,'label']
 Accuracy = 94.4%
+
+
+
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+Used dataset_5 ,
+new_idea.py accuracy increased to 96.3 just by normalizing the data using
+preprocessing.scale() function of scikit
+SVM also increased to 95.7

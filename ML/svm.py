@@ -4,11 +4,13 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn import preprocessing
 
-dataFrame = pandas.read_csv('../CSV_Data/dataset_5.csv')
+dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
 uniqueLabels = dataFrame['label'].unique()
 target = dataFrame['label'].values
 dataFrame = dataFrame.drop('label',axis=1).values
+dataFrame = preprocessing.scale(dataFrame)
 sum_acc = 0
 confusion = [[0 for x in range(24)] for y in range(24)]
 for i in range(200):
