@@ -7,8 +7,8 @@ from sklearn.metrics import confusion_matrix
 
 master_data = pandas.read_csv('../../CSV_Data/dataset_5.csv')
 all_data = master_data
-setlist = [['a','m','n','s','t','o'],['b','e','c','x'],['h','k','u','v'],['g','q']
-,['d','r','p'],['f'],['l'],['i'],['w'],['y']]
+setlist = [['a','m','n','s','t','o','g','q','x'],['b','e','c'],['h','k','u','v'],
+['d','r','p'],['f'],['l'],['i'],['w'],['y']]
 set_name_list = ['set_'+str(x) for x in range(len(setlist))]
 print(set_name_list)
 for curr_set,i in zip(setlist,set_name_list):
