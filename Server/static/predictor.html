@@ -20,7 +20,6 @@
       var framedata = [];
       var frameLabel = [];
       var framecounts = [0,0,0,0,0,0,0]
-      var ispredicting = false;
       var currentselected=-1;
 
       var updateCount = function(c){
@@ -280,14 +279,12 @@
        return currdata;
      }
      function tick(frame)
-    {
-       if(ispredicting){
+     {
          var currdata = getRefinedData(frame);
          if(currdata.length==31){
             getPredictions(currdata);
          }
-       }
-     }
+      }
   </script>
   <script>
     var ws = new WebSocket('ws://localhost:8080/ws');
@@ -305,7 +302,7 @@
     };
 
     ws.onmessage = function(evt){
-      var received_msg = evt.data;
+      var received_msg = JSON.parse(evt.data);
       var pEle = document.getElementById('predicted')
       pEle.innerHTML = "";
       for(key in received_msg){
@@ -319,8 +316,8 @@
     // }
     // shuffleprediction();
     var getPredictions = function(currdata){
-      var obj = {};
-      obj.ar = currdata;
+      // var obj = {};
+      // obj.ar = currdata;
       // $.ajax({
       //   method:'POST',
       //   data:JSON.stringify(obj),
@@ -335,18 +332,7 @@
       //     }
       //   }
       // });
-      ws.send(JSON.stringify(obj));
-      ispredicting=false;
+      ws.send(JSON.stringify(currdata));
     };
-
-    $(document).ready(function(){
-      $.ajax({
-        method:'GET',
-        url:'http://localhost:8080/train',
-        success:function(data){
-          console.log(data);
-        }
-      });
-    });
   </script>
 </html>
