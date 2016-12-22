@@ -1,0 +1,312 @@
+<html>
+  <head>
+    <title>DOM Visualizer - Leap</title>
+    <script src="static/leap-0.6.4.js"></script>
+    <script src="static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css" title="no title">
+    <script>
+
+      function moveFinger(Finger, posX, posY, posZ) {
+        Finger.style.webkitTransform = "translate3d("+posX+"px, "+posY+"px, "+posZ+"px)";
+      }
+
+      function moveSphere(Sphere, posX, posY, posZ, rotX, rotY, rotZ) {
+        Sphere.style.webkitTransform = Sphere.style.mozTransform =
+        Sphere.style.transform = "translateX("+posX+"px) translateY("+posY+"px) translateZ("+posZ+"px) rotateX("+rotX+"deg) rotateY(0deg) rotateZ(0deg)";
+      }
+
+      var fingers = {};
+      var spheres = {};
+      var framedata = [];
+      var frameLabel = [];
+      var framecounts = [0,0,0,0,0,0,0]
+      var ispredicting = false;
+      var currentselected=-1;
+
+      var updateCount = function(c){
+        framecounts[c] = framecounts[c]+1;
+        document.getElementById('c'+c).innerHTML=framecounts[c];
+        document.getElementById('total').innerHTML = framedata.length;
+      }
+      var startrecording = function(i,c){
+        isrecording = true;
+        currentlabel=i;
+        currentselected=c;
+      }
+      var stoprecording = function(){
+        isrecording=false
+        currentlabel=-1;
+        //console.log(framedata);
+      }
+      var start,end;
+      Leap.loop(function(frame) {
+        //console.log(frame);
+        if(frame.valid)
+          tick(frame);
+
+
+        latestFrame = frame;
+        var str = "";
+        var rotations = frame._rotation;
+        for (i in rotations){
+          str+=" "+i+" : "+rotations[i]+ "<br>";
+        }
+        //document.getElementById('out').innerHTML = str;
+
+        /////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////
+        //str = JSON.stringify(frame.dump());
+        //document.getElementById('out').innerHTML = str;
+      //  console.log(frame);
+        //console.log(Object.keys(str));
+        var seenFingers = {};
+        var handIds = {};
+        if (frame.hands === undefined ) {
+          var handsLength = 0
+        } else {
+          var handsLength = frame.hands.length;
+        }
+
+        for (var handId = 0, handCount = handsLength; handId != handCount; handId++) {
+          var hand = frame.hands[handId];
+          var posX = (hand.palmPosition[0]*3);
+          var posY = (hand.palmPosition[2]*3)-200;
+          var posZ = (hand.palmPosition[1]*3)-400;
+          var rotX = (hand._rotation[2]*90);
+          var rotY = (hand._rotation[1]*90);
+          var rotZ = (hand._rotation[0]*90);
+          var sphere = spheres[hand.id];
+          if (!sphere) {
+            var sphereDiv = document.getElementById("sphere").cloneNode(true);
+            sphereDiv.setAttribute('id',hand.id);
+            sphereDiv.style.backgroundColor='#'+Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('scene').appendChild(sphereDiv);
+            spheres[hand.id] = hand.id;
+          } else {
+            var sphereDiv =  document.getElementById(hand.id);
+            if (typeof(sphereDiv) != 'undefined' && sphereDiv != null) {
+              moveSphere(sphereDiv, posX, posY, posZ, rotX, rotY, rotZ);
+            }
+          }
+          handIds[hand.id] = true;
+        }
+        for (handId in spheres) {
+          if (!handIds[handId]) {
+            var sphereDiv =  document.getElementById(spheres[handId]);
+            sphereDiv.parentNode.removeChild(sphereDiv);
+            delete spheres[handId];
+          }
+        }
+
+        for (var pointableId = 0, pointableCount = frame.pointables.length; pointableId != pointableCount; pointableId++) {
+          var pointable = frame.pointables[pointableId];
+          var newFinger = false;
+          if (pointable.finger) {
+            if (!fingers[pointable.id]) {
+              fingers[pointable.id] = [];
+              newFinger = true;
+            }
+
+            for (var partId = 0, length; partId != 4; partId++) {
+              var posX = (pointable.positions[partId][0]*3);
+              var posY = (pointable.positions[partId][2]*3)-200;
+              var posZ = (pointable.positions[partId][1]*3)-400;
+
+              var id = pointable.id+'_'+partId;
+
+              var finger = fingers[id];
+              if (newFinger) {
+                var fingerDiv = document.getElementById("finger").cloneNode(true);
+                fingerDiv.setAttribute('id', id);
+                fingerDiv.style.backgroundColor='#'+Math.floor(pointable.type*500).toString(16);
+                document.getElementById('scene').appendChild(fingerDiv);
+                fingers[pointable.id].push(id);
+              } else  {
+                var fingerDiv =  document.getElementById(id);
+                if (typeof(fingerDiv) != 'undefined' && fingerDiv != null) {
+                  moveFinger(fingerDiv, posX, posY, posZ);
+                }
+              }
+              seenFingers[pointable.id] = true;
+            }
+
+            //var dirX = -(pointable.direction[1]*90);
+            //var dirY = -(pointable.direction[2]*90);
+            //var dirZ = (pointable.direction[0]*90);
+          }
+        }
+        for (var fingerId in fingers) {
+          if (!seenFingers[fingerId]) {
+            var ids = fingers[fingerId];
+            for (var index in ids) {
+              var fingerDiv =  document.getElementById(ids[index]);
+              fingerDiv.parentNode.removeChild(fingerDiv);
+            }
+            delete fingers[fingerId];
+          }
+        }
+        document.getElementById('showHands').addEventListener('mousedown', function() {
+          document.getElementById('app').setAttribute('class','show-hands');
+        }, false);
+        document.getElementById('hideHands').addEventListener('mousedown', function() {
+          document.getElementById('app').setAttribute('class','');
+        }, false);
+      });
+
+    </script>
+  </head>
+  <body>
+    <div id="app" class="show-hands" style="width:50%">
+      <button id="showHands">Show Hands</button>
+      <button id="hideHands">hide Hands</button>
+      <div id="scene">
+        <div id="cube" class="cube">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+        <div id="finger" class="cube finger">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+        <div id="sphere" class="cube sphere">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div  style="width:50%;position:absolute;top:10%;left:50%;font-size:400%;text-align:center">Prediction<br><span id="predicted"></span></div>
+  </body>
+  <script>
+    var getAngles = function(finger){
+      var obj = {};
+      var metaCarpelBone = finger.metacarpal;
+      var proximalBone = finger.proximal;
+      var intermediateBone = finger.medial;
+      var dotProduct = Leap.vec3.dot(
+           metaCarpelBone.direction(),
+           proximalBone.direction()
+       );
+       var angle = Math.acos(dotProduct);
+       obj.mp = angle;
+       dotProduct = Leap.vec3.dot(
+            proximalBone.direction(),
+            intermediateBone.direction()
+       );
+      angle = Math.acos(dotProduct);
+      obj.pi = angle;
+      return obj;
+    }
+
+     function getRefinedData(frame){
+       var currdata = [];
+       if(frame.hands){
+         if(frame.hands.length>0){
+           currdata.push(frame.hands[0].pinchStrength);
+           currdata.push(frame.hands[0].grabStrength);
+           var fingers = [];
+           var pointables = frame.hands[0].pointables;
+           for(var i=0;i<pointables.length;i++){
+             fingers.splice(frame.hands[0].pointables[i].type,0,frame.hands[0].pointables[i]);
+           }
+           //console.log(fingers);
+           for(var i=0;i<fingers.length;i++){
+             for(var j=0;j<3;j++){
+               currdata.push(fingers[i].direction[j]);
+             }
+           }
+           var thumb = frame.hands[0].thumb;
+           var indexFinger = frame.hands[0].indexFinger;
+           var middleFinger = frame.hands[0].middleFinger;
+           var ringFinger = frame.hands[0].ringFinger;
+           var pinky = frame.hands[0].pinky;
+           //////////////////////////////////////////////////////////
+           var angleObj = getAngles(thumb);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(indexFinger);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(middleFinger);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(ringFinger);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           angleObj = getAngles(pinky);
+           currdata.push(angleObj.mp);currdata.push(angleObj.pi);
+           //////////////////////////////////////////////////////////
+           var dotProduct = Leap.vec3.dot(
+                thumb.proximal.direction(),
+                indexFinger.proximal.direction()
+            );
+            var angle = Math.acos(dotProduct);
+            currdata.push(angle);
+            dotProduct = Leap.vec3.dot(
+                 indexFinger.proximal.direction(),
+                 middleFinger.proximal.direction()
+             );
+            angle = Math.acos(dotProduct);
+             currdata.push(angle);
+            dotProduct = Leap.vec3.dot(
+                middleFinger.proximal.direction(),
+                ringFinger.proximal.direction()
+            );
+            angle = Math.acos(dotProduct);
+            currdata.push(angle);
+            dotProduct = Leap.vec3.dot(
+               ringFinger.proximal.direction(),
+               pinky.proximal.direction()
+           );
+           angle = Math.acos(dotProduct);
+           currdata.push(angle);
+         }
+       }
+       return currdata;
+     }
+     function tick(frame)
+    {
+       if(ispredicting){
+         var currdata = getRefinedData(frame);
+         if(currdata.length==31){
+            getPredictions(currdata);
+         }
+       }
+     }
+  </script>
+  <script>
+  var shuffleprediction = function(){
+    ispredicting=true;
+    setTimeout(shuffleprediction,500);
+  }
+  shuffleprediction();
+  var getPredictions = function(currdata){
+    var obj = {};
+    obj.ar = currdata;
+    $.ajax({
+      method:'POST',
+      data:JSON.stringify(obj),
+      contentType:"application/json;charset=utf-8",
+      url:'/predict',
+      success:function(data){
+        //console.log(data);
+        var pEle = document.getElementById('predicted')
+        pEle.innerHTML = "";
+        for(key in data){
+          pEle.innerHTML+=key+" : "+data[key]+"<br>";
+        }
+      }
+    });
+    ispredicting=false;
+  };
+
+  </script>
+</html>

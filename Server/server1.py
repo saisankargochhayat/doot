@@ -8,6 +8,10 @@ from sklearn import tree
 from sklearn.linear_model import SGDClassifier
 from sklearn import svm
 from data_loader import data_loader
+import json
+import pprint
+from  tornado.escape import json_decode
+from  tornado.escape import json_encode
 # define("port", default=8080, help="run on the given port", type=int)
 
 data = []
@@ -40,17 +44,17 @@ class Visualizer(web.RequestHandler):
         self.render("static/visualizer.html")
 
 class Predict(web.RequestHandler):
-    """docstring for ."""
     def post(self):
-            test_data = request.json['ar'];
+            test_data = json_decode(self.request.body)['ar']
             # print(test_data)
             predictions = {};
             predictions['knn'] = str(knn_model.predict(test_data)[0])
             predictions['svm'] = str(svm_model.predict(test_data)[0])
             predictions['sgd'] = str(sgd_model.predict(test_data)[0])
             predictions['dtree'] = str(dtree_model.predict(test_data)[0])
+            # self.write(predictions)
             self.write(predictions)
-
+            
 app = web.Application([
     (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),
     (r"/",HomeHandler),

@@ -295,7 +295,7 @@
       method:'POST',
       data:JSON.stringify(obj),
       contentType:"application/json;charset=utf-8",
-      url:'http://localhost:8080/predict',
+      url:'/predict',
       success:function(data){
         //console.log(data);
         var pEle = document.getElementById('predicted')
@@ -307,14 +307,6 @@
     });
     ispredicting=false;
   };
-    $(document).ready(function(){
-      $.ajax({
-        method:'GET',
-        url:'http://localhost:8080/train',
-        success:function(data){
-          console.log(data);
-        }
-      });
-    });
+
   </script>
 </html>
