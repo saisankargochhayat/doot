@@ -7,28 +7,36 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 from sklearn.linear_model import SGDClassifier
 from sklearn import svm
-from data_loader import data_loader
+# from data_loader import data_loader
 import json
 import pprint
+import pandas
+from sklearn import svm
+import numpy as np
 from  tornado.escape import json_decode
 from  tornado.escape import json_encode
+from feature_extracter_live import *
 # define("port", default=8080, help="run on the given port", type=int)
 
 data = []
 labels = []
-
-knn_model= KNeighborsClassifier()
-svm_model = svm.SVC()
-sgd_model = SGDClassifier(loss="hinge", penalty="l2")
-dtree_model = tree.DecisionTreeClassifier()
+dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
+svm_model = svm.SVC(kernel='linear')
+target = dataFrame['label'].values
+dataFrame = dataFrame.drop('label',axis=1).values
+svm_model.fit(dataFrame,target)
+# knn_model= KNeighborsClassifier()
+# svm_model = svm.SVC()
+# sgd_model = SGDClassifier(loss="hinge", penalty="l2")
+# dtree_model = tree.DecisionTreeClassifier()
 
 # data_loader is a function that loads data from the given csv files
-data,labels = data_loader()
+# data,labels = data_loader()
 
-knn_model.fit(data,labels)
-svm_model.fit(data,labels)
-sgd_model.fit(data,labels)
-dtree_model.fit(data,labels)
+# knn_model.fit(data,labels)
+# svm_model.fit(data,labels)
+# sgd_model.fit(data,labels)
+# dtree_model.fit(data,labels)
 print("Trained")
 
 class HomeHandler(web.RequestHandler):
@@ -53,10 +61,10 @@ class Predict(websocket.WebSocketHandler):
     def on_message(self, message):
         msg = json.loads(message)
         predictions = {};
-        predictions['knn'] = str(knn_model.predict([msg])[0])
+        # predictions['knn'] = str(knn_model.predict([msg])[0])
         predictions['svm'] = str(svm_model.predict([msg])[0])
-        predictions['sgd'] = str(sgd_model.predict([msg])[0])
-        predictions['dtree'] = str(dtree_model.predict([msg])[0])
+        # predictions['sgd'] = str(sgd_model.predict([msg])[0])
+        # predictions['dtree'] = str(dtree_model.predict([msg])[0])
         self.write_message(predictions)
 
     def on_close(self):

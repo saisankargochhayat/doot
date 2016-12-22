@@ -8,7 +8,6 @@ def load_file(file_name,data,labels):
 def data_loader():
     data = []
     labels = []
-    load_file("../old/master_data/Alice/a_f.csv",data,labels)
     load_file("../old/master_data/Alice/g_m.csv",data,labels)
     load_file("../old/master_data/Alice/n_s.csv",data,labels)
     load_file("../old/master_data/Alice/t_y.csv",data,labels)
