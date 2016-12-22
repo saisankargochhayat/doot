@@ -78,16 +78,7 @@
         for (i in rotations){
           str+=" "+i+" : "+rotations[i]+ "<br>";
         }
-        //document.getElementById('out').innerHTML = str;
 
-        /////////////////////////////////////////////////////////////
-
-
-        ////////////////////////////////////////////////////////////
-        //str = JSON.stringify(frame.dump());
-        //document.getElementById('out').innerHTML = str;
-      //  console.log(frame);
-        //console.log(Object.keys(str));
         var seenFingers = {};
         var handIds = {};
         if (frame.hands === undefined ) {
@@ -265,33 +256,12 @@
       }
     });
 
-    // var getAngles = function(finger){
-    //   var obj = {};
-    //   var metaCarpelBone = finger.metacarpal;
-    //   var proximalBone = finger.proximal;
-    //   var intermediateBone = finger.medial;
-    //   var dotProduct = Leap.vec3.dot(
-    //        metaCarpelBone.direction(),
-    //        proximalBone.direction()
-    //   );
-    //   var angle = Math.acos(dotProduct);
-    //   obj.mp = angle;
-    //   dotProduct = Leap.vec3.dot(
-    //       proximalBone.direction(),
-    //       intermediateBone.direction()
-    //   );
-    //   angle = Math.acos(dotProduct);
-    //   obj.pi = angle;
-    //   return obj;
-    // }
-
     function tick(frame)
     {
          //framedata is an array of recorded frames
          if(framedata){
-             var currdata = [];
              if(frame.hands){
-               if(frame.hands.length>0){
+               if(frame.hands.length==1){
                  if(isrecording){
                  var strdata = frame.dump().split('Raw JSON:<br/>')[1];
                  var jsondata = JSON.parse(strdata);
