@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn import preprocessing
 
 def get_model(allData):
     my_set = ['a','m','n','s','t','q','o','g','x']
@@ -40,7 +41,7 @@ def get_accuracy(allData):
 
     allData = allData[allData['label'].isin(my_set)]
 
-
+    
     sum_acc = 0
     sum_confusion = [[0 for x in range(len(my_set))] for y in range(len(my_set))]
     for i in range(100):

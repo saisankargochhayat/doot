@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn import preprocessing
 
 def get_model(allData):
     my_set = ['d','r','p']
@@ -54,6 +55,6 @@ def get_accuracy(allData):
     print(my_set)
     print(sum_confusion)
     print(sum_acc/100)
-    print(np.divide(sum_confusion[0],40.0))
-    print(np.divide(sum_confusion[1],float(35)))
-    print(np.divide(sum_confusion[2],float(35)))
+    print(np.divide(sum_confusion[0],4000.0))
+    print(np.divide(sum_confusion[1],float(3500)))
+    print(np.divide(sum_confusion[2],float(3500)))

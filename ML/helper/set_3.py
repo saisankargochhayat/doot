@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn import preprocessing
 
 def get_model(allData):
     my_set = ['h','k','u','v']
@@ -12,7 +13,7 @@ def get_model(allData):
     'index_center_distance','middle_center_distance','ring_center_distance','pinky_center_distance',
     'palm_direction','index_direction_x','index_direction_y','index_direction_z','middle_direction_x',
     'middle_direction_y','middle_direction_z','label']
-    allData = allData[my_list]
+    # allData = allData[my_list]
 
     dataFrame = allData[allData['label'].isin(my_set)]
 
@@ -28,7 +29,7 @@ def get_predictions(model,dataFrame):
     'index_center_distance','middle_center_distance','ring_center_distance','pinky_center_distance',
     'palm_direction','index_direction_x','index_direction_y','index_direction_z','middle_direction_x',
     'middle_direction_y','middle_direction_z']
-    dataFrame = dataFrame[my_list]
+    # dataFrame = dataFrame[my_list]
     return model.predict(dataFrame.values)
 
 def get_accuracy(allData):

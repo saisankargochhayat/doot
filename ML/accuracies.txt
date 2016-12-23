@@ -650,3 +650,25 @@ Used dataset_5 ,
 new_idea.py accuracy increased to 96.3 just by normalizing the data using
 preprocessing.scale() function of scikit
 SVM also increased to 95.7
+
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+After adding preprocessing.scale() which subtracts mean from each column , the accuracies for
+the models have upgraded.
+Data_set 6 was used which has everything including palm direction , finger direction and
+excluding tip distance.
+No sets. All 24 letters
+
+SVM : 95.7%
+KNN : 95.1%
+Dtree : 92.1%
+SGD : 90.3%
+LDA : 87.8%
+
+
+For new idea (Dividing into sets)
+setlist = [['a','m','n','s','t','g','q','x','o'],['b','e','c'],['h','k','u','v'],['d','r','p']]
+Accuracy : 0.956509988249
+SVM Model was used along with dataset_6
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------

@@ -4,12 +4,13 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
-
+from sklearn import preprocessing
 
 def find_accuracy(dataFrame):
     uniqueLabels = dataFrame['label'].unique()
     target = dataFrame['label'].values
     dataFrame = dataFrame.drop('label',axis=1).values
+    dataFrame = preprocessing.scale(dataFrame)
     train,test,train_target,test_target = train_test_split(dataFrame,target,test_size = 0.2,stratify=target)
 
     model = KNeighborsClassifier()
@@ -24,6 +25,7 @@ def find_accuracy(dataFrame):
 def get_model(dataFrame):
     target = dataFrame['label'].values
     dataFrame = dataFrame.drop('label',axis=1).values
+    # dataFrame = preprocessing.scale(dataFrame)
     model = KNeighborsClassifier()
     model.fit(dataFrame,target)
     return model

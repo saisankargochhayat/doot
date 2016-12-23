@@ -7,9 +7,9 @@ from sklearn.metrics import confusion_matrix
 from helper import set_1,set_2,set_3,set_4
 from sklearn import preprocessing
 
-initialData = pandas.read_csv('../CSV_Data/dataset_5.csv')
+initialData = pandas.read_csv('../CSV_Data/dataset_6.csv')
 allData = initialData
-print(allData['label'])
+
 matrix = allData.drop('label',axis=1).values
 matrix = preprocessing.scale(matrix)
 allData = pandas.DataFrame(matrix,columns = initialData.columns.drop('label'))

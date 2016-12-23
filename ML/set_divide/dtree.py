@@ -1,5 +1,5 @@
 import pandas
-from sklearn import svm
+from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -24,7 +24,7 @@ sum_conf_matrix=sum_svm_confusion = [[0 for x in range(len(set_name_list))] for 
 for i in range(50):
     train,test,train_target,test_target = train_test_split(data_frame,target,test_size = 0.2,stratify=target)
 
-    model = svm.SVC(kernel='linear')
+    model = DecisionTreeClassifier()
     model.fit(train,train_target)
     predictions = model.predict(test)
     sum_acc = sum_acc + accuracy_score(test_target,predictions)
