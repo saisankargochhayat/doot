@@ -16,6 +16,7 @@ import numpy as np
 from  tornado.escape import json_decode
 from  tornado.escape import json_encode
 from feature_extracter_live import *
+from sklearn import preprocessing
 # define("port", default=8080, help="run on the given port", type=int)
 
 data = []
@@ -24,6 +25,7 @@ dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
 svm_model = svm.SVC(kernel='linear')
 target = dataFrame['label'].values
 dataFrame = dataFrame.drop('label',axis=1).values
+dataFrame = preprocessing.scale(dataFrame)
 svm_model.fit(dataFrame,target)
 # knn_model= KNeighborsClassifier()
 # svm_model = svm.SVC()
@@ -64,6 +66,7 @@ class Predict(websocket.WebSocketHandler):
         # print(test)
         predictions = {};
         # predictions['knn'] = str(knn_model.predict([msg])[0])
+        test = preprocessing.scale(test)
         predictions['svm'] = str(svm_model.predict(test)[0])
         # predictions['sgd'] = str(sgd_model.predict([msg])[0])
         # predictions['dtree'] = str(dtree_model.predict([msg])[0])
