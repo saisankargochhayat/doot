@@ -1,10 +1,11 @@
 import pandas
+import numpy as np
 #-------------------------------Function to manipulate Features------------------
 # This function takes dataframe and normalized frame to extract the required
 # Features from the JSON data and returns the array
-def extract_array(frame,norm_frame):
+def extract_array(frame):
     hand = frame['hands'][0]
-    norm_hand = norm_frame['hands'][0]
+    # norm_hand = norm_frame['hands'][0]
     data = []
     data.append(hand['pinchStrength'])
     data.append(hand['grabStrength'])
@@ -51,7 +52,7 @@ def extract_array(frame,norm_frame):
         data.append(pointable['direction'][0])
         data.append(pointable['direction'][1])
         data.append(pointable['direction'][2])
-    data.append(frame['label'])
+    # data.append(frame['label'])
     return data
 
 #---------------------------------------------------------------------------------

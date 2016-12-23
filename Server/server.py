@@ -60,9 +60,11 @@ class Predict(websocket.WebSocketHandler):
 
     def on_message(self, message):
         msg = json.loads(message)
+        test=extract_array(msg)
+        # print(test)
         predictions = {};
         # predictions['knn'] = str(knn_model.predict([msg])[0])
-        predictions['svm'] = str(svm_model.predict([msg])[0])
+        predictions['svm'] = str(svm_model.predict(test)[0])
         # predictions['sgd'] = str(sgd_model.predict([msg])[0])
         # predictions['dtree'] = str(dtree_model.predict([msg])[0])
         self.write_message(predictions)
