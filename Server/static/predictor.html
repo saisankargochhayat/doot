@@ -22,22 +22,6 @@
       var framecounts = [0,0,0,0,0,0,0]
       var currentselected=-1;
 
-      var updateCount = function(c){
-        framecounts[c] = framecounts[c]+1;
-        document.getElementById('c'+c).innerHTML=framecounts[c];
-        document.getElementById('total').innerHTML = framedata.length;
-      }
-      var startrecording = function(i,c){
-        isrecording = true;
-        currentlabel=i;
-        currentselected=c;
-      }
-      var stoprecording = function(){
-        isrecording=false
-        currentlabel=-1;
-        //console.log(framedata);
-      }
-      var start,end;
       Leap.loop(function(frame) {
         //console.log(frame);
         if(frame.valid)
@@ -50,16 +34,7 @@
         for (i in rotations){
           str+=" "+i+" : "+rotations[i]+ "<br>";
         }
-        //document.getElementById('out').innerHTML = str;
 
-        /////////////////////////////////////////////////////////////
-
-
-        ////////////////////////////////////////////////////////////
-        //str = JSON.stringify(frame.dump());
-        //document.getElementById('out').innerHTML = str;
-      //  console.log(frame);
-        //console.log(Object.keys(str));
         var seenFingers = {};
         var handIds = {};
         if (frame.hands === undefined ) {
@@ -195,7 +170,7 @@
     </div>
   </body>
 
-  <script>
+  <!-- <script>
     var getAngles = function(finger){
       var obj = {};
       var metaCarpelBone = finger.metacarpal;
@@ -285,7 +260,8 @@
             getPredictions(currdata);
          }
       }
-  </script>
+  </script> -->
+  
   <script>
     var ws = new WebSocket('ws://localhost:8080/ws');
 
@@ -310,29 +286,15 @@
       }
     };
 
-    // var shuffleprediction = function(){
-    //   ispredicting=true;
-    //   setTimeout(shuffleprediction,500);
-    // }
-    // shuffleprediction();
-    var getPredictions = function(currdata){
-      // var obj = {};
-      // obj.ar = currdata;
-      // $.ajax({
-      //   method:'POST',
-      //   data:JSON.stringify(obj),
-      //   contentType:"application/json;charset=utf-8",
-      //   url:'http://localhost:8080/predict',
-      //   success:function(data){
-      //     //console.log(data);
-      //     var pEle = document.getElementById('predicted')
-      //     pEle.innerHTML = "";
-      //     for(key in data){
-      //       pEle.innerHTML+=key+" : "+data[key]+"<br>";
-      //     }
-      //   }
-      // });
-      ws.send(JSON.stringify(currdata));
-    };
+    function tick(frame)
+    {
+        if(frame.hands){
+           if(frame.hands.length==1){
+             var strdata = frame.dump().split('Raw JSON:<br/>')[1];
+             var jsondata = JSON.parse(strdata);
+             ws.send(JSON.stringify(jsondata));
+           }
+        }
+     }
   </script>
 </html>
