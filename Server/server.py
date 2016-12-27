@@ -25,7 +25,8 @@ dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
 svm_model = svm.SVC(kernel='linear')
 target = dataFrame['label'].values
 dataFrame = dataFrame.drop('label',axis=1).values
-dataFrame = preprocessing.scale(dataFrame)
+scaler = preprocessing.StandardScaler()
+dataFrame = scaler.fit_transform(dataFrame)
 svm_model.fit(dataFrame,target)
 # knn_model= KNeighborsClassifier()
 # svm_model = svm.SVC()
@@ -63,10 +64,11 @@ class Predict(websocket.WebSocketHandler):
     def on_message(self, message):
         msg = json.loads(message)
         test=extract_array(msg)
-        # print(test)
+        print(test)
         predictions = {};
         # predictions['knn'] = str(knn_model.predict([msg])[0])
-        test = preprocessing.scale(test)
+        test = scaler.transform(test)
+
         predictions['svm'] = str(svm_model.predict(test)[0])
         # predictions['sgd'] = str(sgd_model.predict([msg])[0])
         # predictions['dtree'] = str(dtree_model.predict([msg])[0])
