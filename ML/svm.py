@@ -10,9 +10,9 @@ dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
 uniqueLabels = dataFrame['label'].unique()
 target = dataFrame['label'].values
 dataFrame = dataFrame.drop('label',axis=1).values
-# dataFrame = preprocessing.scale(dataFrame)
-scaler = preprocessing.StandardScaler()
-dataFrame = scaler.fit_transform(dataFrame)
+dataFrame = preprocessing.scale(dataFrame)
+# scaler = preprocessing.StandardScaler()
+# dataFrame = scaler.fit_transform(dataFrame)
 sum_acc = 0
 confusion = [[0 for x in range(24)] for y in range(24)]
 for i in range(200):
