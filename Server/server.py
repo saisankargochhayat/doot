@@ -1,4 +1,6 @@
 from tornado import websocket, web, ioloop
+import sys
+sys.path.insert(0,'/home/rishi/doot/ML')
 import tornado.escape
 from tornado import gen
 import tornado.httpserver
@@ -17,29 +19,17 @@ from  tornado.escape import json_decode
 from  tornado.escape import json_encode
 from feature_extracter_live import *
 from sklearn import preprocessing
+from helper import svm,knn,dtree,sgd,lda
 # define("port", default=8080, help="run on the given port", type=int)
 
 data = []
 labels = []
 dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
-svm_model = svm.SVC(kernel='linear')
-target = dataFrame['label'].values
-dataFrame = dataFrame.drop('label',axis=1).values
-scaler = preprocessing.StandardScaler()
-dataFrame = scaler.fit_transform(dataFrame)
-svm_model.fit(dataFrame,target)
-# knn_model= KNeighborsClassifier()
-# svm_model = svm.SVC()
-# sgd_model = SGDClassifier(loss="hinge", penalty="l2")
-# dtree_model = tree.DecisionTreeClassifier()
-
-# data_loader is a function that loads data from the given csv files
-# data,labels = data_loader()
-
-# knn_model.fit(data,labels)
-# svm_model.fit(data,labels)
-# sgd_model.fit(data,labels)
-# dtree_model.fit(data,labels)
+svm_model , svm_scaler = svm.get_model(dataFrame)
+knn_model , knn_scaler = knn.get_model(dataFrame)
+sgd_model , sgd_scaler = sgd.get_model(dataFrame)
+dtree_model , dtree_scaler = dtree.get_model(dataFrame)
+lda_model , lda_scaler = lda.get_model(dataFrame)
 print("Trained")
 
 class HomeHandler(web.RequestHandler):
@@ -64,14 +54,12 @@ class Predict(websocket.WebSocketHandler):
     def on_message(self, message):
         msg = json.loads(message)
         test=extract_array(msg)
-        print(test)
         predictions = {};
-        # predictions['knn'] = str(knn_model.predict([msg])[0])
-        test = scaler.transform(test)
-
-        predictions['svm'] = str(svm_model.predict(test)[0])
-        # predictions['sgd'] = str(sgd_model.predict([msg])[0])
-        # predictions['dtree'] = str(dtree_model.predict([msg])[0])
+        predictions['svm'] = str(svm_model.predict(svm_scaler.transform(test))[0])
+        predictions['knn'] = str(knn_model.predict(knn_scaler.transform(test))[0])
+        predictions['lda'] = str(lda_model.predict(lda_scaler.transform(test))[0])
+        predictions['sgd'] = str(sgd_model.predict(sgd_scaler.transform(test))[0])
+        predictions['dtree'] = str(dtree_model.predict(dtree_scaler.transform(test))[0])
         self.write_message(predictions)
 
     def on_close(self):
