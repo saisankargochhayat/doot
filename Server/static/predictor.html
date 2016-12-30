@@ -3,6 +3,7 @@
     <title>DOM Visualizer - Leap</title>
     <script src="static/leap-0.6.4.js"></script>
     <script src="static/jquery-3.1.1.min.js"></script>
+      <script type="text/javascript" src = "static/voicerss-tts.min.js"></script>
     <link rel="stylesheet" href="/static/style.css" title="no title">
     <script>
 
@@ -14,7 +15,10 @@
         Sphere.style.webkitTransform = Sphere.style.mozTransform =
         Sphere.style.transform = "translateX("+posX+"px) translateY("+posY+"px) translateZ("+posZ+"px) rotateX("+rotX+"deg) rotateY(0deg) rotateZ(0deg)";
       }
-
+      var isPredicting = true
+      setInterval(function(){
+        isPredicting = true
+      },2500)
       var fingers = {};
       var spheres = {};
       var framedata = [];
@@ -261,7 +265,7 @@
          }
       }
   </script> -->
-  
+
   <script>
     var ws = new WebSocket('ws://localhost:8080/ws');
 
@@ -284,17 +288,33 @@
       for(key in received_msg){
         pEle.innerHTML+=key+" : "+received_msg[key]+"<br>";
       }
+      VoiceRSS.speech({
+            key: '5b8c45196d81485e956bd4cca83da0c9',
+            src: received_msg['svm'],
+            hl: 'en-us',
+            r: 0,
+            c: 'mp3',
+            f: '44khz_16bit_stereo',
+            ssml: false
+        });
     };
 
     function tick(frame)
     {
+      if(isPredicting){
         if(frame.hands){
-           if(frame.hands.length==1){
-             var strdata = frame.dump().split('Raw JSON:<br/>')[1];
-             var jsondata = JSON.parse(strdata);
-             ws.send(JSON.stringify(jsondata));
-           }
+         if(frame.hands.length==1){
+           isPredicting = false
+           var strdata = frame.dump().split('Raw JSON:<br/>')[1];
+           var jsondata = JSON.parse(strdata);
+           ws.send(JSON.stringify(jsondata));
+          }
         }
-     }
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+
   </script>
 </html>
