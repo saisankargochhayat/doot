@@ -16,4 +16,4 @@ def get_scaled_data(train,test):
 def get_scaler(data):
     scaler = preprocessing.StandardScaler()
     scaler.fit(data)
-    return data
+    return data,scaler
