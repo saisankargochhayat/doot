@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
-import knn,lda,dtree,misc_helper,sgd,svm
+from helper import knn,lda,dtree,misc_helper,sgd,svm
 
-initialData = pandas.read_csv('../../CSV_Data/dataset_6.csv')
+initialData = pandas.read_csv('../CSV_Data/dataset_6.csv')
 allData = initialData
 all_features = allData.columns.values
 sets = [['a','m','n','s','t','q','o','g','x'],['b','e','c'],['h','k','u','v'],['d','r','p']]
