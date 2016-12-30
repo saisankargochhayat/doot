@@ -5,7 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
-import misc_helper
+# import misc_helper
+from . import misc_helper
 
 def find_accuracy(dataFrame):
     features,target = misc_helper.split_feature_target(dataFrame)
