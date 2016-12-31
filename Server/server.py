@@ -55,13 +55,40 @@ class Predict(websocket.WebSocketHandler):
     def on_message(self, message):
         msg = json.loads(message)
         test=extract_array(msg)
-        predictions = {};
-        counter = collections.Counter()
+        predictions = {}
+        vote = {}
+
         predictions['svm'] = str(svm_model.predict(svm_scaler.transform(test))[0])
+        if predictions['svm'] in vote:
+            vote[predictions['svm']] = vote[predictions['svm']]+1
+        else:
+            vote[predictions['svm']] = 1
+
         predictions['knn'] = str(knn_model.predict(knn_scaler.transform(test))[0])
+        if predictions['knn'] in vote:
+            vote[predictions['knn']] = vote[predictions['knn']]+1
+        else:
+            vote[predictions['knn']] = 1
+
         predictions['lda'] = str(lda_model.predict(lda_scaler.transform(test))[0])
+        if predictions['lda'] in vote:
+            vote[predictions['lda']] = vote[predictions['lda']]+1
+        else:
+            vote[predictions['lda']] = 1
+
         predictions['sgd'] = str(sgd_model.predict(sgd_scaler.transform(test))[0])
+        if predictions['sgd'] in vote:
+            vote[predictions['sgd']] = vote[predictions['sgd']]+1
+        else:
+            vote[predictions['sgd']] = 1
+
         predictions['dtree'] = str(dtree_model.predict(dtree_scaler.transform(test))[0])
+        if predictions['dtree'] in vote:
+            vote[predictions['dtree']] = vote[predictions['dtree']]+1
+        else:
+            vote[predictions['dtree']] = 1
+        count = collections.Counter(vote)
+        predictions['max_vote'] = count.most_common(1)[0][0]
         self.write_message(predictions)
 
     def on_close(self):
