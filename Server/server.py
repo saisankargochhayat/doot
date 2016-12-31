@@ -12,6 +12,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 from sklearn.linear_model import SGDClassifier
 from sklearn import svm
+import collections
 # from data_loader import data_loader
 import json
 import pprint
@@ -58,6 +59,7 @@ class Predict(websocket.WebSocketHandler):
         msg = json.loads(message)
         test=extract_array(msg)
         predictions = {};
+        counter = collections.Counter()
         predictions['svm'] = str(svm_model.predict(svm_scaler.transform(test))[0])
         predictions['knn'] = str(knn_model.predict(knn_scaler.transform(test))[0])
         predictions['lda'] = str(lda_model.predict(lda_scaler.transform(test))[0])
