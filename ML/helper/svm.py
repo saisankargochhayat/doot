@@ -24,7 +24,7 @@ def get_model(dataFrame):
     features,target = misc_helper.split_feature_target(dataFrame)
     features,scaler = misc_helper.get_scaler(features)
     # dataFrame = preprocessing.scale(dataFrame)
-    model = svm.SVC(kernel='linear')
+    model = svm.SVC(kernel='linear',probability=True)
     model.fit(features,target)
     return model,scaler
 

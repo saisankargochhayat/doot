@@ -57,7 +57,6 @@ class Predict(websocket.WebSocketHandler):
         test=extract_array(msg)
         predictions = {}
         vote = {}
-        test = test.reshape(1,-1)
         predictions['svm'] = str(svm_model.predict(svm_scaler.transform(test))[0])
         if predictions['svm'] in vote:
             vote[predictions['svm']] = vote[predictions['svm']]+1
