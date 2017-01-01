@@ -6,7 +6,6 @@ from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
 from helper import svm
 dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
-dataFrame = dataFrame[~dataFrame['label'].isin(['m','n'])]
 
 sum_acc = 0
 sum_confusion = [[0 for x in range(22)] for y in range(22)]
