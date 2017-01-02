@@ -10,7 +10,7 @@ max_acc = 0
 best_kernel = 'linear'
 best_degree = 1
 degrees = [x for x in range(20)]
-kernels = ['rbf','poly','linear']
+kernels = ['poly']
 for kernel in kernels:
     for degree in degrees:
         sum_acc = 0
