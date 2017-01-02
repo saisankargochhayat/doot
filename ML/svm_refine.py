@@ -9,7 +9,7 @@ dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
 max_acc = 0
 best_kernel = 'linear'
 best_degree = 1
-degrees = [x for x in range(20)]
+degrees = [x for x in range(1,6)]
 kernels = ['poly']
 for kernel in kernels:
     for degree in degrees:
