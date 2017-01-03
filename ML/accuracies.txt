@@ -1066,3 +1066,26 @@ Dtree:
      4    4    8    0    5    0    1    0 3327    0]
  [   0    0    0    1    0    0    0    0    2    0    2    0    0    0
      0    0    2    0    0    0    0    0    0 3493]]
+
+knn_refine.py:-
+n_neighbors param of knn was varied from 1 to 11 and the accuracies are:-
+1 0.954947121034
+3 0.934618096357
+5 0.923689776733
+7 0.914406580494
+9 0.904841363102
+11 0.898378378378
+
+weights param of knn was varied and the accuracies are:-
+for n_neighbors=7:-
+uniform 0.914171562867
+distance 0.933866039953
+for n_neighbors=5:-
+uniform 0.924206815511
+distance 0.938965922444
+for n_neighbors=3:-
+uniform 0.936098707403
+distance 0.946462984724
+for n_neighbors=1:-
+uniform 0.953490011751
+distance 0.953466509988
