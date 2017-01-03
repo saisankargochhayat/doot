@@ -12,10 +12,10 @@ sum_acc = 0
 sum_confusion = np.array([[0 for x in range(24)] for y in range(24)])
 for i in range(100):
 
-    acc,confusion = svm.find_accuracy(dataFrame,'linear')
+    acc,confusion = svm.find_accuracy(dataFrame)
     sum_acc = sum_acc+ acc
     sum_confusion = np.add(sum_confusion,confusion)
 
 
-misc_helper.write_matrix(sum_confusion,"conf_matrices/svm_conf.csv")
+misc_helper.write_matrix(sum_confusion,"conf_matrices/svm_poly_conf.csv")
 print(sum_acc/100)
