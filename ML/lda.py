@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
-from helper import lda
+from helper import lda,misc_helper
 dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
 
 
@@ -17,5 +17,5 @@ for i in range(100):
     sum_confusion = np.add(sum_confusion,confusion)
 
 
-print(sum_confusion)
+misc_helper.write_matrix(sum_confusion,"conf_matrices/lda_conf.csv")
 print(sum_acc/100)
