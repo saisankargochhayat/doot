@@ -10,7 +10,7 @@ dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
 
 sum_acc = 0
 sum_confusion = [[0 for x in range(24)] for y in range(24)]
-for i in range(200):
+for i in range(100):
 
     acc,confusion = lda.find_accuracy(dataFrame)
     sum_acc = sum_acc+ acc
@@ -18,4 +18,4 @@ for i in range(200):
 
 
 print(sum_confusion)
-print(sum_acc/200)
+print(sum_acc/100)
