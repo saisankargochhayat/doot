@@ -21,7 +21,7 @@ def find_accuracy(dataFrame,kernel='poly',degree=3,c=1):
     confusion = confusion_matrix(test_target,predictions)
     return result,confusion
 
-def get_model(dataFrame):
+def get_model(dataFrame,kernel='poly',degree=3,c=1):
     features,target = misc_helper.split_feature_target(dataFrame)
     features,scaler = misc_helper.get_scaler(features)
     # dataFrame = preprocessing.scale(dataFrame)
@@ -29,7 +29,7 @@ def get_model(dataFrame):
     model.fit(features,target)
     return model,scaler
 
-def get_set_model(dataFrame,my_set,feature_list):
+def get_set_model(dataFrame,my_set,feature_list,kernel='poly',degree=3,c=1):
     dataFrame = dataFrame[dataFrame['label'].isin(my_set)]
     dataFrame = dataFrame[feature_list]
     features,target = misc_helper.split_feature_target(dataFrame)
@@ -38,7 +38,7 @@ def get_set_model(dataFrame,my_set,feature_list):
     model.fit(features,target)
     return model,scaler
 
-def get_set_accuracy(dataFrame,my_set,feature_list):
+def get_set_accuracy(dataFrame,my_set,feature_list,kernel='poly',degree=3,c=1):
     dataFrame = dataFrame[dataFrame['label'].isin(my_set)]
     dataFrame = dataFrame[feature_list]
     features,target = misc_helper.split_feature_target(dataFrame)

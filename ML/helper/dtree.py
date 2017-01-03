@@ -8,11 +8,11 @@ from sklearn import preprocessing
 # import misc_helper
 from . import misc_helper
 
-def find_accuracy(dataFrame,x=0):
+def find_accuracy(dataFrame):
     features,target = misc_helper.split_feature_target(dataFrame)
     train,test,train_target,test_target = train_test_split(features,target,test_size = 0.2,stratify=target)
     train,test = misc_helper.get_scaled_data(train,test)
-    model = DecisionTreeClassifier(min_samples_split=x)
+    model = DecisionTreeClassifier()
     model.fit(train,train_target)
 
     predictions = model.predict(test)

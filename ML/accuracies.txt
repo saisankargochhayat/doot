@@ -1068,34 +1068,7 @@ Dtree:
      0    0    2    0    0    0    0    0    0 3493]]
 -----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------
-knn_refine.py:-
-knn model parameters were varied to note any improvements in accuracy and the
-following was observed.
-
-n_neighbors param of knn was varied from 1 to 11 and the accuracies are:-
-1 0.954947121034
-3 0.934618096357
-5 0.923689776733
-7 0.914406580494
-9 0.904841363102
-11 0.898378378378
-
-weights param of knn was varied and the accuracies are:-
-for n_neighbors=7:-
-uniform 0.914171562867
-distance 0.933866039953
-for n_neighbors=5:-
-uniform 0.924206815511
-distance 0.938965922444
-for n_neighbors=3:-
-uniform 0.936098707403
-distance 0.946462984724
-for n_neighbors=1:-
-uniform 0.953490011751
-distance 0.953466509988
------------------------------------------------------------------------------------
------------------------------------------------------------------------------------
-Dtree models are optimized at its default values. Varying parameters doesnt
+Dtree models are optimized at its default values. Varying parameters doesn't
 really make any sense in our context
 min_samples_split was varied
 1e-10 0.921997649824
