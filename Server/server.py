@@ -25,7 +25,7 @@ from helper import svm,knn,dtree,sgd,lda
 
 data = []
 labels = []
-dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
+dataFrame = pandas.read_csv('../CSV_Data/dataset_0.csv')
 svm_model , svm_scaler = svm.get_model(dataFrame)
 knn_model , knn_scaler = knn.get_model(dataFrame)
 sgd_model , sgd_scaler = sgd.get_model(dataFrame)

@@ -24,24 +24,38 @@ def extract_array(frame,norm_frame):
         data.append(finger_angle(frame['pointables'][i],frame['pointables'][i+1]))
     # Normalized tip distance from palmCenter
     # PalmPosition is the 3d vector of palmCenter only
-    for pointable,norm_pointable in zip(frame['pointables'],norm_frame['pointables']):
-        tip_vector = np.subtract(hand['palmPosition'],pointable['tipPosition'])
-        tip_distance = np.linalg.norm(tip_vector)
-        norm_tip_vector = np.subtract(norm_hand['palmPosition'],norm_pointable['tipPosition'])
-        norm_tip_distance = np.linalg.norm(norm_tip_vector)
-        normalized_distance = tip_distance/norm_tip_distance
-        # Normalized distance shud be between 0 to 1
-        # But if it is slightly above 1 due to recording error , it can be assigned to 1
-        if(normalized_distance > 1):
-            normalized_distance=1
-        data.append(normalized_distance)
-    #Finger tip directions
+    # for pointable,norm_pointable in zip(frame['pointables'],norm_frame['pointables']):
+    #     tip_vector = np.subtract(hand['palmPosition'],pointable['tipPosition'])
+    #     tip_distance = np.linalg.norm(tip_vector)
+    #     norm_tip_vector = np.subtract(norm_hand['palmPosition'],norm_pointable['tipPosition'])
+    #     norm_tip_distance = np.linalg.norm(norm_tip_vector)
+    #     normalized_distance = tip_distance/norm_tip_distance
+    #     # Normalized distance shud be between 0 to 1
+    #     # But if it is slightly above 1 due to recording error , it can be assigned to 1
+    #     if(normalized_distance > 1):
+    #         normalized_distance=1
+    #     data.append(normalized_distance)
+    direction = 0
+    if hand['palmNormal'][1]<-0.7:
+        direction=1
+    elif hand['palmNormal'][1]>0.7:
+        direction=2
+    else:
+        if hand['palmNormal'][0]<-0.7:
+            direction=3
+        elif hand['palmNormal'][0]>0.7:
+            direction=4
+        else:
+            if hand['palmNormal'][2]<-0.7:
+                direction=5
+            elif hand['palmNormal'][2]>0.7:
+                direction=6
+    data.append(direction)
+    #Append the label
     for pointable in frame['pointables']:
         data.append(pointable['direction'][0])
         data.append(pointable['direction'][1])
         data.append(pointable['direction'][2])
-
-    #Append the label
     data.append(frame['label'])
     return data
 
@@ -118,16 +132,16 @@ for i in range(5):
     column_names.append(finger_map[i]+'_proxi_inter')
 for i in range(4):
     column_names.append(finger_map[i]+'_'+finger_map[i+1])
+# for i in range(5):
+#     column_names.append(finger_map[i]+'_'+'center_distance')
+column_names.append('palm_direction')
 for i in range(5):
-    column_names.append(finger_map[i]+'_'+'center_distance')
-for i in range(5):
-    column_names.append(finger_map[i]+'_'+'dx')
-    column_names.append(finger_map[i]+'_'+'dy')
-    column_names.append(finger_map[i]+'_'+'dz')
-
+    column_names.append(finger_map[i]+"_direction_x")
+    column_names.append(finger_map[i]+"_direction_y")
+    column_names.append(finger_map[i]+"_direction_z")
 column_names.append('label')
 # Convert to pandas Dataframe
 data_df = pandas.DataFrame(data,columns=column_names)
 # Write to csv File
-data_df.to_csv('CSV_Data/dataset_2.csv',index=False)
+data_df.to_csv('CSV_Data/dataset_0.csv',index=False)
 print("Successfully Created CSV file")
