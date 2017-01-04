@@ -309,14 +309,17 @@
         if(letter=='space'){
           VoiceRSS.speech({
                 key: '5b8c45196d81485e956bd4cca83da0c9',
-                src: words.innerHTML,
+                src: received_msg['word'],
                 hl: 'en-us',
                 r: 0,
                 c: 'mp3',
                 f: '44khz_16bit_stereo',
                 ssml: false
             });
-            words.innerHTML = words.innerHTML+" ";
+            a = words.innerHTML.split(" ")
+            a[a.length-1] = received_msg['word']
+            words.innerHTML = a.join(' ')
+            words.innerHTML = words.innerHTML+" "
         }else{
           if(letter=='back'){
             words.innerHTML = words.innerHTML.slice(0,-1)

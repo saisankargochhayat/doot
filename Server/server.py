@@ -21,6 +21,7 @@ from  tornado.escape import json_encode
 from feature_extracter_live import *
 from sklearn import preprocessing
 from helper import svm,knn,dtree,sgd,lda
+from textblob import TextBlob
 # define("port", default=8080, help="run on the given port", type=int)
 
 data = []
@@ -32,11 +33,13 @@ sgd_model , sgd_scaler = sgd.get_model(dataFrame)
 dtree_model , dtree_scaler = dtree.get_model(dataFrame)
 lda_model , lda_scaler = lda.get_model(dataFrame)
 print("Trained")
-
+sentence = ""
 class HomeHandler(web.RequestHandler):
     def get(self):
         self.render("static/index.html")
-
+class Words(web.RequestHandler):
+    def get(self):
+        self.render("static/words.html")
 class Predictor(web.RequestHandler):
     def get(self):
         self.render("static/predictor.html")
@@ -53,6 +56,7 @@ class Predict(websocket.WebSocketHandler):
         print("WebSocket opened")
 
     def on_message(self, message):
+        global sentence
         msg = json.loads(message)
         test=extract_array(msg)
         predictions = {}
@@ -88,6 +92,20 @@ class Predict(websocket.WebSocketHandler):
             vote[predictions['dtree']] = 1
         count = collections.Counter(vote)
         predictions['max_vote'] = count.most_common(1)[0][0]
+        letter = predictions['max_vote']
+        if(letter=='space' or letter=='back'):
+            if(letter=='space'):
+                a = sentence.split(" ")
+                word = a[len(a)-1]
+                blob = TextBlob(word)
+                predictions['word'] = str(blob.correct())
+                a[len(a)-1] = str(blob.correct())
+                sentence = " ".join(a)
+                sentence = sentence+" "
+            else:
+                sentence = sentence[:-1]
+        else:
+            sentence = sentence + letter
         self.write_message(predictions)
 
     def on_close(self):
@@ -98,6 +116,7 @@ app = web.Application([
     (r"/",HomeHandler),
     (r"/predictor",Predictor),
     (r"/visualizer",Visualizer),
+    (r"/words",Words),
     (r"/ws",Predict),
     ])
 
