@@ -98,8 +98,10 @@ class Predict(websocket.WebSocketHandler):
                 a = sentence.split(" ")
                 word = a[len(a)-1]
                 blob = TextBlob(word)
-                predictions['word'] = str(blob.correct())
-                a[len(a)-1] = str(blob.correct())
+                # corrected = word
+                corrected = str(blob.correct())
+                predictions['word'] = corrected
+                a[len(a)-1] = corrected
                 sentence = " ".join(a)
                 sentence = sentence+" "
             else:
