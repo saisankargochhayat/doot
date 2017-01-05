@@ -1081,3 +1081,39 @@ min_samples_split was varied
 0.001 0.915887191539
 0.01 0.889870740306
 0.1 0.606486486486
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+knn_refine.py:-
+Parameters of the knn model were varied to note any improvements in the accuracy
+and the following were observed:-
+
+n_neighbors param was varied from 1 to 11:-
+1 0.953819036428
+3 0.934477085781
+5 0.922162162162
+7 0.915675675676
+9 0.905875440658
+11 0.89866039953
+
+weights param was varied between 'uniform' and 'distance':-
+for n_neighbors=7:-
+uniform 0.91428907168
+distance 0.935652173913
+for n_neighbors=5:-
+uniform 0.92357226792
+distance 0.937602820212
+for n_neighbors=3:-
+uniform 0.932996474736
+distance 0.945405405405
+for n_neighbors=1:-
+uniform 0.953701527615     || Both are same in this case as highest possible
+distance 0.9533960047      || accuracy is achieved when n_neighbors=1
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+sgd_refine.py:-
+Variation in loss parameter showed no change in accuracy. While variation in
+penalty parameter gave the following results:-
+none 0.727191539365
+l2 0.614030552291
+l1 0.727356051704
+elasticnet 0.638801410106
