@@ -8,9 +8,9 @@ import collections
 import string
 
 dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
-dataFrame = dataFrame[~dataFrame['label'].isin(['m','n'])]
+# dataFrame = dataFrame[~dataFrame['label'].isin(['m','n'])]
 sum_acc = 0
-for i in range(1):
+for i in range(100):
     train,test = train_test_split(dataFrame,stratify=dataFrame['label'])
     test,test_target = misc_helper.split_feature_target(test)
     svm_model,svm_scaler = svm.get_model(train)
@@ -74,11 +74,11 @@ for i in range(1):
         class_list = list(string.ascii_lowercase)
         class_list.remove('j')
         class_list.remove('z')
-        class_list.remove('m')
-        class_list.remove('n')
+        # class_list.remove('m')
+        # class_list.remove('n')
         predictions.append(class_list[index])
         i = i+1
 
 
     sum_acc = sum_acc + accuracy_score(predictions,test_target)
-print(sum_acc/1)
+print(sum_acc/100)

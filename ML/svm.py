@@ -15,7 +15,15 @@ for i in range(100):
     acc,confusion = svm.find_accuracy(dataFrame)
     sum_acc = sum_acc+ acc
     sum_confusion = np.add(sum_confusion,confusion)
-
-
-misc_helper.write_matrix(sum_confusion,"conf_matrices/svm_poly_conf.csv")
+print(sum_confusion)
+sum_confusion = sum_confusion.transpose()
+credibility = np.array([0.0 for x in range(24)])
+for i in range(len(credibility)):
+    # print(sum_confusion[i][i])
+    # print("by")
+    # print(np.sum(sum_confusion[i]))
+    credibility[i] = float(sum_confusion[i][i])/float(np.sum(sum_confusion[i]))
+# misc_helper.write_matrix(sum_confusion,"conf_matrices/svm_poly_conf.csv")
+# print(sum_confusion)
+print(credibility)
 print(sum_acc/100)

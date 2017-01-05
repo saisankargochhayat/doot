@@ -51,3 +51,22 @@ def get_set_accuracy(dataFrame,my_set,feature_list,kernel='poly',degree=3,c=1):
     result = accuracy_score(test_target,predictions)
     confusion = confusion_matrix(test_target,predictions)
     return result,confusion
+
+def get_precision(dataFrame,kernel='poly',degree=3,c=1):
+    features,target = misc_helper.split_feature_target(dataFrame)
+    sum_confusion = np.array([[0 for x in range(24)] for y in range(24)])
+    for i in range(50):
+        train,test,train_target,test_target = train_test_split(features,target,test_size = 0.2,stratify=target)
+        train,test = misc_helper.get_scaled_data(train,test)
+        model = svm.SVC(kernel=kernel,degree=degree,C=c)
+        # print(model)
+        model.fit(train,train_target)
+
+        predictions = model.predict(test)
+        confusion = confusion_matrix(test_target,predictions)
+        sum_confusion = np.add(sum_confusion,confusion)
+    sum_confusion = sum_confusion.transpose()
+    credibility = np.array([0.0 for x in range(24)])
+    for i in range(len(credibility)):
+        credibility[i] = float(sum_confusion[i][i])/float(np.sum(sum_confusion[i]))
+    return credibility
