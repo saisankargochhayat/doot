@@ -1,6 +1,9 @@
 from tornado import websocket, web, ioloop
+import os
+path=os.getcwd()
+path=path.strip('Server') + 'ML'
 import sys
-sys.path.insert(0,'/home/rishi/doot/ML')
+sys.path.append(path)
 import tornado.escape
 from tornado import gen
 import tornado.httpserver
