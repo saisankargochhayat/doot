@@ -1123,11 +1123,9 @@ dataset_7.csv
 Accuracy has slightly increased without pinchStrength and grabStrength which shows
 that they were only redundant features and created confusion.
 SVM :
-0.959972640219
+0.959772640219
 KNN :
-1 0.957113543092
-3 0.938358413133
-5 0.927852257182
+0.927852257182
 Dtree :
 0.928440492476
 LDA :
@@ -1138,3 +1136,19 @@ SGD :
 -----------------------------------------------------------------------------------------
 Using dataset7 , boosting was implemented in which precision was found for every model
 and then summed over all the models. Using this , accuracy comes out to be 96.4%
+-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+0.617384404925
+
+Also adding palmNormal vectors without only the direction(in sandy_2.csv), accuracy
+of Dtree and LDA has only improved significantly
+SVM :
+0.959541723666
+KNN :
+0.92865253078
+Dtree :
+0.933064295486
+LDA :
+0.902270861833
+SGD :
+0.61902872777
