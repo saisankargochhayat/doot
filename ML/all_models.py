@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from helper import knn,svm,dtree,sgd,lda
 
-dataFrame = pandas.read_csv('../CSV_Data/dataset_6.csv')
+dataFrame = pandas.read_csv('../CSV_Data/dataset_7.csv')
 
 sum_svm_acc=0
 sum_knn_acc=0
@@ -45,16 +45,16 @@ sum_sgd_acc=sum_sgd_acc/200
 sum_knn_acc=sum_knn_acc/200
 sum_dtree_acc=sum_dtree_acc/200
 
-print("SVM : ")
-print(sum_svm_confusion)
-print("KNN : ")
-print(sum_knn_confusion)
-print("Dtree : ")
-print(sum_dtree_confusion)
-print("LDA : ")
-print(sum_lda_confusion)
-print("SGD : ")
-print(sum_sgd_confusion)
+# print("SVM : ")
+# print(sum_svm_confusion)
+# print("KNN : ")
+# print(sum_knn_confusion)
+# print("Dtree : ")
+# print(sum_dtree_confusion)
+# print("LDA : ")
+# print(sum_lda_confusion)
+# print("SGD : ")
+# print(sum_sgd_confusion)
 
 
 print("SVM : ")

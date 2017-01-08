@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
 from helper import knn,lda,dtree,misc_helper,sgd,svm
 
-initialData = pandas.read_csv('../CSV_Data/dataset_6.csv')
+initialData = pandas.read_csv('../CSV_Data/dataset_7.csv')
 allData = initialData
 all_features = allData.columns.values
 sets = [['a','m','n','s','t','q','o','g','x'],['b','e','c'],['h','k','u','v'],['d','r','p']]
@@ -46,12 +46,12 @@ for curr_set,feature_list in zip(sets,feature_lists):
     dtree_sum_acc = dtree_sum_acc/100
     print(curr_set)
     print("SVM : " + str(svm_sum_acc))
-    print(svm_conf_matrix)
+    # print(svm_conf_matrix)
     print("KNN : " + str(knn_sum_acc))
-    print(knn_conf_matrix)
+    # print(knn_conf_matrix)
     print("DTREE : " + str(dtree_sum_acc))
-    print(dtree_conf_matrix)
+    # print(dtree_conf_matrix)
     print("SGD : " + str(sgd_sum_acc))
-    print(sgd_conf_matrix)
+    # print(sgd_conf_matrix)
     print("LDA : " + str(lda_sum_acc))
-    print(lda_conf_matrix)
+    # print(lda_conf_matrix)
