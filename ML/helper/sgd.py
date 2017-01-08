@@ -65,7 +65,7 @@ def get_precision(dataFrame, loss="hinge", penalty="l2"):
         confusion = confusion_matrix(test_target,predictions)
         sum_confusion = np.add(sum_confusion,confusion)
     sum_confusion = sum_confusion.transpose()
-    credibility = np.array([0.0 for x in range(24)])
-    for i in range(len(credibility)):
-        credibility[i] = float(sum_confusion[i][i])/float(np.sum(sum_confusion[i]))
-    return credibility
+    precision = [[0.0 for x in range(24)] for y in range(24)]
+    for i in range(len(precision)):
+        precision[i] = np.divide(sum_confusion[i],np.sum(sum_confusion[i]))
+    return precision

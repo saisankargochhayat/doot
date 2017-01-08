@@ -1134,3 +1134,7 @@ LDA :
 0.896155950752
 SGD :
 0.624384404925
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+Using dataset7 , boosting was implemented in which precision was found for every model
+and then summed over all the models. Using this , accuracy comes out to be 96.4%
