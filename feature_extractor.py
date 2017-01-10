@@ -11,8 +11,8 @@ def extract_array(frame,norm_frame):
     hand = frame['hands'][0]
     norm_hand = norm_frame['hands'][0]
     data = []
-    data.append(hand['pinchStrength'])
-    data.append(hand['grabStrength'])
+    # data.append(hand['pinchStrength'])
+    # data.append(hand['grabStrength'])
     # Angle between metacarpal,proximal and proximal,intermediate for every finger
     # Through expreiment, it was found that frame['pointables'] is an array of pointables
     # in the following format : thumb, index, middle, ring, pinky
@@ -35,6 +35,8 @@ def extract_array(frame,norm_frame):
         if(normalized_distance > 1):
             normalized_distance=1
         data.append(normalized_distance)
+    for i in range(3):
+        data.append(hand['direction'][i])
     direction = 0
     if hand['palmNormal'][1]<-0.7:
         direction=1
@@ -125,7 +127,7 @@ for collection_name in db.collection_names(): # For all the collections in the d
 print("Length of Dataset : " + str(len(data)))
 # column_names contains the name of every column
 # It is used to create the pandas dataframe
-column_names = ['pinchStrength','grabStrength']
+column_names = []
 finger_map = ['thumb','index','middle','ring','pinky']
 for i in range(5):
     column_names.append(finger_map[i]+'_meta_proxi')
@@ -134,6 +136,9 @@ for i in range(4):
     column_names.append(finger_map[i]+'_'+finger_map[i+1])
 for i in range(5):
     column_names.append(finger_map[i]+'_'+'center_distance')
+column_names.append('hand_direction_x')
+column_names.append('hand_direction_y')
+column_names.append('hand_direction_z')
 column_names.append('palm_direction')
 for i in range(5):
     column_names.append(finger_map[i]+"_direction_x")
@@ -143,5 +148,5 @@ column_names.append('label')
 # Convert to pandas Dataframe
 data_df = pandas.DataFrame(data,columns=column_names)
 # Write to csv File
-data_df.to_csv('CSV_Data/set_experiment/rishi_1.csv',index=False)
+data_df.to_csv('CSV_Data/set_experiment/sandy_3.csv',index=False)
 print("Successfully Created CSV file")
