@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 from sklearn import preprocessing
 # import misc_helper
 from . import misc_helper
@@ -18,7 +19,9 @@ def find_accuracy(dataFrame, n_neighbors=5, weights='uniform'):
     predictions = model.predict(test)
     result = accuracy_score(test_target,predictions)
     confusion = confusion_matrix(test_target,predictions)
-    return result,confusion
+    classification=classification_report(test_target,predictions)
+    return result,confusion,classification
+
 
 def get_model(dataFrame):
     features,target = misc_helper.split_feature_target(dataFrame)
