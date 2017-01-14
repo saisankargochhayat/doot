@@ -5,11 +5,22 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
-initialData = pandas.read_csv('../CSV_Data/dataset_6.csv')
+initialData = pandas.read_csv('../CSV_Data/dataset_8.csv')
 allData = initialData
 all_features = allData.columns.values
 sets = [['a','m','n','s','t','q','o','g','x'],['b','e','c'],['h','k','u','v'],['d','r','p']]
-feature_lists = [all_features,all_features,all_features,all_features]
+coord = ['x','y','z']
+finger_map = ['thumb','index','middle','ring','pinky']
+feature_list_1 = all_features.tolist()
+for axis in coord:
+    feature_list_1.remove('hand_direction_'+ axis)
+feature_list_2 = ['label']
+for axis in coord:
+    feature_list_2.append('hand_direction_'+ axis)
+for finger in finger_map:
+    for axis in coord:
+        feature_list_2.append(finger + '_direction_' + axis)
+feature_lists = [feature_list_1,feature_list_2,feature_list_2,feature_list_2]
 
 sum_accuracy = 0
 for i in range(100):
@@ -40,8 +51,8 @@ for i in range(100):
     # # dataFrame = preprocessing.scale(dataFrame)
     # set_model = main_svm.SVC(kernel='linear')
     # set_model.fit(features,target)
-    set_model , set_scaler = svm.get_model(main_train)
-    main_test_features = main_test.drop('label',axis=1).values
+    set_model , set_scaler = svm.get_set_model(main_train,main_train['label'].unique(),feature_list_1)
+    main_test_features = main_test[feature_list_1].drop('label',axis=1).values
     set_predictions = set_model.predict(set_scaler.transform(main_test_features))
     main_test['actual'] = main_test['label']
     main_test['set_label'] = set_predictions
