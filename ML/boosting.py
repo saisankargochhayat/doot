@@ -7,7 +7,7 @@ from helper import knn,svm,dtree,sgd,lda,ridge,misc_helper
 import collections
 import string
 
-dataFrame = pandas.read_csv('../CSV_Data/dataset_7.csv')
+dataFrame = pandas.read_csv('../CSV_Data/dataset_8.csv')
 svm_precision = svm.get_precision(dataFrame)
 knn_precision = knn.get_precision(dataFrame)
 sgd_precision = sgd.get_precision(dataFrame)

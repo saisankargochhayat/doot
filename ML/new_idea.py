@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
+import warnings
+warnings.filterwarnings('ignore')
 initialData = pandas.read_csv('../CSV_Data/dataset_8.csv')
 allData = initialData
 all_features = allData.columns.values
@@ -23,6 +25,8 @@ for finger in finger_map:
 feature_lists = [feature_list_1,feature_list_2,feature_list_2,feature_list_2]
 
 sum_accuracy = 0
+sum_set_divide = 0
+sum_set= [0.0,0.0,0.0,0.0]
 for i in range(100):
     main_train,main_test = train_test_split(allData,test_size = 0.2,stratify=allData['label'])
     modelList = []
@@ -57,7 +61,9 @@ for i in range(100):
     main_test['actual'] = main_test['label']
     main_test['set_label'] = set_predictions
     main_test['label'] = main_test['set_label']
-
+    main_test['actual_set'] = main_test['actual']
+    for i in range(0,4):
+        main_test['actual_set'][main_test['actual_set'].isin(sets[i])] = str(i)
     for i in range(0,4):
         current_data = main_test[main_test['set_label'] == str(i)]
         # print(current_data)
@@ -67,5 +73,17 @@ for i in range(100):
         feature_data = scalerList[i].transform(feature_data)
         main_test['label'][main_test['set_label']==str(i)] = modelList[i].predict(feature_data)
     sum_accuracy = sum_accuracy + accuracy_score(main_test['actual'].values,main_test['label'].values)
-
+    for i in range(len(sum_set)):
+        actuals = main_test['actual'][main_test['actual'].isin(sets[i])].values
+        indexes = main_test['actual'][main_test['actual'].isin(sets[i])].index.tolist()
+        predicts = main_test['label'][indexes].values
+        sum_set[i] = sum_set[i] + accuracy_score(actuals,predicts)
+        main_test['label'][main_test['actual'].isin(sets[i])]
+    sum_set_divide = sum_set_divide + accuracy_score(main_test['set_label'].values,main_test['actual_set'])
+print("Overall accuracy")
 print(sum_accuracy/100)
+sum_set = np.divide(sum_set,100)
+print("Accuracy of different sets")
+print(sum_set)
+print("Set divide accuracy")
+print(sum_set_divide/100)
