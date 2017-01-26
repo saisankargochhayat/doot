@@ -4,8 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
-from sklearn.ensemble import GradientBoostingClassifiercation_report
-
+from sklearn import linear_mode
 # import misc_helper
 from . import misc_helper
 
@@ -13,7 +12,7 @@ def find_accuracy():
     features,target = misc_helper.split_feature_target(dataFrame)
     train,test,train_target,test_target = train_test_split(features,target,test_size = 0.2,stratify=target)
     train,test = misc_helper.get_scaled_data(train,test)
-    model =GradientBoostingClassifier()
+    model = linear_model.LogisticRegression(C=1e5)
     model.fit(train,train_target)
 
     predictions = model.predict(test)
@@ -27,7 +26,7 @@ def get_model(dataFrame):
     features,target = misc_helper.split_feature_target(dataFrame)
     features,scaler = misc_helper.get_scaler(features)
     # dataFrame = preprocessing.scale(dataFrame)
-    model = GradientBoostingClassifier()
+    model = linear_model.LogisticRegression(C=1e5)
     model.fit(features,target)
     return model,scaler
 
@@ -36,7 +35,7 @@ def get_set_model(dataFrame,my_set,feature_list):
     dataFrame = dataFrame[feature_list]
     features,target = misc_helper.split_feature_target(dataFrame)
     features,scaler = misc_helper.get_scaler(features)
-    model =GradientBoostingClassifier()
+    model = linear_model.LogisticRegression(C=1e5)
     model.fit(features,target)
     return model,scaler
 
@@ -46,7 +45,7 @@ def get_set_accuracy(dataFrame,my_set,feature_list):
     features,target = misc_helper.split_feature_target(dataFrame)
     train,test,train_target,test_target = train_test_split(features,target,test_size = 0.2,stratify=target)
     train,test = misc_helper.get_scaled_data(train,test)
-    model =GradientBoostingClassifier()
+    model = linear_model.LogisticRegression(C=1e5)
     model.fit(train,train_target)
 
     predictions = model.predict(test)
@@ -60,7 +59,7 @@ def get_precision(dataFrame, n_neighbors=5, weights='uniform'):
     for i in range(50):
         train,test,train_target,test_target = train_test_split(features,target,test_size = 0.2,stratify=target)
         train,test = misc_helper.get_scaled_data(train,test)
-        model = GradientBoostingClassifier()
+        model = linear_model.LogisticRegression(C=1e5)
         # print(model)
         model.fit(train,train_target)
 

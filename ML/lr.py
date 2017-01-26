@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
-from sklearn import preprocessing, cross_validation, svm
+from sklearn import preprocessing
 from sklearn import linear_model
 
 model = linear_model.LogisticRegression(C=1e5)
