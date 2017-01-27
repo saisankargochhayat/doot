@@ -4,12 +4,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
-from sklearn.ensemble import GradientBoostingClassifiercation_report
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import classification_report
 
 # import misc_helper
 from . import misc_helper
 
-def find_accuracy():
+def find_accuracy(dataFrame):
     features,target = misc_helper.split_feature_target(dataFrame)
     train,test,train_target,test_target = train_test_split(features,target,test_size = 0.2,stratify=target)
     train,test = misc_helper.get_scaled_data(train,test)
