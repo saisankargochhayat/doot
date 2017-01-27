@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
-from sklearn import linear_mode
+from sklearn import linear_model
 from sklearn.metrics import classification_report
 # import misc_helper
 from . import misc_helper

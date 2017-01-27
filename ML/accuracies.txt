@@ -1122,8 +1122,13 @@ elasticnet 0.638801410106
 dataset_7.csv
 Accuracy has slightly increased without pinchStrength and grabStrength which shows
 that they were only redundant features and created confusion.
+
 SVM :
 0.959772640219
+GBC:
+0.955690834473
+LR:
+0.952640218878
 KNN :
 0.927852257182
 Dtree :
