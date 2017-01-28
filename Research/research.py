@@ -37,7 +37,7 @@ class Prediction(websocket.WebSocketHandler):
         print("WebSocket closed")
 
 app = web.Application([
-    (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),
+    (r'/assets/(.*)', web.StaticFileHandler, {'path': 'static/assets/'}),
     (r"/",HomeHandler),
     (r"/ws",Prediction),
     ])
