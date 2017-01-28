@@ -1,62 +1,138 @@
-import subprocess
-from bottle import run, post, request, response, get, route
-from bottle import static_file
+from tornado import websocket, web, ioloop
+import os
+path=os.getcwd()
+path=path.strip('Server') + 'ML'
+import sys
+sys.path.append(path)
+import tornado.escape
+from tornado import gen
+import tornado.httpserver
+import tornado.options
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 from sklearn.linear_model import SGDClassifier
 from sklearn import svm
-from data_loader import data_loader
-# import pprint
+import collections
+# from data_loader import data_loader
+import json
+import pprint
+import pandas
+from sklearn import svm
+import numpy as np
+from  tornado.escape import json_decode
+from  tornado.escape import json_encode
+from feature_extracter_live import *
+from sklearn import preprocessing
+from helper import svm,knn,dtree,sgd,lda
+from textblob import TextBlob
+# define("port", default=8080, help="run on the given port", type=int)
 
 data = []
 labels = []
-
-knn_model= KNeighborsClassifier()
-svm_model = svm.SVC()
-sgd_model = SGDClassifier(loss="hinge", penalty="l2")
-dtree_model = tree.DecisionTreeClassifier()
-
-# data_loader is a function that loads data from the given csv files
-data,labels = data_loader()
-
-knn_model.fit(data,labels)
-svm_model.fit(data,labels)
-sgd_model.fit(data,labels)
-dtree_model.fit(data,labels)
+dataFrame = pandas.read_csv('../CSV_Data/dataset_0.csv')
+svm_model , svm_scaler = svm.get_model(dataFrame)
+knn_model , knn_scaler = knn.get_model(dataFrame)
+sgd_model , sgd_scaler = sgd.get_model(dataFrame)
+dtree_model , dtree_scaler = dtree.get_model(dataFrame)
+lda_model , lda_scaler = lda.get_model(dataFrame)
+qda_model , qda_scaler = qda.get_model(dataFrame)
 print("Trained")
+sentence = ""
+class HomeHandler(web.RequestHandler):
+    def get(self):
+        self.render("static/index.html")
+class Words(web.RequestHandler):
+    def get(self):
+        self.render("static/words.html")
+class Predictor(web.RequestHandler):
+    def get(self):
+        self.render("static/predictor.html")
 
-@route('/',method='GET')
-def index():
-    return static_file('index.html',root='static/')
+class Visualizer(web.RequestHandler):
+    def get(self):
+        self.render("static/visualizer.html")
 
-@route('/predictor',method='GET')
-def predictor():
-    return static_file('predictor.html',root='static/')
+class Predict(websocket.WebSocketHandler):
+    def check_origin(self, origin):
+        return True
 
-@route('/visualizer',method='GET')
-def predictor():
-    return static_file('visualizer.html',root='static/')
+    def open(self):
+        print("WebSocket opened")
 
-@route('/recorder',method='GET')
-def predictor():
-    return static_file('recorder.html',root='static/')
+    def on_message(self, message):
+        global sentence
+        msg = json.loads(message)
+        test=extract_array(msg)
+        predictions = {}
+        vote = {}
+        predictions['svm'] = str(svm_model.predict(svm_scaler.transform(test))[0])
+        if predictions['svm'] in vote:
+            vote[predictions['svm']] = vote[predictions['svm']]+1
+        else:
+            vote[predictions['svm']] = 1
 
-@route('/static/<filename>',method='GET')
-def serve_static(filename):
-    return static_file(filename,root='static/')
-@route('/train',method = 'GET')
-def train():
-    return "Trained"
+        predictions['knn'] = str(knn_model.predict(knn_scaler.transform(test))[0])
+        if predictions['knn'] in vote:
+            vote[predictions['knn']] = vote[predictions['knn']]+1
+        else:
+            vote[predictions['knn']] = 1
 
-@route('/predict',method = 'POST')
-def predict():
-    test_data = request.json['ar'];
-    # print(test_data)
-    predictions = {};
-    predictions['knn'] = str(knn_model.predict(test_data)[0])
-    predictions['svm'] = str(svm_model.predict(test_data)[0])
-    predictions['sgd'] = str(sgd_model.predict(test_data)[0])
-    predictions['dtree'] = str(dtree_model.predict(test_data)[0])
-    # print(predictions)
-    return predictions
-run(host='localhost', port=8080, debug=True)
+        predictions['lda'] = str(lda_model.predict(lda_scaler.transform(test))[0])
+        if predictions['lda'] in vote:
+            vote[predictions['lda']] = vote[predictions['lda']]+1
+        else:
+            vote[predictions['lda']] = 1
+
+        predictions['qda'] = str(qda_model.predict(qda_scaler.transform(test))[0])
+        if predictions['qda'] in vote:
+            vote[predictions['qda']] = vote[predictions['qda']]+1
+        else:
+            vote[predictions['qda']] = 1
+
+        predictions['sgd'] = str(sgd_model.predict(sgd_scaler.transform(test))[0])
+        if predictions['sgd'] in vote:
+            vote[predictions['sgd']] = vote[predictions['sgd']]+1
+        else:
+            vote[predictions['sgd']] = 1
+
+        predictions['dtree'] = str(dtree_model.predict(dtree_scaler.transform(test))[0])
+        if predictions['dtree'] in vote:
+            vote[predictions['dtree']] = vote[predictions['dtree']]+1
+        else:
+            vote[predictions['dtree']] = 1
+        count = collections.Counter(vote)
+        predictions['max_vote'] = count.most_common(1)[0][0]
+        letter = predictions['max_vote']
+        if(letter=='space' or letter=='back'):
+            if(letter=='space'):
+                a = sentence.split(" ")
+                word = a[len(a)-1]
+                blob = TextBlob(word)
+                # corrected = word
+                corrected = str(blob.correct())
+                predictions['word'] = corrected
+                a[len(a)-1] = corrected
+                sentence = " ".join(a)
+                sentence = sentence+" "
+            else:
+                sentence = sentence[:-1]
+        else:
+            sentence = sentence + letter
+        self.write_message(predictions)
+
+    def on_close(self):
+        print("WebSocket closed")
+
+app = web.Application([
+    (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),
+    (r"/",HomeHandler),
+    (r"/predictor",Predictor),
+    (r"/visualizer",Visualizer),
+    (r"/words",Words),
+    (r"/ws",Predict),
+    ])
+
+if __name__ == '__main__':
+    app.listen(8080)
+    print("Listening at 127.0.0.1:8080")
+    ioloop.IOLoop.instance().start()

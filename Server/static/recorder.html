@@ -47,12 +47,12 @@
       var startrecording = function(){
         isrecording = true;
         currentlabel=document.getElementById('currentlabel').value;
-        $('#recording').show();
+        // $('#recording').show();
       }
       var stoprecording = function(){
         isrecording=false
         currentlabel='NULL';
-        $('#recording').hide();
+        // $('#recording').hide();
         //console.log(framedata);
       }
       function writeinfile() {
@@ -78,16 +78,7 @@
         for (i in rotations){
           str+=" "+i+" : "+rotations[i]+ "<br>";
         }
-        //document.getElementById('out').innerHTML = str;
 
-        /////////////////////////////////////////////////////////////
-
-
-        ////////////////////////////////////////////////////////////
-        //str = JSON.stringify(frame.dump());
-        //document.getElementById('out').innerHTML = str;
-      //  console.log(frame);
-        //console.log(Object.keys(str));
         var seenFingers = {};
         var handIds = {};
         if (frame.hands === undefined ) {
@@ -188,7 +179,7 @@
   <body>
     <div id="app" class="show-hands" style="width:50%">
       <button id="showHands">Show Hands</button>
-      <button id="hideHands">hide Hands</button>
+      <button id="hideHands">Hide Hands</button>
       <div id="scene">
         <div id="cube" class="cube">
           <div class="face tp"></div>
@@ -214,6 +205,9 @@
       </div>
     </div>
     <div style="width:50%;position:absolute;top:20%;left:50%;font-size:200%;text-align:center">
+      <div>
+        WebSocket Status : <span id="message"></span>
+      </div>
       <div id="recording" style="font-size:100%;margin-left:30%;width:40%;color:red; display:none;">
         Recording Now
       </div>
@@ -221,8 +215,9 @@
       <input id="currentlabel" type="text" name="label" value="" placeholder="Enter Label Here">
       <br><br>
       <input id="currentuser" type="text" name="label" value="" placeholder="Enter User Here">
-      <br>
-      <br>
+      <br><br>
+      <label style="font-size:60%"><input id="normalizer" type="checkbox" value="norm"> Normalisation Data</label>
+      <br><br>
       <button onclick="startrecording()">Start Recording</button>
       <button onclick="stoprecording()">Stop Recording</button>
       <button onclick="writeinfile()">Write to file</button>
@@ -234,7 +229,23 @@
       </div>
     </div>
   </body>
+
   <script>
+
+    var ws = new WebSocket('ws://localhost:8080/ws');
+
+    ws.onopen = function(){
+      $('#message').text('Open');
+    };
+
+    ws.onclose = function(ev){
+      $('#message').text('Closed');
+    };
+
+    ws.onerror = function(ev){
+      $('#message').text('Error');
+    };
+
     $('body').keyup(function(e){
       if(e.keyCode == 32){
         if(isrecording){
@@ -244,54 +255,38 @@
         }
       }
     });
-    var getAngles = function(finger){
-    var obj = {};
-    var metaCarpelBone = finger.metacarpal;
-    var proximalBone = finger.proximal;
-    var intermediateBone = finger.medial;
-    var dotProduct = Leap.vec3.dot(
-         metaCarpelBone.direction(),
-         proximalBone.direction()
-     );
-     var angle = Math.acos(dotProduct);
-     obj.mp = angle;
-     dotProduct = Leap.vec3.dot(
-          proximalBone.direction(),
-          intermediateBone.direction()
-     );
-    angle = Math.acos(dotProduct);
-    obj.pi = angle;
-    return obj;
-  }
 
-     function tick(frame)
+    function tick(frame)
     {
          //framedata is an array of recorded frames
          if(framedata){
-           if(isrecording){
-             var currdata = [];
              if(frame.hands){
-               if(frame.hands.length>0){
+               if(frame.hands.length==1){
+                 if(isrecording){
                  var strdata = frame.dump().split('Raw JSON:<br/>')[1];
                  var jsondata = JSON.parse(strdata);
-                 jsondata.label = currentlabel;
-                 var newdata = {
-                   frame : JSON.stringify(jsondata),
-                   user : document.getElementById('currentuser').value
+                 if($("#normalizer").is(':checked')){
+                     jsondata.username = document.getElementById('currentuser').value;
+                     var newdata = {
+                       frame : JSON.stringify(jsondata),
+                       user : "norm"
+                     }
+                 } else {
+                     jsondata.label = currentlabel;
+                     var newdata = {
+                       frame : JSON.stringify(jsondata),
+                       user : document.getElementById('currentuser').value
+                     }
                  }
-                 $.ajax({
-                   url : "/savedata",
-                   method : "POST",
-                   data : newdata,
-                   success : function(data){
-                     console.log(data);
-                   }
-                 });
+                 ws.send(JSON.stringify(newdata));
                  updateCount();
+                 isrecording = false;
                }
              }
+           }else{
+             isrecording=false;
            }
          }
-     }
+    }
   </script>
 </html>

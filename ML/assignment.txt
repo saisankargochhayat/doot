@@ -1,0 +1,935 @@
+Divided into sets :
+['a','m','n','s','t','o','x'],
+['b','e','c'],
+['h','k','u','v'],
+['g','q'],
+['d','r','p'],
+['f'],
+['l'],
+['i'],
+['w'],
+['y']
+Features :
+pinchStrength,grabStrength,thumb_meta_proxi,thumb_proxi_inter,index_meta_proxi,
+index_proxi_inter,middle_meta_proxi,middle_proxi_inter,ring_meta_proxi,
+ring_proxi_inter,pinky_meta_proxi,pinky_proxi_inter,thumb_index,index_middle,
+middle_ring,ring_pinky,palm_direction,thumb_direction_x,thumb_direction_y,
+thumb_direction_z,index_direction_x,index_direction_y,index_direction_z,
+middle_direction_x,middle_direction_y,middle_direction_z,ring_direction_x,
+ring_direction_y,ring_direction_z,pinky_direction_x,pinky_direction_y,
+pinky_direction_z,label
+--------------------------------------------------------------------------------------
+
+Randomly 1 letter was taken from each set and a model trained with them then tested
+with test data
+Done 100 times and taken average
+Data was normalized by using preprocessing.standardScalar()
+Accuracies
+SVM :
+0.990391258151
+KNN :
+0.993293315154
+Dtree :
+0.98582231201
+LDA :
+0.986322391169
+SGD :
+0.991548001329
+Confusion Matrices
+SVM :
+[[3643    1    2    0    4    4    6    1    0]
+ [   6 3647    0    0    3    5   10    3    0]
+ [  54  107 3337    0    0    5    7    0    0]
+ [   0    3   16 3469    2    6    4    0    0]
+ [   7    7    0    0 3478    3    5    0    0]
+ [   5   11    1    0    2 3482    9    0    0]
+ [   1    1    0    0    0    5 3498    0    0]
+ [   2    0    0    0    0    0    0 3498    0]
+ [   0    0    0    0    0    0    0    0 3500]]
+KNN :
+[[3635    2    8    0    3    2   11    0    0]
+ [   4 3636   18    0    2    0   10    4    0]
+ [   1    0 3496    4    1    2    5    1    0]
+ [   3    0    1 3473    4    7    8    4    0]
+ [   5    1    0    4 3463    5   19    3    0]
+ [   5    6    2    2    4 3480    8    3    0]
+ [   2    4    2    1    4    8 3467   17    0]
+ [   0    0    0    2    1    1    0 3496    0]
+ [   0    0    0    0    0    0    0    0 3500]]
+Dtree :
+[[3592   15   11    3   12    7    9   11    1]
+ [  17 3575   29    4    8   11   18   12    0]
+ [  12   26 3440    4    6    5    8    4    5]
+ [   1    3    3 3473    5    4    4    3    4]
+ [  10    7    3    1 3460    5    7    5    2]
+ [  17    5    2    7    2 3454   16    5    2]
+ [  11   14    6    3    3   19 3441    6    2]
+ [  10    0    2    5    2    4    4 3473    0]
+ [   0    0    0    0    0    0    0    0 3500]]
+LDA :
+[[3638    2    2    1    4    3    5    6    0]
+ [   8 3653    0    0    1    1    9    2    0]
+ [  54  101 3347    0    1    4    3    0    0]
+ [   1    1   13 3471    3    4    6    1    0]
+ [  13    1    0    4 3460    5   14    3    0]
+ [   7    9    2    6   11 3450   21    4    0]
+ [   7    8    0    1    6   20 3440   23    0]
+ [  35    0    0    1    0    0    0 3464    0]
+ [   0    0    0    0    0    0    0    0 3500]]
+SGD :
+[[3630    1   18    1    1    2    4    4    0]
+ [  10 3615   42    0    0    2    1    4    0]
+ [  31   76 3389    2    1    5    6    0    0]
+ [   2    0   12 3483    0    1    2    0    0]
+ [   2    0    1    1 3493    0    0    3    0]
+ [   3    1    1    1    3 3498    3    0    0]
+ [   0    4    0    1    0    4 3487    9    0]
+ [   4    0    0    0    0    0    0 3494    2]
+ [   0    0    0    0    0    0    0    0 3500]]
+
+
+----------------------------------------------------------------------------------------
+Accuracies for each set for different models
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.877405063291
+[[3470    0    7   11    4    1    0    7    0]
+ [  28 3312   32    6   10   33   34   35   10]
+ [  44    6 2540  568   24   12  233   73    0]
+ [  31    0  578 2513    3    0  249  126    0]
+ [  13   14   56   44 3282   50    6    6   29]
+ [  38  117    2    1   57 3205   31   25   24]
+ [ 169   10  203  239   15    8 2920   36    0]
+ [  16   42   77  197   15   15   91 3047    0]
+ [   0   29    0    1   25    6    0    2 3437]]
+KNN : 0.850949367089
+[[3432    0    6    0   19    1    2   40    0]
+ [  70 2933   63  114   98  101    9   70   42]
+ [  69    0 2892  208   27    0  127  177    0]
+ [  31   27  346 2594   20   29  198  255    0]
+ [  58   29   72  151 3005    0   88   90    7]
+ [  26  163   14    8   88 3062   38   74   27]
+ [ 171    5  251  247    1   41 2724  160    0]
+ [ 107   50  168  250   20   41   56 2808    0]
+ [   0    0    0   35   25    0    0    0 3440]]
+DTREE : 0.863702531646
+[[3322    0   35   26   28    5   34   50    0]
+ [   0 3398    4    9   10   30   14   13   22]
+ [  74    5 2429  472   33    5  289  192    1]
+ [  29    8  446 2537   11    7  196  266    0]
+ [  36    5   68   24 3277    1   17   28   44]
+ [   6   50   11   15    4 3358   33    3   20]
+ [  48   41  296  221    8   33 2803  148    2]
+ [  51    3  200  284   23    1  148 2780   10]
+ [   0   10    1    2   52   21    6   19 3389]]
+SGD : 0.473797468354
+[[2126   38  267  479   45   52  126  367    0]
+ [  69 2118  125   80  143  614   98  218   35]
+ [ 225  198  832  809  351   68  642  375    0]
+ [ 348  126  737  899  207   40  620  523    0]
+ [  99  149  286  308 1639   83  356  205  375]
+ [  40  839  125   44   51 1857  134  329   81]
+ [ 228  140  609  622  283  112 1279  327    0]
+ [ 328  284  378  599  172  280  379 1074    6]
+ [   8  145    5   13   73   61   12   35 3148]]
+LDA : 0.846107594937
+[[3469    0    0   27    0    0    0    4    0]
+ [   1 3339   46   22   10   22   17   43    0]
+ [  40    0 2410  601    0    0  306  143    0]
+ [  21    0  384 2176    0    0  462  457    0]
+ [ 108    0   58    3 3275    0   22   16   18]
+ [  57   31    0    0   21 3272  118    0    1]
+ [  97    0  283  402   16    0 2656  146    0]
+ [  26    0  177  455    0    0   98 2744    0]
+ [   0    0    0    0   77    0    0   27 3396]]
+
+['b', 'e', 'c']
+SVM : 0.99045045045
+[[3483   17    0]
+ [  16 3460   24]
+ [  27   22 4051]]
+KNN : 0.981081081081
+[[3485   15    0]
+ [  17 3372  111]
+ [  46   21 4033]]
+DTREE : 0.992252252252
+[[3472    9   19]
+ [   9 3474   17]
+ [  31    1 4068]]
+SGD : 0.965045045045
+[[3446   25   29]
+ [   3 3338  159]
+ [  55  117 3928]]
+LDA : 0.995315315315
+[[3500    0    0]
+ [   0 3500    0]
+ [  52    0 4048]]
+['h', 'k', 'u', 'v']
+SVM : 0.982285714286
+[[3437   59    4    0]
+ [  11 3411    0   78]
+ [  26    0 3474    0]
+ [   1   69    0 3430]]
+KNN : 0.960357142857
+[[3344   69   87    0]
+ [   4 3266   39  191]
+ [ 113    2 3353   32]
+ [   0   18    0 3482]]
+DTREE : 0.976714285714
+[[3425   53    7   15]
+ [  38 3364   16   82]
+ [   9    1 3490    0]
+ [   0  105    0 3395]]
+SGD : 0.770642857143
+[[2833  172  488    7]
+ [ 228 2556   33  683]
+ [ 600   48 2743  109]
+ [  24  767   52 2657]]
+LDA : 0.985928571429
+[[3474   14    3    9]
+ [  55 3426    0   19]
+ [  24    0 3476    0]
+ [   0   71    2 3427]]
+['d', 'r', 'p']
+SVM : 0.981909090909
+[[3927   13   60]
+ [  26 3455   19]
+ [  58   23 3419]]
+KNN : 0.978909090909
+[[3905   16   79]
+ [  19 3481    0]
+ [ 118    0 3382]]
+DTREE : 0.975
+[[3887    9  104]
+ [   4 3490    6]
+ [ 122   30 3348]]
+SGD : 0.923818181818
+[[3630  189  181]
+ [ 241 3192   67]
+ [ 109   51 3340]]
+LDA : 0.983
+[[3906    4   90]
+ [   0 3498    2]
+ [  64   27 3409]]
+
+------------------------------------------------------------------------------------
+When set is trained as whole
+ie : Model that only classifies which set a letter belongs to
+SVM Accuracy : 98.9%
+Dtree Accuracy : 97.9%
+KNN Accuracy : 98.6%
+LDA Accuracy : 95.0%
+SGD Accuracy : 83.2%
+-------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+Trying different features to increase the accuracies of the sets
+rishi_1.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.890811808118
+KNN : 0.86221402214
+DTREE : 0.875424354244
+SGD : 0.453948339483
+LDA : 0.883985239852
+rishi_1.csv
+['b', 'e', 'c']
+SVM : 0.987263157895
+KNN : 0.975578947368
+DTREE : 0.990421052632
+SGD : 0.964842105263
+LDA : 0.995263157895
+rishi_1.csv
+['h', 'k', 'u', 'v']
+SVM : 0.979583333333
+KNN : 0.957
+DTREE : 0.980916666667
+SGD : 0.811083333333
+LDA : 0.990916666667
+rishi_1.csv
+['d', 'r', 'p']
+SVM : 0.989578947368
+KNN : 0.983789473684
+DTREE : 0.986842105263
+SGD : 0.930105263158
+LDA : 0.993052631579
+rishi_2.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.87073800738
+KNN : 0.761660516605
+DTREE : 0.877675276753
+SGD : 0.430774907749
+LDA : 0.833505535055
+rishi_2.csv
+['b', 'e', 'c']
+SVM : 0.988526315789
+KNN : 0.896842105263
+DTREE : 0.991789473684
+SGD : 0.933473684211
+LDA : 0.993894736842
+rishi_2.csv
+['h', 'k', 'u', 'v']
+SVM : 0.988
+KNN : 0.931583333333
+DTREE : 0.9795
+SGD : 0.583083333333
+LDA : 0.986416666667
+rishi_2.csv
+['d', 'r', 'p']
+SVM : 0.988526315789
+KNN : 0.960421052632
+DTREE : 0.987368421053
+SGD : 0.848105263158
+LDA : 0.989894736842
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+sandy_1.csv:-
+Removing pinchStrength and grabStrength
+
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.890664206642
+KNN : 0.86073800738
+DTREE : 0.87221402214
+SGD : 0.44926199262
+LDA : 0.863837638376
+
+['b', 'e', 'c']
+SVM : 0.985684210526
+KNN : 0.974526315789
+DTREE : 0.991052631579
+SGD : 0.950947368421
+LDA : 0.995578947368
+
+['h', 'k', 'u', 'v']
+SVM : 0.980333333333
+KNN : 0.956333333333
+DTREE : 0.976083333333
+SGD : 0.7995
+LDA : 0.992166666667
+
+['d', 'r', 'p']
+SVM : 0.989684210526
+KNN : 0.983473684211
+DTREE : 0.987052631579
+SGD : 0.928
+LDA : 0.987894736842
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+sandy_2.csv:-
+Removing pinchStrength and grabStrength, adding palmNormal vectors, not only the
+direction
+
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.891070110701
+KNN : 0.86036900369
+DTREE : 0.874095940959
+SGD : 0.454206642066
+LDA : 0.86147601476
+
+['b', 'e', 'c']
+SVM : 0.986947368421
+KNN : 0.975263157895
+DTREE : 0.990105263158
+SGD : 0.962526315789
+LDA : 0.995052631579
+
+['h', 'k', 'u', 'v']
+SVM : 0.98025
+KNN : 0.9535
+DTREE : 0.979583333333
+SGD : 0.802333333333
+LDA : 0.991166666667
+
+['d', 'r', 'p']
+SVM : 0.986526315789
+KNN : 0.983789473684
+DTREE : 0.984736842105
+SGD : 0.922842105263
+LDA : 0.990736842105
+-----------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+Ran all_models.py for all csv files in set_experiment folder :
+rishi@omega:~/doot/ML/with_set$ python all_model.py
+/home/rishi/doot//CSV_Data/set_experiment/rishi_6.csv
+/home/rishi/miniconda3/lib/python3.5/site-packages/sklearn/discriminant_analysis.py:455: UserWarning: The priors do not sum to 1. Renormalizing
+  UserWarning)
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.718191881919
+KNN : 0.718228782288
+DTREE : 0.787601476015
+SGD : 0.301881918819
+LDA : 0.605904059041
+['b', 'e', 'c']
+SVM : 0.903789473684
+KNN : 0.844526315789
+DTREE : 0.903473684211
+SGD : 0.516
+LDA : 0.884210526316
+['h', 'k', 'u', 'v']
+SVM : 0.972166666667
+KNN : 0.934083333333
+DTREE : 0.977166666667
+SGD : 0.557333333333
+LDA : 0.912916666667
+['d', 'r', 'p']
+SVM : 0.984631578947
+KNN : 0.944631578947
+DTREE : 0.979894736842
+SGD : 0.806947368421
+LDA : 0.972421052632
+/home/rishi/doot//CSV_Data/set_experiment/rishi_2.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.87258302583
+KNN : 0.765424354244
+DTREE : 0.876346863469
+SGD : 0.411808118081
+LDA : 0.831291512915
+/home/rishi/miniconda3/lib/python3.5/site-packages/sklearn/discriminant_analysis.py:387: UserWarning: Variables are collinear.
+  warnings.warn("Variables are collinear.")
+['b', 'e', 'c']
+SVM : 0.993263157895
+KNN : 0.900631578947
+DTREE : 0.989157894737
+SGD : 0.904631578947
+LDA : 0.993789473684
+['h', 'k', 'u', 'v']
+SVM : 0.988916666667
+KNN : 0.93675
+DTREE : 0.978583333333
+SGD : 0.600666666667
+LDA : 0.98825
+['d', 'r', 'p']
+SVM : 0.986526315789
+KNN : 0.959263157895
+DTREE : 0.986421052632
+SGD : 0.854
+LDA : 0.986842105263
+/home/rishi/doot//CSV_Data/set_experiment/rishi_1.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.892287822878
+KNN : 0.861881918819
+DTREE : 0.874391143911
+SGD : 0.458191881919
+LDA : 0.878745387454
+['b', 'e', 'c']
+SVM : 0.986210526316
+KNN : 0.973157894737
+DTREE : 0.990947368421
+SGD : 0.962421052632
+LDA : 0.994526315789
+['h', 'k', 'u', 'v']
+SVM : 0.979583333333
+KNN : 0.959083333333
+DTREE : 0.980166666667
+SGD : 0.808083333333
+LDA : 0.990916666667
+['d', 'r', 'p']
+SVM : 0.990736842105
+KNN : 0.984736842105
+DTREE : 0.987368421053
+SGD : 0.931684210526
+LDA : 0.992947368421
+/home/rishi/doot//CSV_Data/set_experiment/sandy_1.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.892140221402
+KNN : 0.858560885609
+DTREE : 0.870221402214
+SGD : 0.463911439114
+LDA : 0.866974169742
+['b', 'e', 'c']
+SVM : 0.986
+KNN : 0.973894736842
+DTREE : 0.989894736842
+SGD : 0.960526315789
+LDA : 0.994947368421
+['h', 'k', 'u', 'v']
+SVM : 0.981083333333
+KNN : 0.957
+DTREE : 0.97975
+SGD : 0.80025
+LDA : 0.9905
+['d', 'r', 'p']
+SVM : 0.988421052632
+KNN : 0.984631578947
+DTREE : 0.986105263158
+SGD : 0.921473684211
+LDA : 0.986526315789
+/home/rishi/doot//CSV_Data/set_experiment/sandy_5.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.891439114391
+KNN : 0.858450184502
+DTREE : 0.881033210332
+SGD : 0.462250922509
+LDA : 0.881660516605
+['b', 'e', 'c']
+SVM : 0.986736842105
+KNN : 0.975157894737
+DTREE : 0.990631578947
+SGD : 0.961473684211
+LDA : 0.994210526316
+['h', 'k', 'u', 'v']
+SVM : 0.97825
+KNN : 0.96025
+DTREE : 0.98075
+SGD : 0.805
+LDA : 0.993
+['d', 'r', 'p']
+SVM : 0.988736842105
+KNN : 0.983368421053
+DTREE : 0.986526315789
+SGD : 0.932842105263
+LDA : 0.993578947368
+/home/rishi/doot//CSV_Data/set_experiment/sandy_2.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.888302583026
+KNN : 0.861586715867
+DTREE : 0.870073800738
+SGD : 0.439741697417
+LDA : 0.857306273063
+['b', 'e', 'c']
+SVM : 0.987368421053
+KNN : 0.977789473684
+DTREE : 0.989473684211
+SGD : 0.959578947368
+LDA : 0.994736842105
+['h', 'k', 'u', 'v']
+SVM : 0.979333333333
+KNN : 0.95625
+DTREE : 0.978166666667
+SGD : 0.815166666667
+LDA : 0.991333333333
+['d', 'r', 'p']
+SVM : 0.986210526316
+KNN : 0.982315789474
+DTREE : 0.986842105263
+SGD : 0.923894736842
+LDA : 0.991052631579
+/home/rishi/doot//CSV_Data/set_experiment/sandy_4.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.891217712177
+KNN : 0.858413284133
+DTREE : 0.871254612546
+SGD : 0.45258302583
+LDA : 0.856937269373
+['b', 'e', 'c']
+SVM : 0.986947368421
+KNN : 0.973578947368
+DTREE : 0.990947368421
+SGD : 0.960947368421
+LDA : 0.992526315789
+['h', 'k', 'u', 'v']
+SVM : 0.9815
+KNN : 0.955833333333
+DTREE : 0.98125
+SGD : 0.804083333333
+LDA : 0.992083333333
+['d', 'r', 'p']
+SVM : 0.990736842105
+KNN : 0.985157894737
+DTREE : 0.982947368421
+SGD : 0.928631578947
+LDA : 0.989789473684
+/home/rishi/doot//CSV_Data/set_experiment/rishi_8.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.888044280443
+KNN : 0.847121771218
+DTREE : 0.868044280443
+SGD : 0.395461254613
+LDA : 0.854612546125
+['b', 'e', 'c']
+SVM : 0.989157894737
+KNN : 0.973894736842
+DTREE : 0.991157894737
+SGD : 0.952105263158
+LDA : 0.995052631579
+['h', 'k', 'u', 'v']
+SVM : 0.980916666667
+KNN : 0.941166666667
+DTREE : 0.978333333333
+SGD : 0.721666666667
+LDA : 0.99075
+['d', 'r', 'p']
+SVM : 0.988
+KNN : 0.980210526316
+DTREE : 0.987157894737
+SGD : 0.914736842105
+LDA : 0.980421052632
+/home/rishi/doot//CSV_Data/set_experiment/sandy_3.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.892509225092
+KNN : 0.861549815498
+DTREE : 0.875608856089
+SGD : 0.445793357934
+LDA : 0.873394833948
+['b', 'e', 'c']
+SVM : 0.987473684211
+KNN : 0.974526315789
+DTREE : 0.989789473684
+SGD : 0.959052631579
+LDA : 0.995263157895
+['h', 'k', 'u', 'v']
+SVM : 0.979083333333
+KNN : 0.95875
+DTREE : 0.98175
+SGD : 0.819666666667
+LDA : 0.993666666667
+['d', 'r', 'p']
+SVM : 0.990421052632
+KNN : 0.982631578947
+DTREE : 0.983263157895
+SGD : 0.921157894737
+LDA : 0.993789473684
+/home/rishi/doot//CSV_Data/set_experiment/rishi_4.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.808376383764
+KNN : 0.891512915129
+DTREE : 0.850885608856
+SGD : 0.689704797048
+LDA : 0.756937269373
+['b', 'e', 'c']
+SVM : 0.995263157895
+KNN : 0.991789473684
+DTREE : 0.989263157895
+SGD : 0.989894736842
+LDA : 0.995368421053
+['h', 'k', 'u', 'v']
+SVM : 0.992583333333
+KNN : 0.978083333333
+DTREE : 0.9775
+SGD : 0.960083333333
+LDA : 0.986416666667
+['d', 'r', 'p']
+SVM : 0.992736842105
+KNN : 0.989157894737
+DTREE : 0.985052631579
+SGD : 0.988842105263
+LDA : 0.989368421053
+/home/rishi/doot//CSV_Data/set_experiment/rishi_7.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.808265682657
+KNN : 0.853726937269
+DTREE : 0.84147601476
+SGD : 0.400996309963
+LDA : 0.71889298893
+['b', 'e', 'c']
+SVM : 0.986947368421
+KNN : 0.973473684211
+DTREE : 0.992105263158
+SGD : 0.955157894737
+LDA : 0.988631578947
+['h', 'k', 'u', 'v']
+SVM : 0.943666666667
+KNN : 0.940583333333
+DTREE : 0.931083333333
+SGD : 0.717083333333
+LDA : 0.875333333333
+['d', 'r', 'p']
+SVM : 0.975578947368
+KNN : 0.981052631579
+DTREE : 0.970631578947
+SGD : 0.896210526316
+LDA : 0.940631578947
+/home/rishi/doot//CSV_Data/set_experiment/rishi_3.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.809483394834
+KNN : 0.892435424354
+DTREE : 0.848560885609
+SGD : 0.68405904059
+LDA : 0.752103321033
+['b', 'e', 'c']
+SVM : 0.995052631579
+KNN : 0.991789473684
+DTREE : 0.991052631579
+SGD : 0.991684210526
+LDA : 0.996210526316
+['h', 'k', 'u', 'v']
+SVM : 0.992166666667
+KNN : 0.977166666667
+DTREE : 0.97825
+SGD : 0.960666666667
+LDA : 0.985416666667
+['d', 'r', 'p']
+SVM : 0.992315789474
+KNN : 0.989157894737
+DTREE : 0.987157894737
+SGD : 0.990210526316
+LDA : 0.982421052632
+/home/rishi/doot//CSV_Data/set_experiment/rishi_5.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.807933579336
+KNN : 0.890184501845
+DTREE : 0.849815498155
+SGD : 0.684833948339
+LDA : 0.756420664207
+['b', 'e', 'c']
+SVM : 0.993052631579
+KNN : 0.991578947368
+DTREE : 0.990736842105
+SGD : 0.989894736842
+LDA : 0.996421052632
+['h', 'k', 'u', 'v']
+SVM : 0.992833333333
+KNN : 0.97925
+DTREE : 0.977416666667
+SGD : 0.96875
+LDA : 0.986833333333
+['d', 'r', 'p']
+SVM : 0.991157894737
+KNN : 0.988526315789
+DTREE : 0.985473684211
+SGD : 0.987473684211
+LDA : 0.984105263158
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+sandy_6.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.871365313653
+KNN : 0.866162361624
+DTREE : 0.855535055351
+SGD : 0.415387453875
+LDA : 0.758450184502
+['b', 'e', 'c']
+SVM : 0.987263157895
+KNN : 0.983263157895
+DTREE : 0.993157894737
+SGD : 0.969473684211
+LDA : 0.991684210526
+['h', 'k', 'u', 'v']
+SVM : 0.953916666667
+KNN : 0.955
+DTREE : 0.93125
+SGD : 0.774583333333
+LDA : 0.91475
+['d', 'r', 'p']
+SVM : 0.990526315789
+KNN : 0.986631578947
+DTREE : 0.979894736842
+SGD : 0.947894736842
+LDA : 0.979894736842
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+sandy_7.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.876236162362
+KNN : 0.86557195572
+DTREE : 0.862066420664
+SGD : 0.412398523985
+LDA : 0.793431734317
+['b', 'e', 'c']
+SVM : 0.988631578947
+KNN : 0.986631578947
+DTREE : 0.990736842105
+SGD : 0.972842105263
+LDA : 0.994631578947
+['h', 'k', 'u', 'v']
+SVM : 0.957166666667
+KNN : 0.959
+DTREE : 0.942333333333
+SGD : 0.76875
+LDA : 0.940666666667
+['d', 'r', 'p']
+SVM : 0.990842105263
+KNN : 0.986736842105
+DTREE : 0.980210526316
+SGD : 0.932947368421
+LDA : 0.987473684211
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+sandy_8.csv
+['a', 'm', 'n', 's', 't', 'q', 'o', 'g', 'x']
+SVM : 0.901697416974
+KNN : 0.862250922509
+DTREE : 0.875129151292
+SGD : 0.417527675277
+LDA : 0.88557195572
+['b', 'e', 'c']
+SVM : 0.987578947368
+KNN : 0.983578947368
+DTREE : 0.990210526316
+SGD : 0.968105263158
+LDA : 0.995684210526
+['h', 'k', 'u', 'v']
+SVM : 0.972333333333
+KNN : 0.960666666667
+DTREE : 0.981416666667
+SGD : 0.794666666667
+LDA : 0.992166666667
+['d', 'r', 'p']
+SVM : 0.989052631579
+KNN : 0.987473684211
+DTREE : 0.985578947368
+SGD : 0.946315789474
+LDA : 0.989578947368
+
+
+-----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+All set experiment datasets was also tested against set_divide methods
+Where the model determines which set the letter belongs to
+Accuracies :
+SVM :
+/home/rishi/doot//CSV_Data/set_experiment/rishi_6.csv
+0.764049247606
+/home/rishi/doot//CSV_Data/set_experiment/rishi_2.csv
+0.973310533516
+/home/rishi/doot//CSV_Data/set_experiment/rishi_1.csv
+0.990095759234
+/home/rishi/doot//CSV_Data/set_experiment/sandy_1.csv
+0.989603283174
+/home/rishi/doot//CSV_Data/set_experiment/sandy_5.csv
+0.990369357045
+/home/rishi/doot//CSV_Data/set_experiment/sandy_2.csv
+0.990095759234
+/home/rishi/doot//CSV_Data/set_experiment/sandy_4.csv
+0.990588235294
+/home/rishi/doot//CSV_Data/set_experiment/rishi_8.csv
+0.988905608755
+/home/rishi/doot//CSV_Data/set_experiment/sandy_3.csv
+0.989904240766
+/home/rishi/doot//CSV_Data/set_experiment/rishi_4.csv
+0.955991792066
+/home/rishi/doot//CSV_Data/set_experiment/sandy_6.csv
+0.988440492476
+/home/rishi/doot//CSV_Data/set_experiment/rishi_7.csv
+0.971080711354
+/home/rishi/doot//CSV_Data/set_experiment/rishi_3.csv
+0.955937072503
+/home/rishi/doot//CSV_Data/set_experiment/rishi_5.csv
+0.955595075239
+/home/rishi/doot//CSV_Data/set_experiment/sandy_7.csv
+0.987742818057
+/home/rishi/doot//CSV_Data/set_experiment/sandy_8.csv
+0.990834473324
+
+KNN :
+/home/rishi/doot//CSV_Data/set_experiment/rishi_6.csv
+0.878755129959
+/home/rishi/doot//CSV_Data/set_experiment/rishi_2.csv
+0.922257181943
+/home/rishi/doot//CSV_Data/set_experiment/rishi_1.csv
+0.987455540356
+/home/rishi/doot//CSV_Data/set_experiment/sandy_1.csv
+0.987099863201
+/home/rishi/doot//CSV_Data/set_experiment/sandy_5.csv
+0.987578659371
+/home/rishi/doot//CSV_Data/set_experiment/sandy_2.csv
+0.986894664843
+/home/rishi/doot//CSV_Data/set_experiment/sandy_4.csv
+0.987209302326
+/home/rishi/doot//CSV_Data/set_experiment/rishi_8.csv
+0.985663474692
+/home/rishi/doot//CSV_Data/set_experiment/sandy_3.csv
+0.98730506156
+/home/rishi/doot//CSV_Data/set_experiment/rishi_4.csv
+0.986155950752
+/home/rishi/doot//CSV_Data/set_experiment/sandy_6.csv
+0.985335157319
+/home/rishi/doot//CSV_Data/set_experiment/rishi_7.csv
+0.985444596443
+/home/rishi/doot//CSV_Data/set_experiment/rishi_3.csv
+0.986169630643
+/home/rishi/doot//CSV_Data/set_experiment/rishi_5.csv
+0.986621067031
+/home/rishi/doot//CSV_Data/set_experiment/sandy_7.csv
+0.98511627907
+/home/rishi/doot//CSV_Data/set_experiment/sandy_8.csv
+0.986128590971
+
+SGD :
+/home/rishi/doot//CSV_Data/set_experiment/rishi_6.csv
+0.466867305062
+/home/rishi/doot//CSV_Data/set_experiment/rishi_2.csv
+0.671395348837
+/home/rishi/doot//CSV_Data/set_experiment/rishi_1.csv
+0.844774281806
+/home/rishi/doot//CSV_Data/set_experiment/sandy_1.csv
+0.846771545828
+/home/rishi/doot//CSV_Data/set_experiment/sandy_5.csv
+0.842790697674
+/home/rishi/doot//CSV_Data/set_experiment/sandy_2.csv
+0.841190150479
+/home/rishi/doot//CSV_Data/set_experiment/sandy_4.csv
+0.85366621067
+/home/rishi/doot//CSV_Data/set_experiment/rishi_8.csv
+0.692818057456
+/home/rishi/doot//CSV_Data/set_experiment/sandy_3.csv
+0.848084815321
+/home/rishi/doot//CSV_Data/set_experiment/rishi_4.csv
+0.899917920657
+/home/rishi/doot//CSV_Data/set_experiment/sandy_6.csv
+0.86316005472
+/home/rishi/doot//CSV_Data/set_experiment/rishi_7.csv
+0.695827633379
+/home/rishi/doot//CSV_Data/set_experiment/rishi_3.csv
+0.898030095759
+/home/rishi/doot//CSV_Data/set_experiment/rishi_5.csv
+0.897277701778
+/home/rishi/doot//CSV_Data/set_experiment/sandy_7.csv
+0.864678522572
+/home/rishi/doot//CSV_Data/set_experiment/sandy_8.csv
+0.861928864569
+
+Dtree :
+/home/rishi/doot//CSV_Data/set_experiment/rishi_6.csv
+0.902804377565
+/home/rishi/doot//CSV_Data/set_experiment/rishi_2.csv
+0.977277701778
+/home/rishi/doot//CSV_Data/set_experiment/rishi_1.csv
+0.980177838577
+/home/rishi/doot//CSV_Data/set_experiment/sandy_1.csv
+0.979384404925
+/home/rishi/doot//CSV_Data/set_experiment/sandy_5.csv
+0.980451436389
+/home/rishi/doot//CSV_Data/set_experiment/sandy_2.csv
+0.979370725034
+/home/rishi/doot//CSV_Data/set_experiment/sandy_4.csv
+0.980164158687
+/home/rishi/doot//CSV_Data/set_experiment/rishi_8.csv
+0.978549931601
+/home/rishi/doot//CSV_Data/set_experiment/sandy_3.csv
+0.982653898769
+/home/rishi/doot//CSV_Data/set_experiment/rishi_4.csv
+0.97047879617
+/home/rishi/doot//CSV_Data/set_experiment/sandy_6.csv
+0.97511627907
+/home/rishi/doot//CSV_Data/set_experiment/rishi_7.csv
+0.969124487004
+/home/rishi/doot//CSV_Data/set_experiment/rishi_3.csv
+0.971573187415
+/home/rishi/doot//CSV_Data/set_experiment/rishi_5.csv
+0.971121751026
+/home/rishi/doot//CSV_Data/set_experiment/sandy_7.csv
+0.977455540356
+/home/rishi/doot//CSV_Data/set_experiment/sandy_8.csv
+0.98049247606
+
+LDA :
+/home/rishi/doot//CSV_Data/set_experiment/rishi_6.csv
+0.678248974008
+/home/rishi/doot//CSV_Data/set_experiment/rishi_2.csv
+0.942941176471
+/home/rishi/doot//CSV_Data/set_experiment/rishi_1.csv
+0.956114911081
+/home/rishi/doot//CSV_Data/set_experiment/sandy_1.csv
+0.956155950752
+/home/rishi/doot//CSV_Data/set_experiment/sandy_5.csv
+0.958686730506
+/home/rishi/doot//CSV_Data/set_experiment/sandy_2.csv
+0.960902872777
+/home/rishi/doot//CSV_Data/set_experiment/sandy_4.csv
+0.958974008208
+/home/rishi/doot//CSV_Data/set_experiment/rishi_8.csv
+0.926019151847
+/home/rishi/doot//CSV_Data/set_experiment/sandy_3.csv
+0.962339261286
+/home/rishi/doot//CSV_Data/set_experiment/rishi_4.csv
+0.894404924761
+/home/rishi/doot//CSV_Data/set_experiment/sandy_6.csv
+0.930957592339
+/home/rishi/doot//CSV_Data/set_experiment/rishi_7.csv
+0.893269493844
+/home/rishi/doot//CSV_Data/set_experiment/rishi_3.csv
+0.896032831737
+/home/rishi/doot//CSV_Data/set_experiment/rishi_5.csv
+0.895731874145
+/home/rishi/doot//CSV_Data/set_experiment/sandy_7.csv
+0.939220246238
+/home/rishi/doot//CSV_Data/set_experiment/sandy_8.csv
+0.965813953488
