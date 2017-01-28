@@ -183,6 +183,56 @@ ws.onmessage = function(evt){
 	$('#loader').hide()
 	$('#status').html("Accuracy : " + accuracy.toString());
 }
+parameters={
+	"svm":[{
+						"name":"kernel",
+						"default":"rbf"
+					},
+					{
+						"name":"degree",
+						"default":3
+					},
+					{
+						"name":"C",
+						"default":1.0
+					}
+				],
+"knn":[{
+					"name":"n_neighbors",
+					"default":2
+				},
+				{
+					"name":"weights",
+					"default":"uniform"
+				}
+],
+"dtree":[
+],
+"lda":[
+
+],
+"sgd":[
+				{"name":"loss",
+				"default":"hinge"
+				},
+				{"name":"hinge",
+				"default":12
+				}
+],
+"qda":[
+
+],
+"ridge":[
+
+],
+"gbr":[
+
+],
+"lr":[
+
+],
+}
+console.log(parameters);
 </script>
 </body>
 </html>
