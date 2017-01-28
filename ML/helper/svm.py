@@ -20,8 +20,8 @@ def find_accuracy(dataFrame,kernel='poly',degree=3,c=1):
     predictions = model.predict(test)
     result = accuracy_score(test_target,predictions)
     confusion = confusion_matrix(test_target,predictions)
-    classification=classification_report(test_target,predictions)
-    return result,confusion,classification
+    #classification=classification_report(test_target,predictions)
+    return result,confusion
 
 def get_model(dataFrame,kernel='poly',degree=3,c=1):
     features,target = misc_helper.split_feature_target(dataFrame)
