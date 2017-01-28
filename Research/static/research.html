@@ -86,6 +86,12 @@
 																		<option value='dataset_8.csv'>dataset_8.csv</option>
 																	</select>
 																</div>
+																<br>
+																<button onclick='select_all()' class='btn btn-fill'>Select All</button>
+																<button onclick="set_find(['a','m','n','s','t','q','o','g','x'])" class='btn btn-fill'>Set 1</button>
+																<button onclick="set_find(['b','e','c'])" class='btn btn-fill'>Set 2</button>
+																<button onclick="set_find(['h','k','u','v'])" class='btn btn-fill'>Set 3</button>
+																<button onclick="set_find(['d','r','p'])" class='btn btn-fill'>Set 4</button>
 																<div id = 'alphabets'>
 																	<div class="row">
 																		<div class="col-md-6">
@@ -268,6 +274,23 @@ ws.onmessage = function(evt){
 	var accuracy = obj['accuracy'];
 	$('#loader').hide()
 	$('#status').html("Accuracy : " + accuracy.toString());
+}
+
+var select_all = function(){
+	$('#alphabets input:checkbox').attr("checked","checked")
+	console.log("Yay");
+}
+var set_find = function(set){
+	console.log(set);
+	var all_alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	for(var i=0;i<all_alpha.length;i++){
+		alpha = all_alpha[i]
+		if(set.indexOf(alpha)>=0){
+			$("#alphabets input:checkbox[value="+alpha+"]").attr("checked", true);
+		}else{
+			$("#alphabets input:checkbox[value="+alpha+"]").attr("checked", false);
+		}
+	}
 }
 </script>
 </body>
