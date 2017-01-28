@@ -96,7 +96,10 @@
 															<h4 class="title">Result</h4>
                             </div>
                             <div class="content">
-															<h3 id='status'>Please Select Model to continue</h3>
+															<h3 id='status'>Make your request on the left side before laying eyes on me</h3>
+															<div class="row" id='loader' style="display:none">
+																<img src="assets/loader.gif" alt="Loader" />
+															</div>
                             </div>
                         </div>
                     </div>
@@ -166,13 +169,15 @@ ws.onerror = function(){
 			'model' : model,
 			'dataset' : dataset
 		}
+		$('#status').html("Have a cookie while we crunch some numbers.")
+		$('#loader').show()
 		ws.send(JSON.stringify(data));
-		$('#status').innerHTML = "Please Wait"
 	}
 ws.onmessage = function(evt){
 	var obj = JSON.parse(evt.data)
 	var accuracy = obj['accuracy'];
-	$('#status').innerHTML = "Accuracy : " + accuracy;
+	$('#loader').hide()
+	$('#status').html("Accuracy : " + accuracy.toString());
 }
 </script>
 </body>
