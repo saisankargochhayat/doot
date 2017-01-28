@@ -35,6 +35,7 @@ knn_model , knn_scaler = knn.get_model(dataFrame)
 sgd_model , sgd_scaler = sgd.get_model(dataFrame)
 dtree_model , dtree_scaler = dtree.get_model(dataFrame)
 lda_model , lda_scaler = lda.get_model(dataFrame)
+qda_model , qda_scaler = qda.get_model(dataFrame)
 print("Trained")
 sentence = ""
 class HomeHandler(web.RequestHandler):
@@ -81,6 +82,12 @@ class Predict(websocket.WebSocketHandler):
             vote[predictions['lda']] = vote[predictions['lda']]+1
         else:
             vote[predictions['lda']] = 1
+
+        predictions['qda'] = str(qda_model.predict(qda_scaler.transform(test))[0])
+        if predictions['qda'] in vote:
+            vote[predictions['qda']] = vote[predictions['qda']]+1
+        else:
+            vote[predictions['qda']] = 1
 
         predictions['sgd'] = str(sgd_model.predict(sgd_scaler.transform(test))[0])
         if predictions['sgd'] in vote:
