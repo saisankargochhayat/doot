@@ -7,16 +7,19 @@ sys.path.append(path)
 import json
 import pandas
 import numpy as np
-from helper import svm,knn,dtree,sgd,lda
+from helper import svm,knn,dtree,sgd,lda,gbc,ridge,lr,qda
 
-data = []
-labels = []
-# svm_model , svm_scaler = svm.get_model(dataFrame)
-# knn_model , knn_scaler = knn.get_model(dataFrame)
-# sgd_model , sgd_scaler = sgd.get_model(dataFrame)
-# dtree_model , dtree_scaler = dtree.get_model(dataFrame)
-# lda_model , lda_scaler = lda.get_model(dataFrame)
-# qda_model , qda_scaler = qda.get_model(dataFrame)
+model_dict = {
+"SVM":svm,
+"KNN":knn,
+"DTREE":dtree,
+"SGD":sgd,
+"LDA":lda,
+"GBC":gbc,
+"RIDGE":ridge,
+"LR":lr,
+"QDA":qda,
+}
 
 class HomeHandler(web.RequestHandler):
     def get(self):
@@ -32,9 +35,18 @@ class Prediction(websocket.WebSocketHandler):
     def on_message(self, message):
         msg=json.loads(message)
         dataset = msg['dataset']
-        model=msg['model']
-        dataFrame=pandas.read_csv("../CSV_Data/"+dataset)
-        
+        model_name = msg['model']
+        letters = msg['alphabets']
+        model = model_dict[model_name]
+        dataFrame = pandas.read_csv("../CSV_Data/"+dataset)
+        all_features = dataFrame.columns.values
+        sum_acc = 0
+        for i in range(100):
+            acc,confusion = model.get_set_accuracy(dataFrame,letters,all_features)
+            sum_acc = sum_acc + acc
+        acc = { "accuracy" : sum_acc/100}
+        self.write_message(acc)
+
     def on_close(self):
         print("WebSocket closed")
 
