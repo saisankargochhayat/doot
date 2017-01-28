@@ -35,8 +35,6 @@ class Prediction(websocket.WebSocketHandler):
         model=msg['model']
         dataFrame=pandas.read_csv("../CSV_Data/"+dataset)
         
-
-
     def on_close(self):
         print("WebSocket closed")
 
