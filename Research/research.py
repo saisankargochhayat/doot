@@ -36,13 +36,15 @@ class Prediction(websocket.WebSocketHandler):
         msg=json.loads(message)
         dataset = msg['dataset']
         model_name = msg['model']
+        letters = msg['alphabets']
         model = model_dict[model_name]
         dataFrame = pandas.read_csv("../CSV_Data/"+dataset)
+        all_features = dataFrame.columns.values
         sum_acc = 0
-        for i in range(1):
-            acc,confusion = model.find_accuracy(dataFrame)
+        for i in range(100):
+            acc,confusion = model.get_set_accuracy(dataFrame,letters,all_features)
             sum_acc = sum_acc + acc
-        acc = { "accuracy" : sum_acc}
+        acc = { "accuracy" : sum_acc/100}
         self.write_message(acc)
 
     def on_close(self):
