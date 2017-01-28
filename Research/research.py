@@ -30,9 +30,11 @@ class Prediction(websocket.WebSocketHandler):
         print("WebSocket opened")
 
     def on_message(self, message):
-        print(message)
-
-
+        msg=json.loads(message)
+        dataset = msg['dataset']
+        model=msg['model']
+        dataFrame=pandas.read_csv("../CSV_Data/"+dataset)
+        
     def on_close(self):
         print("WebSocket closed")
 
