@@ -30,8 +30,8 @@ class Prediction(websocket.WebSocketHandler):
         print("WebSocket opened")
 
     def on_message(self, message):
-        msg = json.loads(message)
-        self.write_message(predictions)
+        print(message)
+
 
     def on_close(self):
         print("WebSocket closed")
