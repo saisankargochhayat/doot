@@ -86,6 +86,86 @@
 																		<option value='dataset_8.csv'>dataset_8.csv</option>
 																	</select>
 																</div>
+																<div id = 'alphabets'>
+																	<div class="row">
+																		<div class="col-md-6">
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="a" name='alphabets'>a</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="b" name='alphabets'>b</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="c" name='alphabets'>c</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="d" name='alphabets'>d</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="e" name='alphabets'>e</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="f" name='alphabets'>f</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="g" name='alphabets'>g</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="h" name='alphabets'>h</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="i" name='alphabets'>i</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="k" name='alphabets'>k</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="l" name='alphabets'>l</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="m" name='alphabets'>m</label>
+																			</div>
+																		</div>
+																		<div class="col-md-6">
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="n" name='alphabets'>n</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="o" name='alphabets'>o</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="p" name='alphabets'>p</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="q" name='alphabets'>q</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="r" name='alphabets'>r</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="s" name='alphabets'>s</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="t" name='alphabets'>t</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="u" name='alphabets'>u</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="v" name='alphabets'>v</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="w" name='alphabets'>w</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="x" name='alphabets'>x</label>
+																			</div>
+																			<div class="checkbox">
+																			  <label><input type="checkbox" value="y" name='alphabets'>y</label>
+																			</div>
+																		</div>
+																	</div>
+																</div>
 																<br>
 																<div>
 																	<button onclick='calculate()'type="button" name="submit" class='btn btn-info btn-fill'>Calculate</button>
@@ -169,10 +249,16 @@ ws.onerror = function(){
 	var calculate = function(){
 		var model = $('#model').val();
 		var dataset = $('#dataset').val();
+		var alphabets = [];
+		$('#alphabets input:checked').each(function() {
+		    alphabets.push($(this).attr('value'));
+		});
 		var data = {
 			'model' : model,
-			'dataset' : dataset
+			'dataset' : dataset,
+			'alphabets' : alphabets
 		}
+		console.log(data);
 		$('#status').html("Have a cookie while we crunch some numbers.")
 		$('#loader').show()
 		ws.send(JSON.stringify(data));
