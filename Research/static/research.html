@@ -87,10 +87,15 @@
 																		<option value='dataset_8.csv'>dataset_8.csv</option>
 																	</select>
 																</div>
+																<div>
+																	<label for="iterations">Iterations</label>
+																	<input type="number" name="iterations" value="100" class="form-control">
+																</div>
 																<br>
 																<hr>
 																<label>Letters</label><br>
 																<button onclick='select_all()' class='btn btn-fill'>Select All</button>
+																<button onclick='unselect_all()' class='btn btn-fill'>Unselect All</button>
 																<button onclick="set_find(['a','m','n','s','t','q','o','g','x'])" class='btn btn-fill'>Set 1</button>
 																<button onclick="set_find(['b','e','c'])" class='btn btn-fill'>Set 2</button>
 																<button onclick="set_find(['h','k','u','v'])" class='btn btn-fill'>Set 3</button>
@@ -403,6 +408,27 @@
 	<script src="assets/js/demo.js"></script>
 
 <script type="text/javascript">
+$('#dataset').change(function(){
+	data = {
+		'dataset' : this.value;
+	}
+	$.ajax({
+		method:'POST',
+		data : data,
+		url : '/get_column_names',
+		success : function(resp){
+			present_features = resp['columns'];
+			$("#features input:checkbox").prop("checked", false);
+			for(var i=0;i<present_features.length;i++){
+				curr = present_features[i];
+				$("#features input:checkbox[value="+curr+"]").prop("checked", true);
+			}
+		},
+		error : function(resp){
+			console.log(resp);
+		}
+	});
+});
 var ws = new WebSocket('ws://localhost:8080/ws')
 ws.onopen = function(){
 	console.log("Open");
@@ -449,8 +475,10 @@ ws.onmessage = function(evt){
 var select_all = function(){
 	$('#alphabets input:checkbox').prop("checked",true)
 }
+var unselect_all = function(){
+	$('#alphabets input:checkbox').prop("checked",false)
+}
 var set_find = function(set){
-	console.log(set);
 	var all_alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
 	for(var i=0;i<all_alpha.length;i++){
 		alpha = all_alpha[i]
@@ -461,6 +489,7 @@ var set_find = function(set){
 		}
 	}
 }
+
 parameters={
 	"svm":[{
 						"name":"kernel",
@@ -496,19 +525,19 @@ parameters={
 				{"name":"hinge",
 				"default":12
 				}
-],
-"qda":[
+	],
+	"qda":[
 
-],
-"ridge":[
+	],
+	"ridge":[
 
-],
-"gbr":[
+	],
+	"gbr":[
 
-],
-"lr":[
+	],
+	"lr":[
 
-],
+	],
 }
 
 </script>
