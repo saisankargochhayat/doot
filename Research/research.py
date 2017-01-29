@@ -1,4 +1,5 @@
 from tornado import websocket, web, ioloop
+from tornado.escape import json_decode
 import os
 path=os.getcwd()
 path=path.strip('Research') + 'ML'
@@ -37,13 +38,13 @@ class HomeHandler(web.RequestHandler):
 
 class ColumnHandler(web.RequestHandler):
     def post(self):
-        dataset = tornado.escape.json_decode(self.request.body)
+        dataset = json_decode(self.request.body)
         dataset_name = dataset['dataset']
-        dataFram = pandas.read_csv("../CSV_Data/"+dataset)
-        feature_set=dataFram.columns.values
+        dataFrame = pandas.read_csv("../CSV_Data/"+dataset)
+        feature_set = dataFrame.columns.values
         obj = {'columns':feature_set}
         self.write(obj)
-        
+
 class Prediction(websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True

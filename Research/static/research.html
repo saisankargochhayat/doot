@@ -89,7 +89,7 @@
 																</div>
 																<div>
 																	<label for="iterations">Iterations</label>
-																	<input type="number" name="iterations" value="100" class="form-control">
+																	<input type="number" name="iterations" value="100" class="form-control" id="iter">
 																</div>
 																<br>
 																<hr>
@@ -409,8 +409,8 @@
 
 <script type="text/javascript">
 $('#dataset').change(function(){
-	data = {
-		'dataset' : this.value;
+	var data = {
+		'dataset' : this.value
 	}
 	$.ajax({
 		method:'POST',
@@ -442,6 +442,7 @@ ws.onerror = function(){
 	var calculate = function(){
 		var model = $('#model').val();
 		var dataset = $('#dataset').val();
+		var iterations = $('#iter').val();
 		var alphabets = [];
 		$('#alphabets input:checked').each(function() {
 		    alphabets.push($(this).attr('value'));
@@ -457,7 +458,8 @@ ws.onerror = function(){
 			'model' : model,
 			'dataset' : dataset,
 			'alphabets' : alphabets,
-			'features' : features
+			'features' : features,
+			'iterations' : iterations
 		}
 		console.log(data);
 		$('#status').html("Have a cookie while we crunch some numbers.")
