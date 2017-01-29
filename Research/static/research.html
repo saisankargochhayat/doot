@@ -53,7 +53,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Select Model Here</h4>
@@ -73,6 +73,7 @@
 																		<option value='LR'>LR</option>
 																	</select>
 																</div>
+																<hr>
 																<div>
 																	<label for="dataset">Dataset</label>
 																	<select name="dataset" class='form-control' id='dataset'>
@@ -87,6 +88,8 @@
 																	</select>
 																</div>
 																<br>
+																<hr>
+																<label>Letters</label><br>
 																<button onclick='select_all()' class='btn btn-fill'>Select All</button>
 																<button onclick="set_find(['a','m','n','s','t','q','o','g','x'])" class='btn btn-fill'>Set 1</button>
 																<button onclick="set_find(['b','e','c'])" class='btn btn-fill'>Set 2</button>
@@ -172,6 +175,165 @@
 																		</div>
 																	</div>
 																</div>
+																<hr>
+																<div id='features'>
+																	<label>Features</label><br>
+																	<div class="row">
+																		<div class="col-md-3">
+																			<label>Misc</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="pinchStrength" name='features'>Pinch Strength</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="grabStrength" name='features'>Grab Strength</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="palm_direction" name='features'>Palm Direction</label>
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<label>Angle metacarpal and proximal</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="thumb_meta_proxi" name='features'>Thumb</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="index_meta_proxi" name='features'>Index</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="middle_meta_proxi" name='features'>Middle</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="ring_meta_proxi" name='features'>Ring</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="pinky_meta_proxi" name='features'>Pinky</label>
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<label>Angle proximal and intermediate</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="thumb_proxi_inter" name='features'>Thumb</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="index_proxi_inter" name='features'>Index</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="middle_proxi_inter" name='features'>Middle</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="ring_proxi_inter" name='features'>Ring</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="pinky_proxi_inter" name='features'>Pinky</label>
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<label>Angle between fingers</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="thumb_index" name='features'>Thumb and Index</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="index_middle" name='features'>Index and Middle</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="middle_ring" name='features'>Middle and Ring</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="ring_pinky" name='features'>Ring and Pinky</label>
+																			</div>
+																		</div>
+																	</div>
+																	<hr>
+																	<div class="row">
+																		<div class="col-md-3">
+																			<label>Distance of tip from center of Palm</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="thumb_center_distance" name='features'>Thumb</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="index_center_distance" name='features'>Index</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="middle_center_distance" name='features'>Middle</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="ring_center_distance" name='features'>Ring</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="pinky_center_distance" name='features'>Pinky</label>
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<label>Hand Direction</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="hand_direction_x" name='features'>X</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="hand_direction_y" name='features'>Y</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="hand_direction_z" name='features'>Z</label>
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<label>Angle between hand and finger</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="thumb_hand_angle" name='features'>Thumb</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="index_hand_angle" name='features'>Index</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="middle_hand_angle" name='features'>Middle</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="ring_hand_angle" name='features'>Ring</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="pinky_hand_angle" name='features'>Pinky</label>
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<label>Angle between hand and finger</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="thumb_hand_angle" name='features'>Thumb</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="index_hand_angle" name='features'>Index</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="middle_hand_angle" name='features'>Middle</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="ring_hand_angle" name='features'>Ring</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="pinky_hand_angle" name='features'>Pinky</label>
+																			</div>
+																		</div>
+																	</div>
+																	<hr>
+																	<div class="row">
+																		<div class="col-md-3">
+																			<label>Finger Direction</label><br>
+																			<div class="">
+																			  <label><input type="checkbox" value="thumb_direction_x,thumb_direction_y,thumb_direction_z" name='features'>Thumb</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="index_direction_x,index_direction_y,index_direction_z" name='features'>Index</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="middle_direction_x,middle_direction_y,middle_direction_z" name='features'>Middle</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="ring_direction_x,ring_direction_y,ring_direction_z" name='features'>Ring</label>
+																			</div>
+																			<div class="">
+																			  <label><input type="checkbox" value="pinky_direction_x,pinky_direction_y,pinky_direction_z" name='features'>Pinky</label>
+																			</div>
+																		</div>
+																	</div>
+																</div>
 																<br>
 																<div>
 																	<button onclick='calculate()'type="button" name="submit" class='btn btn-info btn-fill'>Calculate</button>
@@ -179,8 +341,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <div class="card">
                             <div class="header">
 															<h4 class="title">Result</h4>
@@ -259,10 +420,18 @@ ws.onerror = function(){
 		$('#alphabets input:checked').each(function() {
 		    alphabets.push($(this).attr('value'));
 		});
+		var features = [];
+		$('#features input:checked').each(function(){
+			curr = $(this).attr('value').split(',');
+			for(var j=0;j<curr.length;j++){
+				features.push(curr[j])
+			}
+		})
 		var data = {
 			'model' : model,
 			'dataset' : dataset,
-			'alphabets' : alphabets
+			'alphabets' : alphabets,
+			'features' : features
 		}
 		console.log(data);
 		$('#status').html("Have a cookie while we crunch some numbers.")
@@ -341,7 +510,7 @@ parameters={
 
 ],
 }
-console.log(parameters);
+
 </script>
 </body>
 </html>
