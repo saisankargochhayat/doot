@@ -20,6 +20,16 @@ model_dict = {
 "LR":lr,
 "QDA":qda,
 }
+def feature_check(dataFrame,features_list):
+    c=0
+    for x in features_list:
+        if x in dataFrame.columns.values:
+            c+=1
+    if c == len(features_list):
+        return True
+    else:
+        return False
+
 
 class HomeHandler(web.RequestHandler):
     def get(self):
@@ -40,6 +50,9 @@ class Prediction(websocket.WebSocketHandler):
         model = model_dict[model_name]
         dataFrame = pandas.read_csv("../CSV_Data/"+dataset)
         all_features = dataFrame.columns.values
+        print(len(all_features))
+        print(len(dataFrame.columns))
+        print(feature_check(dataFrame,all_features))
         sum_acc = 0
         for i in range(100):
             acc,confusion = model.get_set_accuracy(dataFrame,letters,all_features)
