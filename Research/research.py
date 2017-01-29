@@ -47,18 +47,20 @@ class Prediction(websocket.WebSocketHandler):
         dataset = msg['dataset']
         model_name = msg['model']
         letters = msg['alphabets']
+        features = msg['features']
+        features.append('label')
         model = model_dict[model_name]
         dataFrame = pandas.read_csv("../CSV_Data/"+dataset)
-        all_features = dataFrame.columns.values
-        print(len(all_features))
-        print(len(dataFrame.columns))
-        print(feature_check(dataFrame,all_features))
-        sum_acc = 0
-        for i in range(100):
-            acc,confusion = model.get_set_accuracy(dataFrame,letters,all_features)
-            sum_acc = sum_acc + acc
-        acc = { "accuracy" : sum_acc/100}
-        self.write_message(acc)
+        if feature_check(dataFrame, features):
+            sum_acc = 0
+            for i in range(100):
+                acc,confusion = model.get_set_accuracy(dataFrame,letters,features)
+                sum_acc = sum_acc + acc
+            acc = { "accuracy" : sum_acc/100}
+            self.write_message(acc)
+        else:
+            acc = { "accuracy" : "Some features were not found in dataset"}
+            self.write_message(acc)
 
     def on_close(self):
         print("WebSocket closed")
