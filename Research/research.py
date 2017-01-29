@@ -35,6 +35,15 @@ class HomeHandler(web.RequestHandler):
     def get(self):
         self.render("static/research.html")
 
+class ColumnHandler(web.RequestHandler):
+    def post(self):
+        dataset = tornado.escape.json_decode(self.request.body)
+        dataset_name = dataset['dataset']
+        dataFram = pandas.read_csv("../CSV_Data/"+dataset)
+        feature_set=dataFram.columns.values
+        obj = {'columns':feature_set}
+        self.write(obj)
+        
 class Prediction(websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True
@@ -69,6 +78,7 @@ class Prediction(websocket.WebSocketHandler):
 app = web.Application([
     (r'/assets/(.*)', web.StaticFileHandler, {'path': 'static/assets/'}),
     (r"/",HomeHandler),
+    (r"/get_column_names",ColumnHandler),
     (r"/ws",Prediction),
     ])
 
