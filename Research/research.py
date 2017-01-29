@@ -40,8 +40,8 @@ class ColumnHandler(web.RequestHandler):
     def post(self):
         dataset = json_decode(self.request.body)
         dataset_name = dataset['dataset']
-        dataFrame = pandas.read_csv("../CSV_Data/"+dataset)
-        feature_set = dataFrame.columns.values
+        dataFrame = pandas.read_csv("../CSV_Data/"+dataset_name)
+        feature_set = list(dataFrame.columns.values)
         obj = {'columns':feature_set}
         self.write(obj)
 
