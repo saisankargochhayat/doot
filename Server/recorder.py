@@ -2,8 +2,9 @@ from tornado import websocket, web, ioloop
 import json
 from pymongo import MongoClient
 client = MongoClient()
-db = client.doot
-
+# Change to record in database for live server or for research database
+db = client.doot_server
+# db = client.doot
 class IndexHandler(web.RequestHandler):
     def get(self):
         self.render("static/recorder.html")

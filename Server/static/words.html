@@ -15,10 +15,11 @@
         Sphere.style.webkitTransform = Sphere.style.mozTransform =
         Sphere.style.transform = "translateX("+posX+"px) translateY("+posY+"px) translateZ("+posZ+"px) rotateX("+rotX+"deg) rotateY(0deg) rotateZ(0deg)";
       }
-      var isPredicting = true
-      setInterval(function(){
+      var isPredicting = true;
+      var interval_function = function(){
         isPredicting = true
-      },2500)
+      }
+
       var user_agree=false
       var fingers = {};
       var spheres = {};
@@ -298,35 +299,24 @@
       var pEle = document.getElementById('predicted')
       pEle.innerHTML = "";
       for(key in received_msg){
-        pEle.innerHTML+=key+" : "+received_msg[key]+"<br>";
+        if(key!='sentence'){
+          pEle.innerHTML+=key+" : "+received_msg[key]+"<br>";
+        }
       }
       var wordele = document.getElementById('words');
-      letter = received_msg['max_vote']
-      console.log(letter);
-      if(letter !='space' && letter!='back'){
-        words.innerHTML = words.innerHTML+received_msg['max_vote']
-      }else{
-        if(letter=='space'){
+      wordele.innerHTML = received_msg['sentence']
+      if(wordele.innerHTML[wordele.innerHTML.length-1] == 'stop'){
           VoiceRSS.speech({
                 key: 'a53ff05d9f944fb583eb51b47f471c3a',
-                src: received_msg['word'],
+                src: received_msg['sentence'],
                 hl: 'en-us',
                 r: 0,
                 c: 'mp3',
                 f: '44khz_16bit_stereo',
                 ssml: false
             });
-            a = words.innerHTML.split(" ")
-            a[a.length-1] = received_msg['word']
-            words.innerHTML = a.join(' ')
-            words.innerHTML = words.innerHTML+" "
-        }else{
-          if(letter=='back'){
-            words.innerHTML = words.innerHTML.slice(0,-1)
           }
-        }
-      }
-    };
+      };
 
     function tick(frame)
     {
@@ -337,6 +327,7 @@
              isPredicting = false
              var strdata = frame.dump().split('Raw JSON:<br/>')[1];
              var jsondata = JSON.parse(strdata);
+             jsondata['sentence'] = words.innerHTML
              ws.send(JSON.stringify(jsondata));
             }
           }
@@ -354,6 +345,7 @@
           document.getElementById("user_agree_status").innerHTML = "Not Predicting"
         }else{
           user_agree=true;
+          setInterval(interval_function,2500)
           document.getElementById("user_agree_status").innerHTML = "Predicting"
         }
       }
