@@ -53,10 +53,10 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-2">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Select Model Here</h4>
+                                <h4 class="title">Model</h4>
                             </div>
                             <div class="content">
                                 <div>
@@ -73,316 +73,356 @@
 																		<option value='LR'>LR</option>
 																	</select>
 																</div>
-																<hr>
-																<div>
-																	<label for="dataset">Dataset</label>
-																	<select name="dataset" class='form-control' id='dataset'>
-																		<option value='master_dataset.csv'>master_dataset.csv</option>
-																		<option value='dataset_1.csv'>dataset_1.csv</option>
-																		<option value='dataset_2.csv'>dataset_2.csv</option>
-																		<option value='dataset_3.csv'>dataset_3.csv</option>
-																		<option value='dataset_4.csv'>dataset_4.csv</option>
-																		<option value='dataset_5.csv'>dataset_5.csv</option>
-																		<option value='dataset_6.csv'>dataset_6.csv</option>
-																		<option value='dataset_7.csv'>dataset_7.csv</option>
-																		<option value='dataset_8.csv'>dataset_8.csv</option>
-																	</select>
-																</div>
-																<div>
-																	<label for="iterations">Iterations</label>
-																	<input type="number" name="iterations" value="100" class="form-control" id="iter">
-																</div>
-																<br>
-																<hr>
-																<label>Letters</label><br>
-																<button onclick='select_all()' class='btn btn-fill'>Select All</button>
-																<button onclick='unselect_all()' class='btn btn-fill'>Unselect All</button>
-																<button onclick="set_find(['a','m','n','s','t','q','o','g','x'])" class='btn btn-fill'>Set 1</button>
-																<button onclick="set_find(['b','e','c'])" class='btn btn-fill'>Set 2</button>
-																<button onclick="set_find(['h','k','u','v'])" class='btn btn-fill'>Set 3</button>
-																<button onclick="set_find(['d','r','p'])" class='btn btn-fill'>Set 4</button>
-																<div id = 'alphabets'>
-																	<div class="row">
-																		<div class="col-md-6">
-																			<div class="">
-																			  <label><input type="checkbox" value="a" name='alphabets'>a</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="b" name='alphabets'>b</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="c" name='alphabets'>c</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="d" name='alphabets'>d</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="e" name='alphabets'>e</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="f" name='alphabets'>f</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="g" name='alphabets'>g</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="h" name='alphabets'>h</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="i" name='alphabets'>i</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="k" name='alphabets'>k</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="l" name='alphabets'>l</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="m" name='alphabets'>m</label>
-																			</div>
-																		</div>
-																		<div class="col-md-6">
-																			<div class="">
-																			  <label><input type="checkbox" value="n" name='alphabets'>n</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="o" name='alphabets'>o</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="p" name='alphabets'>p</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="q" name='alphabets'>q</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="r" name='alphabets'>r</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="s" name='alphabets'>s</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="t" name='alphabets'>t</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="u" name='alphabets'>u</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="v" name='alphabets'>v</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="w" name='alphabets'>w</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="x" name='alphabets'>x</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="y" name='alphabets'>y</label>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<hr>
-																<div id='features'>
-																	<label>Features</label><br>
-																	<div class="row">
-																		<div class="col-md-3">
-																			<label>Misc</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="pinchStrength" name='features' checked="checked">Pinch Strength</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="grabStrength" name='features' checked="checked">Grab Strength</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="palm_direction" name='features' checked="checked">Palm Direction</label>
-																			</div>
-																		</div>
-																		<div class="col-md-3">
-																			<label>Angle metacarpal and proximal</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="thumb_meta_proxi" name='features' checked="checked">Thumb</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="index_meta_proxi" name='features' checked="checked">Index</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="middle_meta_proxi" name='features' checked="checked">Middle</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="ring_meta_proxi" name='features' checked="checked">Ring</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="pinky_meta_proxi" name='features' checked="checked">Pinky</label>
-																			</div>
-																		</div>
-																		<div class="col-md-3">
-																			<label>Angle proximal and intermediate</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="thumb_proxi_inter" name='features' checked="checked">Thumb</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="index_proxi_inter" name='features' checked="checked">Index</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="middle_proxi_inter" name='features' checked="checked">Middle</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="ring_proxi_inter" name='features' checked="checked">Ring</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="pinky_proxi_inter" name='features' checked="checked">Pinky</label>
-																			</div>
-																		</div>
-																		<div class="col-md-3">
-																			<label>Angle between fingers</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="thumb_index" name='features' checked="checked">Thumb and Index</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="index_middle" name='features' checked="checked">Index and Middle</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="middle_ring" name='features' checked="checked">Middle and Ring</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="ring_pinky" name='features' checked="checked">Ring and Pinky</label>
-																			</div>
-																		</div>
-																	</div>
-																	<hr>
-																	<div class="row">
-																		<div class="col-md-3">
-																			<label>Distance of tip from center of Palm</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="thumb_center_distance" name='features' checked="checked">Thumb</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="index_center_distance" name='features' checked="checked">Index</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="middle_center_distance" name='features' checked="checked">Middle</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="ring_center_distance" name='features' checked="checked">Ring</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="pinky_center_distance" name='features' checked="checked">Pinky</label>
-																			</div>
-																		</div>
-																		<div class="col-md-3">
-																			<label>Hand Direction</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="hand_direction_x" name='features' checked="checked">X</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="hand_direction_y" name='features' checked="checked">Y</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="hand_direction_z" name='features' checked="checked">Z</label>
-																			</div>
-																		</div>
-																		<div class="col-md-3">
-																			<label>Angle between hand and finger</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="thumb_hand_angle" name='features' checked="checked">Thumb</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="index_hand_angle" name='features' checked="checked">Index</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="middle_hand_angle" name='features' checked="checked">Middle</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="ring_hand_angle" name='features' checked="checked">Ring</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="pinky_hand_angle" name='features' checked="checked">Pinky</label>
-																			</div>
-																		</div>
-																		<div class="col-md-3">
-																			<label>Angle between hand and finger</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="thumb_hand_angle" name='features' checked="checked">Thumb</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="index_hand_angle" name='features' checked="checked">Index</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="middle_hand_angle" name='features' checked="checked">Middle</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="ring_hand_angle" name='features' checked="checked">Ring</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="pinky_hand_angle" name='features' checked="checked">Pinky</label>
-																			</div>
-																		</div>
-																	</div>
-																	<hr>
-																	<div class="row">
-																		<div class="col-md-3">
-																			<label>Finger Direction</label><br>
-																			<div class="">
-																			  <label><input type="checkbox" value="thumb_direction_x,thumb_direction_y,thumb_direction_z" name='features' checked="checked">Thumb</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="index_direction_x,index_direction_y,index_direction_z" name='features' checked="checked">Index</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="middle_direction_x,middle_direction_y,middle_direction_z" name='features' checked="checked">Middle</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="ring_direction_x,ring_direction_y,ring_direction_z" name='features' checked="checked">Ring</label>
-																			</div>
-																			<div class="">
-																			  <label><input type="checkbox" value="pinky_direction_x,pinky_direction_y,pinky_direction_z" name='features' checked="checked">Pinky</label>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<br>
-																<div>
-																	<button onclick='calculate()'type="button" name="submit" class='btn btn-info btn-fill'>Calculate</button>
-																</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="header">
-															<h4 class="title">Result</h4>
-                            </div>
-                            <div class="content">
-															<h3 id='status'>Make your request on the left side before laying eyes on me</h3>
-															<div class="row" id='loader' style="display:none">
-																<img src="assets/loader.gif" alt="Loader" />
 															</div>
-                            </div>
+														</div>
+													</div>
+													<div class="col-md-2">
+			                        <div class="card">
+			                            <div class="header">
+			                                <h4 class="title">Dataset</h4>
+			                            </div>
+			                            <div class="content">
+																		<div>
+																			<label for="dataset">Dataset</label>
+																			<select name="dataset" class='form-control' id='dataset'>
+																				<option value='master_dataset.csv'>master_dataset.csv</option>
+																				<option value='dataset_1.csv'>dataset_1.csv</option>
+																				<option value='dataset_2.csv'>dataset_2.csv</option>
+																				<option value='dataset_3.csv'>dataset_3.csv</option>
+																				<option value='dataset_4.csv'>dataset_4.csv</option>
+																				<option value='dataset_5.csv'>dataset_5.csv</option>
+																				<option value='dataset_6.csv'>dataset_6.csv</option>
+																				<option value='dataset_7.csv'>dataset_7.csv</option>
+																				<option value='dataset_8.csv'>dataset_8.csv</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-2">
+				                        <div class="card">
+				                          <div class="header">
+			                                <h4 class="title">Iterations</h4>
+			                            </div>
+			                            <div class="content">
+																		<div>
+																			<label for="iterations">Iterations</label>
+																			<input type="number" name="iterations" value="100" class="form-control" id="iter">
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-6">
+																	<div class="card">
+																			<div class="header">
+																				<h4 class="title">Result</h4>
+																			</div>
+																			<div class="content">
+																				<div class="row">
+																					<div class="col-md-8">
+																						<h3 id='status'>I am idle !</h3>
+																					</div>
+																					<div class="col-md-4">
+																						<div id='loader' style="display:none">
+																							<img src="assets/loader.gif" alt="Loader"style="width:80%;height:auto;"/>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																	</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-4">
+																<div class="card">
+																	<div class="header">
+																		Letters
+																	</div>
+																	<div class="content">
+																		<label>Letters</label><br>
+																		<button onclick='select_all()' class='btn btn-fill'>Select All</button>
+																		<button onclick='unselect_all()' class='btn btn-fill'>Unselect All</button>
+																		<button onclick="set_find(['a','m','n','s','t','q','o','g','x'])" class='btn btn-fill'>Set 1</button>
+																		<button onclick="set_find(['b','e','c'])" class='btn btn-fill'>Set 2</button><br><br>
+																		<button onclick="set_find(['h','k','u','v'])" class='btn btn-fill'>Set 3</button>
+																		<button onclick="set_find(['d','r','p'])" class='btn btn-fill'>Set 4</button>
+																		<br><br>
+																		<div id = 'alphabets'>
+																			<div class="row">
+																				<div class="col-md-4">
+																					<div class="">
+																						<label><input type="checkbox" value="a" name='alphabets'>a</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="b" name='alphabets'>b</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="c" name='alphabets'>c</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="d" name='alphabets'>d</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="e" name='alphabets'>e</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="f" name='alphabets'>f</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="g" name='alphabets'>g</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="h" name='alphabets'>h</label>
+																					</div>
+																				</div>
+																				<div class="col-md-4">
+																					<div class="">
+																						<label><input type="checkbox" value="i" name='alphabets'>i</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="k" name='alphabets'>k</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="l" name='alphabets'>l</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="m" name='alphabets'>m</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="n" name='alphabets'>n</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="o" name='alphabets'>o</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="p" name='alphabets'>p</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="q" name='alphabets'>q</label>
+																					</div>
+																				</div>
+																				<div class="col-md-4">
+																					<div class="">
+																						<label><input type="checkbox" value="r" name='alphabets'>r</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="s" name='alphabets'>s</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="t" name='alphabets'>t</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="u" name='alphabets'>u</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="v" name='alphabets'>v</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="w" name='alphabets'>w</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="x" name='alphabets'>x</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="y" name='alphabets'>y</label>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-8">
+																<div class="card">
+																	<div class="header">
+																		Features
+																	</div>
+																	<div class="content">
+																		<div id='features'>
+																			<div class="row">
+																				<div class="col-md-2">
+																					<label>Misc</label><br>
+																					<div class="">
+																					  <label><input type="checkbox" value="pinchStrength" name='features' checked="checked">Pinch Strength</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="grabStrength" name='features' checked="checked">Grab Strength</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="palm_direction" name='features' checked="checked">Palm Direction</label>
+																					</div>
+																				</div>
+																				<div class="col-md-2">
+																					<label>Angle metacarpal and proximal</label><br>
+																					<div class="">
+																					  <label><input type="checkbox" value="thumb_meta_proxi" name='features' checked="checked">Thumb</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="index_meta_proxi" name='features' checked="checked">Index</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="middle_meta_proxi" name='features' checked="checked">Middle</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="ring_meta_proxi" name='features' checked="checked">Ring</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="pinky_meta_proxi" name='features' checked="checked">Pinky</label>
+																					</div>
+																				</div>
+																				<div class="col-md-2">
+																					<label>Angle proximal and intermediate</label><br>
+																					<div class="">
+																					  <label><input type="checkbox" value="thumb_proxi_inter" name='features' checked="checked">Thumb</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="index_proxi_inter" name='features' checked="checked">Index</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="middle_proxi_inter" name='features' checked="checked">Middle</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="ring_proxi_inter" name='features' checked="checked">Ring</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="pinky_proxi_inter" name='features' checked="checked">Pinky</label>
+																					</div>
+																				</div>
+																				<div class="col-md-2">
+																					<label>Angle between fingers</label><br>
+																					<div class="">
+																					  <label><input type="checkbox" value="thumb_index" name='features' checked="checked">Thumb and Index</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="index_middle" name='features' checked="checked">Index and Middle</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="middle_ring" name='features' checked="checked">Middle and Ring</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="ring_pinky" name='features' checked="checked">Ring and Pinky</label>
+																					</div>
+																				</div>
+																				<div class="col-md-2">
+																					<label>Distance of tip from center of Palm</label><br>
+																					<div class="">
+																						<label><input type="checkbox" value="thumb_center_distance" name='features' checked="checked">Thumb</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="index_center_distance" name='features' checked="checked">Index</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="middle_center_distance" name='features' checked="checked">Middle</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="ring_center_distance" name='features' checked="checked">Ring</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="pinky_center_distance" name='features' checked="checked">Pinky</label>
+																					</div>
+																				</div>
+																				<div class="col-md-2">
+																					<label>Hand Direction</label><br>
+																					<div class="">
+																						<label><input type="checkbox" value="hand_direction_x" name='features' checked="checked">X</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="hand_direction_y" name='features' checked="checked">Y</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="hand_direction_z" name='features' checked="checked">Z</label>
+																					</div>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-3">
+																					<label>Angle between hand and finger</label><br>
+																					<div class="">
+																					  <label><input type="checkbox" value="thumb_hand_angle" name='features' checked="checked">Thumb</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="index_hand_angle" name='features' checked="checked">Index</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="middle_hand_angle" name='features' checked="checked">Middle</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="ring_hand_angle" name='features' checked="checked">Ring</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="pinky_hand_angle" name='features' checked="checked">Pinky</label>
+																					</div>
+																				</div>
+																				<div class="col-md-3">
+																					<label>Angle between hand and finger</label><br>
+																					<div class="">
+																					  <label><input type="checkbox" value="thumb_hand_angle" name='features' checked="checked">Thumb</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="index_hand_angle" name='features' checked="checked">Index</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="middle_hand_angle" name='features' checked="checked">Middle</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="ring_hand_angle" name='features' checked="checked">Ring</label>
+																					</div>
+																					<div class="">
+																					  <label><input type="checkbox" value="pinky_hand_angle" name='features' checked="checked">Pinky</label>
+																					</div>
+																				</div>
+																				<div class="col-md-3">
+																					<label>Finger Direction</label><br>
+																					<div class="">
+																						<label><input type="checkbox" value="thumb_direction_x,thumb_direction_y,thumb_direction_z" name='features' checked="checked">Thumb</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="index_direction_x,index_direction_y,index_direction_z" name='features' checked="checked">Index</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="middle_direction_x,middle_direction_y,middle_direction_z" name='features' checked="checked">Middle</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="ring_direction_x,ring_direction_y,ring_direction_z" name='features' checked="checked">Ring</label>
+																					</div>
+																					<div class="">
+																						<label><input type="checkbox" value="pinky_direction_x,pinky_direction_y,pinky_direction_z" name='features' checked="checked">Pinky</label>
+																					</div>
+																				</div>
+																				<div class="col-md-3">
+																						<br><br><br>
+																								<button onclick='calculate()'type="button" name="submit" class='btn btn-info btn-fill'>Calculate</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+                          </div>
                         </div>
+												<footer class="footer">
+														<div class="container-fluid">
+																<nav class="pull-left">
+																		<ul>
+																				<li>
+																						<a href="#">
+																								Doot Research Client
+																						</a>
+																				</li>
+																		</ul>
+																</nav>
+																<p class="copyright pull-right">
+																		&copy; 2017 <a href="#" target="_blank">Team Doot</a>, made with love
+																</p>
+														</div>
+												</footer>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                Doot Research Client
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <p class="copyright pull-right">
-                    &copy; 2017 <a href="#" target="_blank">Team Doot</a>, made with love
-                </p>
-            </div>
-        </footer>
 
-    </div>
-</div>
+
 
 
 

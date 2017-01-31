@@ -62,15 +62,19 @@ class Prediction(websocket.WebSocketHandler):
         model = model_dict[model_name]
         iterations = msg['iterations']
         dataFrame = pandas.read_csv("../CSV_Data/"+dataset)
-        if feature_check(dataFrame, features):
-            sum_acc = 0
-            for i in range(iterations):
-                acc,confusion = model.get_set_accuracy(dataFrame,letters,features)
-                sum_acc = sum_acc + acc
-            acc = { "accuracy" : sum_acc/iterations}
-            self.write_message(acc)
+        if len(letters) > 0:
+            if feature_check(dataFrame, features):
+                sum_acc = 0
+                for i in range(iterations):
+                    acc,confusion = model.get_set_accuracy(dataFrame,letters,features)
+                    sum_acc = sum_acc + acc
+                acc = { "accuracy" : sum_acc/iterations}
+                self.write_message(acc)
+            else:
+                acc = { "accuracy" : "Some features were not found in dataset"}
+                self.write_message(acc)
         else:
-            acc = { "accuracy" : "Some features were not found in dataset"}
+            acc = { "accuracy" : "Please select some letters"}
             self.write_message(acc)
 
     def on_close(self):
