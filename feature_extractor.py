@@ -2,7 +2,7 @@
 import pandas
 from pymongo import MongoClient
 client = MongoClient()
-db = client.doot
+db = client.doot_server
 import numpy as np
 #-------------------------------Function to manipulate Features------------------
 # This function takes dataframe and normalized frame to extract the required
@@ -55,6 +55,7 @@ def extract_array(frame,norm_frame):
     data.append(direction)
     #Append the label
     for pointable in frame['pointables']:
+        data.append(getAngle(pointable['direction'],hand['direction']))
         data.append(pointable['direction'][0])
         data.append(pointable['direction'][1])
         data.append(pointable['direction'][2])
@@ -141,6 +142,7 @@ column_names.append('hand_direction_y')
 column_names.append('hand_direction_z')
 column_names.append('palm_direction')
 for i in range(5):
+    column_names.append(finger_map[i]+"_hand_angle")
     column_names.append(finger_map[i]+"_direction_x")
     column_names.append(finger_map[i]+"_direction_y")
     column_names.append(finger_map[i]+"_direction_z")
@@ -148,5 +150,5 @@ column_names.append('label')
 # Convert to pandas Dataframe
 data_df = pandas.DataFrame(data,columns=column_names)
 # Write to csv File
-data_df.to_csv('CSV_Data/set_experiment/sandy_3.csv',index=False)
+data_df.to_csv('CSV_Data/dataset_0.csv',index=False)
 print("Successfully Created CSV file")
