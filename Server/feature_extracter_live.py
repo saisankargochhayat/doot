@@ -1,4 +1,4 @@
-import pandas
+# import pandas
 import numpy as np
 #-------------------------------Function to manipulate Features------------------
 # This function takes dataframe and normalized frame to extract the required
@@ -7,8 +7,8 @@ def extract_array(frame):
     hand = frame['hands'][0]
     # norm_hand = norm_frame['hands'][0]
     data = []
-    data.append(hand['pinchStrength'])
-    data.append(hand['grabStrength'])
+    # data.append(hand['pinchStrength'])
+    # data.append(hand['grabStrength'])
     # Angle between metacarpal,proximal and proximal,intermediate for every finger
     # Through expreiment, it was found that frame['pointables'] is an array of pointables
     # in the following format : thumb, index, middle, ring, pinky
@@ -31,6 +31,8 @@ def extract_array(frame):
     #     if(normalized_distance > 1):
     #         normalized_distance=1
     #     data.append(normalized_distance)
+    for i in range(3):
+        data.append(hand['direction'][i])
     direction = 0
     if hand['palmNormal'][1]<-0.7:
         direction=1
@@ -49,6 +51,7 @@ def extract_array(frame):
     data.append(direction)
     #Append the label
     for pointable in frame['pointables']:
+        data.append(getAngle(pointable['direction'],hand['direction']))
         data.append(pointable['direction'][0])
         data.append(pointable['direction'][1])
         data.append(pointable['direction'][2])
