@@ -63,7 +63,7 @@ class Predict(websocket.WebSocketHandler):
         msg = json.loads(message)
         test=extract_array(msg)
         test = np.array(test)
-        test.reshape(1,-1)
+        test = test.reshape(1,-1)
         sentence = msg['sentence']
         predictions = {}
         vote = {}
