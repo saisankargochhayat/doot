@@ -59,9 +59,10 @@ class Predict(websocket.WebSocketHandler):
         print("WebSocket opened")
 
     def on_message(self, message):
-        global sentence
+        sentence = ""
         msg = json.loads(message)
         test=extract_array(msg)
+        test.reshape(1,-1)
         sentence = msg['sentence']
         predictions = {}
         vote = {}
