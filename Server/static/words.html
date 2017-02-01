@@ -16,9 +16,10 @@
         Sphere.style.transform = "translateX("+posX+"px) translateY("+posY+"px) translateZ("+posZ+"px) rotateX("+rotX+"deg) rotateY(0deg) rotateZ(0deg)";
       }
       var isPredicting = true;
-      var interval_function = function(){
-        isPredicting = true
-      }
+      setInterval(function(){
+        isPredicting=true
+
+      },2500)
 
       var user_agree=false
       var fingers = {};
@@ -316,7 +317,6 @@
                 ssml: false
             });
           }
-          setInterval(interval_function,2500)
       };
 
     function tick(frame)
@@ -325,7 +325,8 @@
         if(user_agree){
           if(frame.hands){
            if(frame.hands.length==1){
-             isPredicting = false
+             isPredicting = false;
+             console.log(isPredicting);
              var strdata = frame.dump().split('Raw JSON:<br/>')[1];
              var jsondata = JSON.parse(strdata);
              jsondata['sentence'] = words.innerHTML
@@ -346,7 +347,7 @@
           document.getElementById("user_agree_status").innerHTML = "Not Predicting"
         }else{
           user_agree=true;
-          setInterval(interval_function,2500)
+          // setInterval(interval_function,2500);
           document.getElementById("user_agree_status").innerHTML = "Predicting"
         }
       }
