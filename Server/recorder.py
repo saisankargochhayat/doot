@@ -3,7 +3,7 @@ import json
 from pymongo import MongoClient
 client = MongoClient()
 # Change to record in database for live server or for research database
-db = client.doot_server
+db = client.doot_3d
 # db = client.doot
 class IndexHandler(web.RequestHandler):
     def get(self):
