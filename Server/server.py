@@ -105,7 +105,7 @@ class Predict(websocket.WebSocketHandler):
         count = collections.Counter(vote)
         predictions['max_vote'] = count.most_common(1)[0][0]
         letter = predictions['max_vote']
-        if(letter=='space' or letter=='back'):
+        if(letter=='space' or letter=='back' or letter=='stop'):
             if(letter=='space'):
                 sentence = sentence+" "
             elif(letter=='back'):

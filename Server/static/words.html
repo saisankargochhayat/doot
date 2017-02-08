@@ -6,7 +6,7 @@
       <script type="text/javascript" src = "static/voicerss-tts.min.js"></script>
     <link rel="stylesheet" href="/static/style.css" title="no title">
     <script>
-
+    var buffer_frame;
       function moveFinger(Finger, posX, posY, posZ) {
         Finger.style.webkitTransform = "translate3d("+posX+"px, "+posY+"px, "+posZ+"px)";
       }
@@ -306,7 +306,8 @@
       }
       var wordele = document.getElementById('words');
       wordele.innerHTML = received_msg['sentence']
-      if(wordele.innerHTML[wordele.innerHTML.length-1] == 'stop'){
+      if(received_msg['sentence'][received_msg['sentence'].length-1] == '.'){
+          console.log("Stop found");
           VoiceRSS.speech({
                 key: 'a53ff05d9f944fb583eb51b47f471c3a',
                 src: received_msg['sentence'],
@@ -321,21 +322,23 @@
 
     function tick(frame)
     {
-      if(isPredicting){
-        if(user_agree){
-          if(frame.hands){
-           if(frame.hands.length==1){
-             isPredicting = false;
-             console.log(isPredicting);
-             var strdata = frame.dump().split('Raw JSON:<br/>')[1];
-             var jsondata = JSON.parse(strdata);
-             jsondata['sentence'] = words.innerHTML
-             ws.send(JSON.stringify(jsondata));
-            }
+      main_frame = frame
+    }
+    var send_to_server = function(){
+      if(user_agree){
+        if(main_frame.hands){
+         if(main_frame.hands.length==1){
+           isPredicting = false;
+           console.log(isPredicting);
+           var strdata = main_frame.dump().split('Raw JSON:<br/>')[1];
+           var jsondata = JSON.parse(strdata);
+           jsondata['sentence'] = words.innerHTML
+           ws.send(JSON.stringify(jsondata));
           }
         }
       }
     }
+    var interval = setInterval(send_to_server,2000)
   </script>
 
   <script type="text/javascript">
