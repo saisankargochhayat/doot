@@ -2,7 +2,7 @@
 import pandas
 from pymongo import MongoClient
 client = MongoClient()
-db = client.doot
+db = client.doot_server_2
 import numpy as np
 #-------------------------------Function to manipulate Features------------------
 # This function takes dataframe and normalized frame to extract the required
@@ -20,20 +20,20 @@ def extract_array(frame,norm_frame):
         data.append(mc_prox_angle(pointable,hand))
         data.append(prox_inter_angle(pointable,hand))
     # Angle between consecutive fingers
-    position = 0
-    pointables = frame['pointables']
-    thumb = pointables[0]['pipPosition'][0]
-    index = pointables[1]['pipPosition'][0]
-    middle = pointables[2]['pipPosition'][0]
-    ring = pointables[3]['pipPosition'][0]
-    pinky = pointables[4]['pipPosition'][0]
-    if thumb >= index and thumb <= middle:
-        position = 1
-    if thumb >= middle and thumb <= ring:
-        position = 2
-    if thumb >= ring and thumb <= pinky:
-        position = 3
-    data.append(position)
+    # position = 0
+    # pointables = frame['pointables']
+    # thumb = pointables[0]['pipPosition'][0]
+    # index = pointables[1]['pipPosition'][0]
+    # middle = pointables[2]['pipPosition'][0]
+    # ring = pointables[3]['pipPosition'][0]
+    # pinky = pointables[4]['pipPosition'][0]
+    # if thumb >= index and thumb <= middle:
+    #     position = 1
+    # if thumb >= middle and thumb <= ring:
+    #     position = 2
+    # if thumb >= ring and thumb <= pinky:
+    #     position = 3
+    # data.append(position)
     for i in range(4):
         data.append(finger_angle(frame['pointables'][i],frame['pointables'][i+1]))
     # Normalized tip distance from palmCenter
@@ -49,8 +49,8 @@ def extract_array(frame,norm_frame):
     #     if(normalized_distance > 1):
     #         normalized_distance=1
     #     data.append(normalized_distance)
-    # for i in range(3):
-    #     data.append(hand['direction'][i])
+    for i in range(3):
+        data.append(hand['direction'][i])
     direction = 0
     if hand['palmNormal'][1]<-0.7:
         direction=1
@@ -73,7 +73,7 @@ def extract_array(frame,norm_frame):
         data.append(pointable['direction'][0])
         data.append(pointable['direction'][1])
         data.append(pointable['direction'][2])
-    data.append(get_thumb_position(frame['pointables'],frame['label']))
+    # data.append(get_thumb_position(frame['pointables'],frame['label']))
     data.append(frame['label'])
     return data
 
@@ -166,26 +166,26 @@ finger_map = ['thumb','index','middle','ring','pinky']
 for i in range(5):
     column_names.append(finger_map[i]+'_meta_proxi')
     column_names.append(finger_map[i]+'_proxi_inter')
-column_names.append('thumb_position')
+# column_names.append('thumb_position')
 # for i in range(4):
 #     column_names.append('mcp_position')
 for i in range(4):
     column_names.append(finger_map[i]+'_'+finger_map[i+1])
 # for i in range(5):
 #     column_names.append(finger_map[i]+'_'+'center_distance')
-# column_names.append('hand_direction_x')
-# column_names.append('hand_direction_y')
-# column_names.append('hand_direction_z')
+column_names.append('hand_direction_x')
+column_names.append('hand_direction_y')
+column_names.append('hand_direction_z')
 column_names.append('palm_direction')
 for i in range(5):
     column_names.append(finger_map[i]+"_hand_angle")
     column_names.append(finger_map[i]+"_direction_x")
     column_names.append(finger_map[i]+"_direction_y")
     column_names.append(finger_map[i]+"_direction_z")
-column_names.append("thumb_position")
+# column_names.append("thumb_position")
 column_names.append('label')
 # Convert to pandas Dataframe
 data_df = pandas.DataFrame(data,columns=column_names)
 # Write to csv File
-data_df.to_csv('CSV_Data/try.csv',index=False)
+data_df.to_csv('CSV_Data/server_dataset.csv',index=False)
 print("Successfully Created CSV file")

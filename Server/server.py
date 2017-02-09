@@ -29,7 +29,7 @@ from textblob import TextBlob
 
 data = []
 labels = []
-dataFrame = pandas.read_csv('../CSV_Data/dataset_0.csv')
+dataFrame = pandas.read_csv('../CSV_Data/server_dataset.csv')
 svm_model , svm_scaler = svm.get_model(dataFrame)
 knn_model , knn_scaler = knn.get_model(dataFrame)
 sgd_model , sgd_scaler = sgd.get_model(dataFrame)
@@ -120,6 +120,11 @@ class Predict(websocket.WebSocketHandler):
 
     def on_close(self):
         print("WebSocket closed")
+
+# class normal_user(websocket.WebSocketHandler):
+#     def check_origin(self, origin):
+#         return True
+
 
 app = web.Application([
     (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),
