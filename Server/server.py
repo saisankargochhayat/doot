@@ -23,13 +23,13 @@ from  tornado.escape import json_decode
 from  tornado.escape import json_encode
 from feature_extracter_live import *
 from sklearn import preprocessing
-from helper import svm,knn,dtree,sgd,lda
+from helper import svm,knn,dtree,sgd,lda,qda
 from textblob import TextBlob
 # define("port", default=8080, help="run on the given port", type=int)
 
 data = []
 labels = []
-dataFrame = pandas.read_csv('../CSV_Data/dataset_0.csv')
+dataFrame = pandas.read_csv('../CSV_Data/server_dataset.csv')
 svm_model , svm_scaler = svm.get_model(dataFrame)
 knn_model , knn_scaler = knn.get_model(dataFrame)
 sgd_model , sgd_scaler = sgd.get_model(dataFrame)
@@ -37,7 +37,6 @@ dtree_model , dtree_scaler = dtree.get_model(dataFrame)
 lda_model , lda_scaler = lda.get_model(dataFrame)
 qda_model , qda_scaler = qda.get_model(dataFrame)
 print("Trained")
-sentence = ""
 class HomeHandler(web.RequestHandler):
     def get(self):
         self.render("static/index.html")
@@ -60,9 +59,12 @@ class Predict(websocket.WebSocketHandler):
         print("WebSocket opened")
 
     def on_message(self, message):
-        global sentence
+        sentence = ""
         msg = json.loads(message)
         test=extract_array(msg)
+        test = np.array(test)
+        test = test.reshape(1,-1)
+        sentence = msg['sentence']
         predictions = {}
         vote = {}
         predictions['svm'] = str(svm_model.predict(svm_scaler.transform(test))[0])
@@ -103,25 +105,26 @@ class Predict(websocket.WebSocketHandler):
         count = collections.Counter(vote)
         predictions['max_vote'] = count.most_common(1)[0][0]
         letter = predictions['max_vote']
-        if(letter=='space' or letter=='back'):
+        if(letter=='space' or letter=='back' or letter=='stop'):
             if(letter=='space'):
-                a = sentence.split(" ")
-                word = a[len(a)-1]
-                blob = TextBlob(word)
-                # corrected = word
-                corrected = str(blob.correct())
-                predictions['word'] = corrected
-                a[len(a)-1] = corrected
-                sentence = " ".join(a)
                 sentence = sentence+" "
-            else:
+            elif(letter=='back'):
                 sentence = sentence[:-1]
+            elif(letter=='stop'):
+                sentence = sentence + "."
         else:
             sentence = sentence + letter
+        predictions['sentence'] = sentence
+        print(sentence)
         self.write_message(predictions)
 
     def on_close(self):
         print("WebSocket closed")
+
+# class normal_user(websocket.WebSocketHandler):
+#     def check_origin(self, origin):
+#         return True
+
 
 app = web.Application([
     (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),

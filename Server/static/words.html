@@ -6,7 +6,7 @@
       <script type="text/javascript" src = "static/voicerss-tts.min.js"></script>
     <link rel="stylesheet" href="/static/style.css" title="no title">
     <script>
-
+    var buffer_frame;
       function moveFinger(Finger, posX, posY, posZ) {
         Finger.style.webkitTransform = "translate3d("+posX+"px, "+posY+"px, "+posZ+"px)";
       }
@@ -15,10 +15,12 @@
         Sphere.style.webkitTransform = Sphere.style.mozTransform =
         Sphere.style.transform = "translateX("+posX+"px) translateY("+posY+"px) translateZ("+posZ+"px) rotateX("+rotX+"deg) rotateY(0deg) rotateZ(0deg)";
       }
-      var isPredicting = true
+      var isPredicting = true;
       setInterval(function(){
-        isPredicting = true
+        isPredicting=true
+
       },2500)
+
       var user_agree=false
       var fingers = {};
       var spheres = {};
@@ -298,51 +300,45 @@
       var pEle = document.getElementById('predicted')
       pEle.innerHTML = "";
       for(key in received_msg){
-        pEle.innerHTML+=key+" : "+received_msg[key]+"<br>";
+        if(key!='sentence'){
+          pEle.innerHTML+=key+" : "+received_msg[key]+"<br>";
+        }
       }
       var wordele = document.getElementById('words');
-      letter = received_msg['max_vote']
-      console.log(letter);
-      if(letter !='space' && letter!='back'){
-        words.innerHTML = words.innerHTML+received_msg['max_vote']
-      }else{
-        if(letter=='space'){
+      wordele.innerHTML = received_msg['sentence']
+      if(received_msg['sentence'][received_msg['sentence'].length-1] == '.'){
+          console.log("Stop found");
           VoiceRSS.speech({
                 key: 'a53ff05d9f944fb583eb51b47f471c3a',
-                src: received_msg['word'],
+                src: received_msg['sentence'],
                 hl: 'en-us',
                 r: 0,
                 c: 'mp3',
                 f: '44khz_16bit_stereo',
                 ssml: false
             });
-            a = words.innerHTML.split(" ")
-            a[a.length-1] = received_msg['word']
-            words.innerHTML = a.join(' ')
-            words.innerHTML = words.innerHTML+" "
-        }else{
-          if(letter=='back'){
-            words.innerHTML = words.innerHTML.slice(0,-1)
           }
-        }
-      }
-    };
+      };
 
     function tick(frame)
     {
-      if(isPredicting){
-        if(user_agree){
-          if(frame.hands){
-           if(frame.hands.length==1){
-             isPredicting = false
-             var strdata = frame.dump().split('Raw JSON:<br/>')[1];
-             var jsondata = JSON.parse(strdata);
-             ws.send(JSON.stringify(jsondata));
-            }
+      main_frame = frame
+    }
+    var send_to_server = function(){
+      if(user_agree){
+        if(main_frame.hands){
+         if(main_frame.hands.length==1){
+           isPredicting = false;
+           console.log(isPredicting);
+           var strdata = main_frame.dump().split('Raw JSON:<br/>')[1];
+           var jsondata = JSON.parse(strdata);
+           jsondata['sentence'] = words.innerHTML
+           ws.send(JSON.stringify(jsondata));
           }
         }
       }
     }
+    var interval = setInterval(send_to_server,2000)
   </script>
 
   <script type="text/javascript">
@@ -354,6 +350,7 @@
           document.getElementById("user_agree_status").innerHTML = "Not Predicting"
         }else{
           user_agree=true;
+          // setInterval(interval_function,2500);
           document.getElementById("user_agree_status").innerHTML = "Predicting"
         }
       }

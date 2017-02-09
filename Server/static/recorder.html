@@ -55,16 +55,6 @@
         // $('#recording').hide();
         //console.log(framedata);
       }
-      function writeinfile() {
-        var content1 = "";
-        for(var i=0;i<framedata.length;i++){
-          content1+=framedata[i]+"\n";
-        }
-        console.log(content1);
-         var url = 'data:text/json;charset=utf8,' + encodeURIComponent(content1);
-         window.open(url, '_blank');
-         window.focus();
-     }
       var start,end;
       Leap.loop(function(frame) {
         //console.log(frame);
@@ -220,7 +210,6 @@
       <br><br>
       <button onclick="startrecording()">Start Recording</button>
       <button onclick="stoprecording()">Stop Recording</button>
-      <button onclick="writeinfile()">Write to file</button>
       <br>
       <div id="displayCount">
         <div id='listOfCounts'>

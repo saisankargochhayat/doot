@@ -13,15 +13,15 @@ sys.path.append(path)
 from helper import svm,sgd,lda,ridge,knn,dtree
 import glob
 names = ['rishi','sandy']
-sets = [['a','m','n','s','t','q','o','g','x'],['b','e','c'],['h','k','u','v'],['d','r','p']]
+sets = [['m','n'],['a','t','s','g','x','o','g'],['b','e','c'],['h','k','u','v'],['d','r','p']]
 path = os.path.split(path)[0]
 path =path.strip('ML')
-path = path+'/CSV_Data/set_experiment'
-allfiles = glob.glob(path+"/*")
+path = path+'/CSV_Data/set_experiment/try.csv'
+# allfiles = glob.glob(path+"/*")
 
 
-for filename in allfiles:
-    allData = pandas.read_csv(filename)
+for filename in range(1):
+    allData = pandas.read_csv(path)
     feature_list = allData.columns.values
     print(filename)
     for curr_set in sets:
