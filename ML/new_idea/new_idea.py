@@ -1,34 +1,33 @@
+import sys
+import os
+path=os.getcwd()
+path=path.strip('new_idea')
+sys.path.append(path)
 import pandas
 from helper import svm,knn,lda,sgd,dtree,misc_helper
 import numpy as np
+
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
 import warnings
 warnings.filterwarnings('ignore')
-initialData = pandas.read_csv('../CSV_Data/try.csv')
+initialData = pandas.read_csv('datasets/main.csv')
+print(initialData)
 allData = initialData
 all_features = allData.columns.values
-sets = [['m','n','a','s','t','q','o','g','x'],['b','e','c'],['h','k','u','v'],['d','r','p']]
-coord = ['x','y','z']
+sets = [['a','m','n','s','t','g','q'],['b','e','c','o','x'],['h','k','u','v'],
+['d','r','p'],['f'],['l'],['i'],['w'],['y']]
 finger_map = ['thumb','index','middle','ring','pinky']
-# feature_list_1 = all_features.tolist()
-# for axis in coord:
-#     feature_list_1.remove('hand_direction_'+ axis)
-# feature_list_2 = ['label']
-# for axis in coord:
-#     feature_list_2.append('hand_direction_'+ axis)
-# for finger in finger_map:
-#     for axis in coord:
-#         feature_list_2.append(finger + '_direction_' + axis)
+
 feature_lists = [all_features,all_features,all_features,all_features,all_features]
 
 sum_accuracy = 0
 sum_set_divide = 0
 sum_set= [0.0 for x in range(len(sets))]
 for i in range(100):
-    main_train,main_test = train_test_split(allData,test_size = 0.4,stratify=allData['label'])
+    main_train,main_test = train_test_split(allData,test_size = 0.2,stratify=allData['label'])
     modelList = []
     scalerList = []
 
