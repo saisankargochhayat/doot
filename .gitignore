@@ -5,3 +5,4 @@ try/
 doot/Server/data/
 *.pyc
 *.log
+.vscode
