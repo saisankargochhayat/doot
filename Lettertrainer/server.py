@@ -65,12 +65,10 @@ class Predict(websocket.WebSocketHandler):
         print("WebSocket opened")
 
     def on_message(self, message):
-        sentence = ""
         msg = json.loads(message)
         test=extract_array(msg)
         test = np.array(test)
         test = test.reshape(1,-1)
-        sentence = msg['sentence']
         predictions = {}
         vote = {}
         predictions['svm'] = str(svm_model.predict(svm_scaler.transform(test))[0])
@@ -111,18 +109,7 @@ class Predict(websocket.WebSocketHandler):
         count = collections.Counter(vote)
         predictions['max_vote'] = count.most_common(1)[0][0]
         letter = predictions['max_vote']
-        if(letter=='space' or letter=='back' or letter=='stop'):
-            if(letter=='space'):
-                sentence = sentence+" "
-            elif(letter=='back'):
-                sentence = sentence[:-1]
-            elif(letter=='stop'):
-                sentence = sentence + "."
-        else:
-            sentence = sentence + letter
-        predictions['sentence'] = sentence
-        print(sentence)
-        self.write_message(predictions)
+        self.write_message(letter)
 
     def on_close(self):
         print("WebSocket closed")
