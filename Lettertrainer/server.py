@@ -43,6 +43,12 @@ class HomeHandler(web.RequestHandler):
 class Words(web.RequestHandler):
     def get(self):
         self.render("static/words.html")
+class Letter(web.RequestHandler):
+    def get(self):
+        self.render("static/letter.html")
+class Visualizer1(web.RequestHandler):
+    def get(self):
+        self.render("static/visualizer1.html")
 class Predictor(web.RequestHandler):
     def get(self):
         self.render("static/predictor.html")
@@ -131,8 +137,10 @@ app = web.Application([
     (r"/",HomeHandler),
     (r"/predictor",Predictor),
     (r"/visualizer",Visualizer),
+    (r"/visualizer1",Visualizer1),
     (r"/words",Words),
-    (r"/ws",Predict),
+    (r"/letter",Letter),
+    (r"/ws",Predict)
     ])
 
 if __name__ == '__main__':

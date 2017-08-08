@@ -1,19 +1,58 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <meta charset="utf-8" />
-    <title>Semantic UI CDN</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>DOOT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script src="/static/leap-0.6.4.js"></script>
+    <script src="/static/d3.js"></script>
+    <script src="/static/visualizer.js"></script>
+    <script src="/static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css" title="no title">
+
+
+
 </head>
+
 <body>
-      <!-- Your Semantic UI Code -->
-        <div class="ui inverted menu">
+    <!-- Your Semantic UI Code -->
+    <div class="ui inverted menu">
         <a class="active item">
             DOOT Alphabet Trainer
         </a>
+    </div>
+    <div class="ui card" style="height:50%;width:50%;">
+        <div class="header">visualizer</div>
+        <div class="content">
+            <div id="app" class="show-hands">
+                <div id="scene">
+                    <div id="cube" class="cube">
+                        <div class="face tp"></div>
+                        <div class="face lt"></div>
+                        <div class="face rt"></div>
+                        <div class="face ft"></div>
+                        <div class="face bk"></div>
+                    </div>
+                    <div id="finger" class="cube finger">
+                        <div class="face tp"></div>
+                        <div class="face lt"></div>
+                        <div class="face rt"></div>
+                        <div class="face ft"></div>
+                        <div class="face bk"></div>
+                    </div>
+                    <div id="sphere" class="cube sphere">
+                        <div class="face tp"></div>
+                        <div class="face lt"></div>
+                        <div class="face rt"></div>
+                        <div class="face ft"></div>
+                        <div class="face bk"></div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
 </body>
-</html>
 
+</html>
