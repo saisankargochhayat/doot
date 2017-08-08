@@ -136,6 +136,6 @@ app = web.Application([
     ])
 
 if __name__ == '__main__':
-    app.listen(8080)
-    print("Listening at 127.0.0.1:8080")
+    app.listen(7000)
+    print("Listening at 127.0.0.1:7000")
     ioloop.IOLoop.instance().start()

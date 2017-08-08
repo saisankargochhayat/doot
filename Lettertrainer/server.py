@@ -133,6 +133,7 @@ class Predict(websocket.WebSocketHandler):
 
 
 app = web.Application([
+    (r'/assets/(.*)', web.StaticFileHandler, {'path': 'static/assets/'}),
     (r'/static/(.*)', web.StaticFileHandler, {'path': 'static/'}),
     (r"/",HomeHandler),
     (r"/predictor",Predictor),
@@ -142,8 +143,7 @@ app = web.Application([
     (r"/letter",Letter),
     (r"/ws",Predict)
     ])
-
 if __name__ == '__main__':
-    app.listen(8080)
-    print("Listening at 127.0.0.1:8080")
+    app.listen(3000)
+    print("Listening at 127.0.0.1:3000")
     ioloop.IOLoop.instance().start()
