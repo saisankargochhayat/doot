@@ -17,7 +17,7 @@ path = os.path.split(path)[0]
 path =path.strip('ML')
 # allfiles = glob.glob(path+"/*")
 
-setlist = [['a','m','n','s','t','g','q'],['b','e','c','o','x'],['h','k','u','v'],
+setlist = [['a','m','n','s','t','g','q','o','x'],['b','e','c'],['h','k','u','v'],
 ['d','r','p'],['f'],['l'],['i'],['w'],['y']]
 set_name_list = ['set_'+str(x) for x in range(len(setlist))]
 # for filename in allfiles:

@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn import preprocessing
 from helper import svm,misc_helper
-dataFrame = pandas.read_csv('../CSV_Data/try.csv')
+dataFrame = pandas.read_csv('../CSV_Data/master_dataset.csv')
 
 
 sum_acc = 0

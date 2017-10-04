@@ -470,7 +470,7 @@ $('#dataset').change(function(){
 		}
 	});
 });
-var ws = new WebSocket('ws://localhost:8080/ws')
+var ws = new WebSocket('ws://localhost:5000/ws')
 ws.onopen = function(){
 	console.log("Open");
 }
@@ -503,7 +503,7 @@ ws.onerror = function(){
 			'iterations' : iterations
 		}
 		console.log(data);
-		$('#status').html("Have a cookie while we crunch some numbers.")
+		$('#status').html("Crunching Numbers")
 		$('#loader').show()
 		ws.send(JSON.stringify(data));
 	}

@@ -14,7 +14,7 @@ from sklearn import preprocessing
 import warnings
 warnings.filterwarnings('ignore')
 initialData = pandas.read_csv('datasets/main.csv')
-print(initialData)
+# print(initialData)
 allData = initialData
 all_features = allData.columns.values
 sets = [['a','m','n','s','t','g','q'],['b','e','c','o','x'],['h','k','u','v'],
@@ -27,11 +27,12 @@ sum_accuracy = 0
 sum_set_divide = 0
 sum_set= [0.0 for x in range(len(sets))]
 for i in range(100):
+    print(i+1)
     main_train,main_test = train_test_split(allData,test_size = 0.2,stratify=allData['label'])
     modelList = []
     scalerList = []
-
-    for set_index in range(len(sets)):
+    # print(main_train)
+    for set_index in range(4):
         model,scaler = svm.get_set_model(main_train,sets[set_index],feature_lists[set_index])
         modelList.append(model)
         scalerList.append(scaler)
@@ -52,7 +53,7 @@ for i in range(100):
     main_test['actual_set'] = main_test['actual']
     for i in range(len(sets)):
         main_test['actual_set'][main_test['actual_set'].isin(sets[i])] = str(i)
-    for i in range(len(sets)):
+    for i in range(4):
         current_data = main_test[main_test['set_label'] == str(i)]
         # print(current_data)
         current_data = current_data[feature_lists[i]]

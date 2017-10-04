@@ -66,6 +66,7 @@ class Prediction(websocket.WebSocketHandler):
             if feature_check(dataFrame, features):
                 sum_acc = 0
                 for i in range(iterations):
+                    print(i)
                     acc,confusion = model.get_set_accuracy(dataFrame,letters,features)
                     sum_acc = sum_acc + acc
                 acc = { "accuracy" : sum_acc/iterations}
@@ -88,6 +89,6 @@ app = web.Application([
     ])
 
 if __name__ == '__main__':
-    app.listen(8080)
-    print("Listening at 127.0.0.1:8080")
+    app.listen(5000)
+    print("Listening at 127.0.0.1:5000")
     ioloop.IOLoop.instance().start()
